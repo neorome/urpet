@@ -62,6 +62,14 @@ test("apex assets receive security and fresh-HTML cache headers", async () => {
   }
 });
 
+test("the CSP permits Cloudflare Web Analytics without allowing unsafe scripts", () => {
+  const csp = SECURITY_HEADERS["Content-Security-Policy"];
+
+  assert.match(csp, /script-src 'self' https:\/\/static\.cloudflareinsights\.com/);
+  assert.match(csp, /connect-src 'self' https:\/\/cloudflareinsights\.com/);
+  assert.doesNotMatch(csp, /'unsafe-inline'|'unsafe-eval'|script-src[^;]*\*/);
+});
+
 test("missing pages tell crawlers not to index the error response", async () => {
   const asset = new Response("not found", {
     status: 404,
