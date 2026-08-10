@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">ur dog — find breeds that fit ur actual life</title>
+  <desc id="desc">A playful match-desk dog beside the ur dog lifestyle breed matcher branding.</desc>
+  <rect width="1200" height="630" fill="#FFF8E8"/>
+  <rect x="32" y="32" width="1136" height="566" rx="34" fill="#A9DDFF" stroke="#171514" stroke-width="8"/>
+  <path d="M67 80h633" stroke="#171514" stroke-width="5" stroke-dasharray="12 12"/>
+
+  <g transform="translate(82 85) rotate(-3)">
+    <circle cx="27" cy="0" r="13" fill="#FFF8E8" stroke="#171514" stroke-width="6"/>
+    <path d="M0 9h68v55q-34 24-68 0Z" fill="#FF5A45" stroke="#171514" stroke-width="7" stroke-linejoin="round"/>
+    <text x="34" y="51" text-anchor="middle" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="38" font-weight="900" fill="#171514">u</text>
+  </g>
+  <text x="174" y="143" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-3" fill="#171514">ur dog</text>
+
+  <text x="82" y="252" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="90" font-weight="900" letter-spacing="-7" fill="#171514">find a dog</text>
+  <text x="82" y="348" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="84" font-weight="900" letter-spacing="-7" fill="#171514">for ur actual</text>
+  <text x="82" y="449" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="112" font-weight="900" letter-spacing="-9" fill="#FF5A45">life.</text>
+  <path d="M100 467q150 18 306-3" fill="none" stroke="#DFFF35" stroke-width="19" stroke-linecap="round"/>
+  <text x="84" y="514" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#171514">205 breeds · 9 questions · 3 research leads</text>
+  <g transform="translate(82 535)">
+    <rect width="220" height="48" rx="24" fill="#FFF8E8" stroke="#171514" stroke-width="5"/>
+    <text x="110" y="33" text-anchor="middle" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="23" font-weight="900" fill="#171514">urdog.dev →</text>
+  </g>
+
+  <g transform="translate(715 83)">
+    <path d="m348 326 42-5 12-46" fill="none" stroke="#171514" stroke-width="31" stroke-linecap="round"/>
+    <path d="m348 326 42-5 12-46" fill="none" stroke="#E59B5A" stroke-width="18" stroke-linecap="round"/>
+    <path d="M89 290q20-77 149-77t151 77l20 220H67Z" fill="#E59B5A" stroke="#171514" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M111 222c-72-65-109 13-73 114 14 40 65 24 80-34l15-61Z" fill="#7A523D" stroke="#171514" stroke-width="9"/>
+    <path d="M337 222c72-65 109 13 73 114-14 40-65 24-80-34l-15-61Z" fill="#7A523D" stroke="#171514" stroke-width="9"/>
+    <path d="M89 190q18-119 149-119t149 119v78q0 147-149 147T89 268Z" fill="#E59B5A" stroke="#171514" stroke-width="10"/>
+    <ellipse cx="310" cy="143" rx="63" ry="45" fill="#FFF8E8" transform="rotate(18 310 143)"/>
+    <circle cx="183" cy="215" r="20" fill="#FFF8E8" stroke="#171514" stroke-width="8"/>
+    <circle cx="292" cy="215" r="20" fill="#FFF8E8" stroke="#171514" stroke-width="8"/>
+    <circle cx="188" cy="218" r="9" fill="#171514"/>
+    <circle cx="287" cy="218" r="9" fill="#171514"/>
+    <ellipse cx="238" cy="285" rx="77" ry="53" fill="#FFF8E8" stroke="#171514" stroke-width="8"/>
+    <path d="M215 268q23-19 46 0-3 30-23 30t-23-30Z" fill="#171514"/>
+    <path d="M238 298q0 27-28 33m28-33q0 27 28 33" fill="none" stroke="#171514" stroke-width="8" stroke-linecap="round"/>
+    <path d="M143 382q95 40 190 0" fill="none" stroke="#171514" stroke-width="12" stroke-linecap="round"/>
+    <path d="m190 397 48 47 49-47Z" fill="#DFFF35" stroke="#171514" stroke-width="8"/>
+    <path d="m382 49 10 28 29 10-29 11-10 28-11-28-28-11 28-10Z" fill="#DFFF35" stroke="#171514" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+</svg>

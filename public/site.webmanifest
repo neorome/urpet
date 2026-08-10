@@ -1,0 +1,25 @@
+{
+  "name": "ur dog — dog breed matcher",
+  "short_name": "ur dog",
+  "description": "A 205-breed lifestyle matcher with visible tradeoffs and a practical Dog Fit Brief.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF8E8",
+  "theme_color": "#FF5A45",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

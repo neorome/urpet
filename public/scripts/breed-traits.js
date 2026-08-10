@@ -1,0 +1,234 @@
+// One explicit, conservative fit row per registry breed. These are broad research
+// bands, not guarantees about an individual dog.
+const TRAIT_ROWS = `
+american-water-spaniel|medium|active|ongoing|regular|moderate|high-engagement,heavy-coat|walks,adventure,sport
+barbet|medium|active|ongoing|professional|low|professional-coat,high-engagement|walks,adventure,sport
+boykin-spaniel|medium|active|ongoing|regular|moderate|high-engagement,heavy-coat|walks,adventure,sport
+bracco-italiano|large|active|ongoing|regular|moderate|high-engagement|walks,adventure,sport
+brittany|medium|very-active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+chesapeake-bay-retriever|large|active|ongoing|regular|high|high-engagement,heavy-coat|walks,adventure,sport
+clumber-spaniel|large|steady|ongoing|regular|high|conformation-health,heavy-coat|companion,walks
+cocker-spaniel|medium|active|ongoing|professional|moderate|professional-coat,high-engagement|companion,walks,sport
+curly-coated-retriever|large|active|ongoing|regular|moderate|high-engagement|walks,adventure,sport
+english-cocker-spaniel|medium|active|ongoing|professional|moderate|professional-coat,high-engagement|companion,walks,sport
+english-setter|large|active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+english-springer-spaniel|medium|active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+field-spaniel|medium|active|ongoing|regular|moderate|high-engagement,heavy-coat|companion,walks,adventure,sport
+flat-coated-retriever|large|very-active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+german-shorthaired-pointer|large|very-active|ongoing|simple|moderate|high-engagement,chase|walks,adventure,sport
+german-wirehaired-pointer|large|very-active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+golden-retriever|large|active|ongoing|regular|high|high-engagement,heavy-coat|companion,walks,adventure,sport
+gordon-setter|large|active|ongoing|regular|moderate|high-engagement,heavy-coat,chase|walks,adventure,sport
+irish-red-and-white-setter|large|very-active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+irish-setter|large|very-active|ongoing|regular|moderate|high-engagement,chase|walks,adventure,sport
+irish-water-spaniel|large|active|ongoing|professional|low|professional-coat,high-engagement|walks,adventure,sport
+labrador-retriever|large|active|ongoing|simple|high|high-engagement,heavy-coat|companion,walks,adventure,sport
+lagotto-romagnolo|medium|active|ongoing|professional|low|professional-coat,high-engagement|companion,walks,sport
+nederlandse-kooikerhondje|small|active|ongoing|regular|moderate|high-engagement,sensitive|companion,walks,sport
+nova-scotia-duck-tolling-retriever|medium|very-active|ongoing|regular|moderate|high-engagement,vocal|walks,adventure,sport
+pointer|large|very-active|ongoing|simple|moderate|high-engagement,chase|walks,adventure,sport
+spinone-italiano|large|active|ongoing|regular|moderate|high-engagement,heavy-coat|walks,adventure,sport
+sussex-spaniel|medium|steady|ongoing|regular|moderate|vocal,heavy-coat|companion,walks,sport
+vizsla|large|very-active|ongoing|simple|moderate|high-engagement,sensitive|walks,adventure,sport
+weimaraner|large|very-active|ongoing|simple|moderate|high-engagement,sensitive,chase|walks,adventure,sport
+welsh-springer-spaniel|medium|active|ongoing|regular|moderate|high-engagement,heavy-coat|companion,walks,adventure,sport
+wirehaired-pointing-griffon|medium|active|ongoing|regular|low|high-engagement,heavy-coat|walks,adventure,sport
+wirehaired-vizsla|large|very-active|ongoing|regular|low|high-engagement,chase|walks,adventure,sport
+afghan-hound|large|active|skilled|professional|low|professional-coat,chase,independent|walks,adventure
+american-english-coonhound|large|very-active|ongoing|simple|moderate|vocal,secure-containment,chase|adventure,sport
+american-foxhound|large|very-active|ongoing|simple|moderate|vocal,secure-containment,chase|adventure,sport
+azawakh|large|very-active|skilled|simple|low|guardian,chase,sensitive|adventure,sport
+basenji|small|active|ongoing|simple|low|secure-containment,independent,chase|walks,adventure,sport
+basset-fauve-de-bretagne|small|active|ongoing|regular|moderate|chase,independent,secure-containment|walks,adventure
+basset-hound|medium|steady|ongoing|simple|moderate|conformation-health,vocal,independent|companion,walks
+beagle|small|active|ongoing|simple|moderate|vocal,secure-containment,chase|companion,walks,adventure
+black-and-tan-coonhound|large|active|ongoing|simple|moderate|vocal,secure-containment,chase|walks,adventure,sport
+bloodhound|large|active|skilled|simple|moderate|vocal,secure-containment,conformation-health|walks,adventure,sport
+bluetick-coonhound|large|active|ongoing|simple|moderate|vocal,secure-containment,chase|walks,adventure,sport
+borzoi|large|active|skilled|regular|moderate|chase,secure-containment,sensitive|walks,adventure
+cirneco-delletna|small|active|ongoing|simple|low|chase,secure-containment,independent|walks,adventure,sport
+dachshund|small|active|ongoing|regular|moderate|conformation-health,chase,vocal|companion,walks
+english-foxhound|large|very-active|ongoing|simple|moderate|vocal,secure-containment,chase|adventure,sport
+grand-basset-griffon-vendeen|medium|active|ongoing|regular|moderate|vocal,secure-containment,independent|walks,adventure
+greyhound|large|steady|ongoing|simple|low|chase,secure-containment,sensitive|companion,walks
+harrier|large|very-active|ongoing|simple|moderate|vocal,secure-containment,chase|adventure,sport
+ibizan-hound|large|active|ongoing|simple|low|chase,secure-containment,sensitive|walks,adventure,sport
+irish-wolfhound|giant|steady|ongoing|regular|moderate|giant-logistics,conformation-health,chase|companion,walks
+norwegian-elkhound|medium|active|ongoing|regular|high|vocal,heavy-coat,chase|walks,adventure,sport
+otterhound|large|active|ongoing|regular|high|vocal,heavy-coat,secure-containment|walks,adventure,sport
+petit-basset-griffon-vendeen|small|active|ongoing|regular|moderate|vocal,secure-containment,independent|walks,adventure
+pharaoh-hound|medium|active|ongoing|simple|low|chase,secure-containment,sensitive|walks,adventure,sport
+plott-hound|large|active|ongoing|simple|moderate|secure-containment,chase,guardian|walks,adventure,sport
+portuguese-podengo-pequeno|small|active|ongoing|simple|low|chase,secure-containment,independent|companion,walks,adventure
+redbone-coonhound|large|active|ongoing|simple|moderate|vocal,secure-containment,chase|walks,adventure,sport
+rhodesian-ridgeback|large|active|ongoing|simple|moderate|guardian,chase,independent|walks,adventure,sport
+saluki|large|active|skilled|regular|low|chase,secure-containment,sensitive|walks,adventure
+scottish-deerhound|giant|active|skilled|regular|moderate|giant-logistics,chase,conformation-health|walks,adventure
+sloughi|large|active|skilled|simple|low|chase,secure-containment,sensitive|walks,adventure
+treeing-walker-coonhound|large|active|ongoing|simple|moderate|vocal,secure-containment,chase|walks,adventure,sport
+whippet|medium|active|ongoing|simple|low|chase,secure-containment,sensitive|companion,walks,adventure
+akita|large|active|skilled|regular|high|guardian,independent,heavy-coat|companion,walks,adventure
+alaskan-malamute|large|active|ongoing|regular|high|chase,secure-containment,heavy-coat|adventure,sport
+anatolian-shepherd-dog|large|active|skilled|simple|moderate|guardian,secure-containment,independent|walks,adventure
+bernese-mountain-dog|large|steady|routine|regular|high|heavy-coat,conformation-health|companion,walks
+black-russian-terrier|large|active|skilled|professional|low|guardian,professional-coat,high-engagement|adventure,sport
+boerboel|large|active|skilled|simple|moderate|guardian,secure-containment,high-engagement|walks,sport
+boxer|large|very-active|ongoing|simple|moderate|high-engagement,heat-health,conformation-health|companion,adventure,sport
+bullmastiff|large|steady|ongoing|simple|moderate|guardian,giant-logistics,heat-health|companion,walks
+cane-corso|large|active|skilled|simple|moderate|guardian,secure-containment,high-engagement|walks,sport
+chinook|large|active|ongoing|regular|moderate|heavy-coat,high-engagement|adventure,sport
+danish-swedish-farmdog|small,medium|active|ongoing|simple|moderate|chase,secure-containment|companion,walks,sport
+doberman-pinscher|large|very-active|skilled|simple|moderate|guardian,high-engagement,conformation-health|adventure,sport
+dogo-argentino|large|active|skilled|simple|moderate|chase,guardian,secure-containment|adventure,sport
+dogue-de-bordeaux|large|steady|ongoing|simple|moderate|giant-logistics,heat-health,conformation-health|companion,walks
+german-pinscher|medium|active|ongoing|simple|moderate|chase,high-engagement|walks,sport
+giant-schnauzer|large|very-active|skilled|professional|moderate|guardian,professional-coat,high-engagement|adventure,sport
+great-dane|giant|steady|ongoing|simple|moderate|giant-logistics,conformation-health|companion,walks
+great-pyrenees|large|steady|ongoing|regular|high|guardian,vocal,heavy-coat|companion,walks
+greater-swiss-mountain-dog|giant|steady|routine|regular|moderate|giant-logistics,conformation-health|companion,walks
+komondor|large|steady|skilled|professional|low|guardian,professional-coat,independent|companion,walks
+kuvasz|large|active|skilled|regular|moderate|guardian,secure-containment,independent|walks,adventure
+leonberger|giant|active|ongoing|regular|high|giant-logistics,heavy-coat,conformation-health|companion,walks
+mastiff|giant|steady|ongoing|simple|moderate|giant-logistics,guardian,heat-health|companion,walks
+neapolitan-mastiff|giant|steady|ongoing|simple|moderate|giant-logistics,heat-health,conformation-health|companion,walks
+newfoundland|giant|steady|routine|regular|high|giant-logistics,heavy-coat,conformation-health|companion,walks
+portuguese-water-dog|medium|active|ongoing|professional|low|professional-coat,high-engagement|adventure,sport
+rottweiler|large|active|skilled|simple|high|guardian,high-engagement,conformation-health|companion,sport
+st-bernard|giant|steady|routine|regular|high|giant-logistics,heavy-coat,heat-health|companion,walks
+samoyed|medium|active|ongoing|regular|high|vocal,heavy-coat,high-engagement|adventure,sport
+siberian-husky|medium|active|ongoing|regular|high|chase,secure-containment,vocal|adventure,sport
+standard-schnauzer|medium|active|ongoing|professional|moderate|professional-coat,high-engagement,vocal|walks,sport
+tibetan-mastiff|large|steady|skilled|regular|moderate|guardian,secure-containment,independent|companion,walks
+airedale-terrier|large|very-active|ongoing|professional|moderate|chase,professional-coat,high-engagement|adventure,sport
+american-hairless-terrier|small|very-active|routine|simple|low|chase,high-engagement|companion,walks,sport
+american-staffordshire-terrier|medium|active|ongoing|simple|moderate|high-engagement,secure-containment|companion,walks,sport
+australian-terrier|small|active|ongoing|professional|low|chase,vocal,professional-coat|companion,walks
+bedlington-terrier|small|active|ongoing|professional|low|professional-coat,high-engagement|companion,walks,sport
+border-terrier|small|active|ongoing|professional|low|chase,professional-coat|companion,walks,sport
+bull-terrier|medium|active|ongoing|simple|moderate|high-engagement,conformation-health|companion,walks,sport
+cairn-terrier|small|active|ongoing|regular|moderate|chase,vocal|companion,walks
+cesky-terrier|small|steady|ongoing|professional|low|professional-coat,independent|companion,walks
+dandie-dinmont-terrier|small|steady|routine|professional|moderate|professional-coat,conformation-health|companion,walks
+glen-of-imaal-terrier|medium|steady|ongoing|regular|moderate|chase,independent,conformation-health|companion,walks
+irish-terrier|medium|active|ongoing|professional|low|chase,vocal,professional-coat|walks,sport
+kerry-blue-terrier|medium|active|skilled|professional|low|professional-coat,high-engagement,independent|adventure,sport
+lakeland-terrier|small|active|ongoing|professional|low|chase,professional-coat|companion,walks,sport
+manchester-terrier|small,medium|active|ongoing|simple|moderate|chase,high-engagement|companion,walks,sport
+miniature-bull-terrier|small,medium|active|ongoing|simple|moderate|high-engagement,conformation-health|companion,walks,sport
+miniature-schnauzer|small|active|ongoing|professional|low|vocal,professional-coat|companion,walks,sport
+norfolk-terrier|small|active|ongoing|professional|low|chase,professional-coat|companion,walks
+norwich-terrier|small|active|ongoing|professional|low|chase,professional-coat|companion,walks
+parson-russell-terrier|small|active|ongoing|professional|low|chase,secure-containment,high-engagement|walks,adventure,sport
+rat-terrier|small,medium|very-active|ongoing|simple|low|chase,secure-containment,high-engagement|companion,walks,sport
+russell-terrier|small|very-active|ongoing|professional|low|chase,secure-containment,high-engagement|walks,sport
+scottish-terrier|small|steady|ongoing|regular|low|independent,professional-coat|companion,walks
+sealyham-terrier|small|steady|routine|professional|low|professional-coat|companion,walks
+skye-terrier|small|steady|ongoing|professional|moderate|professional-coat,independent,conformation-health|companion,walks
+smooth-fox-terrier|small|active|ongoing|simple|moderate|chase,secure-containment,high-engagement|walks,sport
+soft-coated-wheaten-terrier|medium|active|ongoing|professional|low|professional-coat,high-engagement|companion,walks,sport
+staffordshire-bull-terrier|medium|active|ongoing|simple|moderate|high-engagement,secure-containment|companion,walks,sport
+teddy-roosevelt-terrier|small,medium|very-active|ongoing|simple|low|chase,secure-containment,high-engagement|companion,walks,sport
+welsh-terrier|small,medium|active|ongoing|professional|low|chase,professional-coat|walks,sport
+west-highland-white-terrier|small|active|ongoing|professional|low|chase,professional-coat|companion,walks
+wire-fox-terrier|small|active|ongoing|professional|low|chase,secure-containment,professional-coat|walks,sport
+affenpinscher|small|active|ongoing|regular|low|professional-coat,vocal|companion,walks
+biewer-terrier|small|active|ongoing|professional|low|professional-coat|companion,walks
+brussels-griffon|small|steady|ongoing|regular|low|conformation-health,heat-health|companion,walks
+cavalier-king-charles-spaniel|small|steady|routine|regular|moderate|conformation-health|companion,walks
+chihuahua|small|active|ongoing|simple|low|vocal,secure-containment|companion,walks
+chinese-crested|small|steady|ongoing|professional|low|professional-coat|companion,walks
+english-toy-spaniel|small|steady|routine|regular|moderate|conformation-health,heat-health|companion
+havanese|small|active|ongoing|professional|low|professional-coat|companion,walks
+italian-greyhound|small|active|ongoing|simple|low|chase,secure-containment|companion,walks
+japanese-chin|small|steady|routine|regular|moderate|conformation-health,heat-health|companion
+maltese|small|steady|ongoing|professional|low|professional-coat|companion,walks
+miniature-pinscher|small|active|skilled|simple|low|vocal,chase|companion,walks
+papillon|small|active|skilled|regular|low|high-engagement|companion,walks,sport
+pekingese|small|steady|routine|professional|moderate|conformation-health,heat-health|companion
+pomeranian|small|active|ongoing|regular|high|vocal,heavy-coat|companion,walks
+pug|small|steady|routine|simple|high|conformation-health,heat-health|companion
+russian-toy|small|active|skilled|simple|low|vocal,secure-containment|companion,walks
+russian-tsvetnaya-bolonka|small|steady|ongoing|professional|low|professional-coat|companion,walks
+shih-tzu|small|steady|routine|professional|low|conformation-health,heat-health,professional-coat|companion
+silky-terrier|small|active|ongoing|professional|low|professional-coat|companion,walks
+toy-fox-terrier|small|active|skilled|simple|low|chase,high-engagement|companion,walks,sport
+yorkshire-terrier|small|active|ongoing|professional|low|professional-coat,vocal|companion,walks
+american-eskimo-dog|small,medium,large|active|ongoing|regular|high|vocal,heavy-coat|companion,walks,sport
+bichon-frise|small|steady|ongoing|professional|low|professional-coat|companion,walks
+boston-terrier|small|steady|routine|simple|low|conformation-health,heat-health|companion,walks
+bulldog|medium|steady|routine|simple|moderate|conformation-health,heat-health|companion
+chinese-shar-pei|medium|steady|ongoing|simple|low|guardian,independent|companion,walks
+chow-chow|medium|steady|ongoing|regular|high|guardian,independent,heavy-coat|companion,walks
+coton-de-tulear|small|steady|ongoing|professional|low|professional-coat|companion,walks
+dalmatian|medium|active|ongoing|simple|moderate|high-engagement|walks,adventure,sport
+finnish-spitz|medium|active|skilled|regular|high|vocal,chase,heavy-coat|walks,adventure,sport
+french-bulldog|small|steady|routine|simple|low|conformation-health,heat-health|companion
+keeshond|medium|steady|ongoing|regular|high|vocal,heavy-coat|companion,walks
+lhasa-apso|small|steady|ongoing|professional|low|guardian,professional-coat|companion,walks
+lowchen|small|active|ongoing|professional|low|professional-coat|companion,walks
+norwegian-lundehund|small|active|skilled|regular|moderate|independent,chase|walks,adventure
+poodle|small,medium,large|active|skilled|professional|low|professional-coat,high-engagement|companion,walks,sport
+schipperke|small|active|skilled|regular|moderate|vocal,chase,high-engagement|walks,sport
+shiba-inu|medium|active|skilled|simple|moderate|independent,chase,secure-containment|walks,adventure
+tibetan-spaniel|small|steady|ongoing|regular|low|guardian,vocal|companion,walks
+tibetan-terrier|medium|active|ongoing|professional|low|professional-coat|companion,walks
+xoloitzcuintli|small,medium,large|active|ongoing|simple|low|heat-health,secure-containment|companion,walks
+australian-cattle-dog|medium|very-active|skilled|simple|moderate|high-engagement,chase|walks,adventure,sport
+australian-shepherd|medium|active|skilled|regular|moderate|high-engagement|walks,adventure,sport
+bearded-collie|medium|active|skilled|professional|moderate|professional-coat,high-engagement|walks,adventure,sport
+beauceron|large|very-active|skilled|regular|moderate|guardian,high-engagement|walks,adventure,sport
+belgian-laekenois|medium|very-active|skilled|simple|moderate|guardian,high-engagement|walks,adventure,sport
+belgian-malinois|medium|very-active|skilled|simple|moderate|guardian,high-engagement|walks,adventure,sport
+belgian-sheepdog|medium|very-active|skilled|regular|high|guardian,high-engagement|walks,adventure,sport
+belgian-tervuren|medium|very-active|skilled|regular|moderate|guardian,high-engagement|walks,adventure,sport
+bergamasco-sheepdog|large|active|skilled|professional|low|guardian,professional-coat|walks,adventure
+berger-picard|medium|active|skilled|regular|moderate|independent,high-engagement|walks,adventure,sport
+border-collie|medium|very-active|skilled|regular|moderate|high-engagement|walks,adventure,sport
+bouvier-des-flandres|large|active|skilled|professional|moderate|guardian,professional-coat|walks,adventure
+briard|large|active|skilled|professional|moderate|guardian,professional-coat|walks,adventure
+canaan-dog|medium|active|skilled|simple|moderate|guardian,independent|walks,adventure
+cardigan-welsh-corgi|medium|active|ongoing|regular|moderate|vocal,independent,conformation-health|companion,walks,sport
+collie|large|active|ongoing|professional|high|vocal,professional-coat|companion,walks,sport
+entlebucher-mountain-dog|medium|very-active|skilled|simple|moderate|high-engagement,chase|walks,adventure,sport
+finnish-lapphund|medium|active|ongoing|regular|high|vocal,heavy-coat|companion,walks,sport
+german-shepherd-dog|large|very-active|skilled|regular|high|guardian,high-engagement|walks,adventure,sport
+icelandic-sheepdog|small|active|ongoing|regular|high|vocal,heavy-coat|companion,walks,sport
+lancashire-heeler|small|active|ongoing|simple|moderate|vocal,chase|companion,walks,sport
+miniature-american-shepherd|small|active|skilled|regular|moderate|high-engagement|companion,walks,sport
+mudi|medium|very-active|skilled|regular|moderate|vocal,high-engagement|walks,adventure,sport
+norwegian-buhund|medium|active|ongoing|regular|high|vocal,heavy-coat|companion,walks,sport
+old-english-sheepdog|large|active|skilled|professional|moderate|professional-coat,giant-logistics|walks,adventure
+pembroke-welsh-corgi|small|active|ongoing|regular|high|vocal,conformation-health|companion,walks,sport
+polish-lowland-sheepdog|medium|active|skilled|professional|moderate|guardian,professional-coat|walks,adventure,sport
+puli|medium|active|skilled|professional|low|professional-coat,high-engagement|walks,adventure,sport
+pumi|medium|active|skilled|professional|low|vocal,high-engagement|walks,adventure,sport
+pyrenean-shepherd|small,medium|very-active|skilled|regular|moderate|high-engagement|walks,adventure,sport
+shetland-sheepdog|small|active|skilled|professional|high|vocal,professional-coat|companion,walks,sport
+spanish-water-dog|medium|active|skilled|professional|low|high-engagement,professional-coat|walks,adventure,sport
+swedish-vallhund|small|active|ongoing|regular|moderate|vocal,chase,conformation-health|companion,walks,sport
+`;
+
+function parseTraitRows(rows) {
+  const parsed = rows.trim().split("\n").map((line) => {
+    const [id, sizes, activity, training, grooming, shedding, flags, goals] = line.split("|");
+    return [id, Object.freeze({
+      sizes: Object.freeze(sizes.split(",")),
+      activity,
+      training,
+      grooming,
+      shedding,
+      flags: Object.freeze(flags ? flags.split(",") : []),
+      goals: Object.freeze(goals.split(","))
+    })];
+  });
+
+  const traits = Object.fromEntries(parsed);
+  if (parsed.length !== 205 || Object.keys(traits).length !== 205) {
+    throw new Error(`Breed trait integrity failure: expected 205 unique rows, received ${parsed.length}.`);
+  }
+  return Object.freeze(traits);
+}
+
+const BREED_TRAITS = parseTraitRows(TRAIT_ROWS);
+
+export { BREED_TRAITS };

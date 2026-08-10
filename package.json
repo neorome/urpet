@@ -1,0 +1,24 @@
+{
+  "name": "urdog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A 205-breed lifestyle matcher with practical tradeoffs and a printable Dog Fit Brief.",
+  "scripts": {
+    "build:catalog": "node scripts/build-catalog.mjs",
+    "build:credits": "node scripts/build-photo-credits.mjs",
+    "build:static": "npm run build:catalog && npm run build:credits",
+    "check:generated": "node scripts/build-catalog.mjs --check && node scripts/build-photo-credits.mjs --check",
+    "dev": "wrangler dev",
+    "test": "node --test",
+    "verify": "node scripts/verify.mjs && node scripts/verify-photos.mjs",
+    "check": "npm run test && npm run check:generated && npm run verify && wrangler deploy --dry-run",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.120.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
