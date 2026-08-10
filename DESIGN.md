@@ -21,10 +21,11 @@ The public site contains:
 - a care-plan readiness call that no breed can outvote;
 - a household- and search-path-specific meeting checklist;
 - an answer recap, local-only saving, explicit reset controls, a durable deep link, and print / save PDF;
-- a user-initiated nearby-shelter map using OpenStreetMap data, plus a direct Petfinder dog-search link;
+- an opt-in, in-site nearby-shelter map with a synchronized accessible list using OpenStreetMap data, plus a direct Petfinder dog-search link;
 - an adult-rescue path treated as equal to a puppy path;
 - an optional Buy Me a Coffee request only after the full result;
-- per-file photo credits and a branded tile where no photo passed review.
+- one reviewed, locally served photo and per-file credit for every catalog breed;
+- a branded confirmation before standard navigation to any external website.
 
 ## Matcher inputs
 
@@ -53,8 +54,8 @@ The public site contains:
 - Production photos come from a checked Wikimedia Commons file, not AKC, Dog CEO, Stanford Dogs, TheDogAPI, a mystery CDN, or an upstream dataset with unclear photo rights.
 - Every production photo has a specific Commons source-file URL, creator or attribution text, commercial-use Creative Commons license, license link, source SHA-1, local derivative SHA-256, change note, and visual breed check.
 - Local WebP derivatives are served from the same Cloudflare site. No third-party image request is required at runtime.
-- A missing or rejected photo never removes a breed. The UI uses a decorative ur dog brand tile.
-- The checked-in manifest currently approves 127 photos and records 78 explicit fallbacks. Coverage can rise only through the same review gate.
+- The production build fails if any breed lacks a reviewed photo. A disputed image is replaced through the same provenance and visual-review gate before release.
+- The checked-in manifest approves 205 photos and zero fallbacks. Runtime pages never request an image CDN.
 
 ## Voice and visual system
 
@@ -93,13 +94,15 @@ SEO must never outrun product truth. There are no generated thin breed pages, ra
 - Tests prove 205 unique breeds and official group counts of 33 / 33 / 32 / 32 / 22 / 20 / 33.
 - Tests prove every breed has complete fit fields, a caution, a direct research link, and a review date.
 - The static catalog contains 205 crawlable rows and is reproducibly generated from the matcher source.
-- Photo verification checks manifest coverage, explicit fallbacks, license allowlist, plain-text credit, local file type, and derivative SHA-256.
+- Photo verification requires 205 reviewed records, 205 local files, zero fallbacks, the license allowlist, plain-text credit, local file type, and every derivative SHA-256.
 - Representative low-key, active, sport, giant-ready, mixed-household, puppy, adult, and care-gap scenarios return three explainable leads.
 - Deep links reproduce all nine answers; invalid inputs fail closed.
 - Save is local-only, share has a copy fallback, and print removes navigation and the tip request.
 - Reset answers does not erase saved briefs; clearing every saved brief requires a separate confirmation.
 - Result generation moves focus and the viewport to the report title without a timer, and shared links reproduce multi-condition households.
-- Local rescue search builds a 50 km nearby-feature query and opens it on Overpass Turbo using OpenStreetMap data; ur dog does not request geolocation or store the entered place.
+- Local rescue search makes no map, geocoder, data, or geolocation request before an explicit user action. A browser-location search rounds coordinates; a typed search runs only on submit. Both render the map and semantic shelter list inside ur dog, and ur dog stores neither value.
+- Public OpenStreetMap tile and Nominatim services are best-effort launch infrastructure. The UI preserves attribution, limits searches to explicit user actions, spaces provider requests, and exposes retry or change-location paths. Sustained traffic requires a reviewed hosted or self-operated provider plan.
+- Standard outbound HTTP(S) links use one native modal dialog with initial cancel focus, Escape/backdrop cancellation, focus return, a readable destination, and `noopener noreferrer` continuation.
 - Keyboard labels, reduced motion, 320 px layout, desktop, iPhone, iPad, metadata, structured data, sitemap, robots, 404, redirects, headers, and deployment build have automated or browser proof.
 
 ## Authority and changed surface
@@ -109,7 +112,7 @@ Authorized surface: this repository, a new public neorome/urdog GitHub repositor
 ## Revision and stop conditions
 
 - Correct or remove a recommendation signal immediately if its source or classification cannot be defended.
-- Remove a photo immediately if breed identity, attribution, or license becomes uncertain; preserve the breed row with the fallback.
+- Remove a disputed photo from the next release and keep the current production version live until a reviewed replacement is ready; production cannot ship a breed placeholder.
 - Revise the matcher if users report that it entertains but does not narrow a real search or improve real provider conversations.
 - Expand photo coverage only through per-file provenance and visual review.
 - If attributable tips do not support maintenance after a fair traffic and usage test, revise or retire the product. Never substitute guilt, dark patterns, scraped content, or unsupported claims.

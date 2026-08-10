@@ -70,6 +70,16 @@ test("the CSP permits Cloudflare Web Analytics without allowing unsafe scripts",
   assert.doesNotMatch(csp, /'unsafe-inline'|'unsafe-eval'|script-src[^;]*\*/);
 });
 
+test("the map policy allows only the selected OSM services and opt-in same-origin geolocation", () => {
+  const csp = SECURITY_HEADERS["Content-Security-Policy"];
+
+  assert.match(csp, /connect-src[^;]*https:\/\/nominatim\.openstreetmap\.org/);
+  assert.doesNotMatch(csp, /overpass/);
+  assert.match(csp, /img-src[^;]*https:\/\/tile\.openstreetmap\.org/);
+  assert.equal(SECURITY_HEADERS["Permissions-Policy"], "camera=(), geolocation=(self), microphone=()");
+  assert.doesNotMatch(csp, /connect-src[^;]*\*/);
+});
+
 test("missing pages tell crawlers not to index the error response", async () => {
   const asset = new Response("not found", {
     status: 404,

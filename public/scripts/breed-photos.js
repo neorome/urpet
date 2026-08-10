@@ -1,5 +1,13 @@
 // Generated from the reviewed Wikimedia Commons manifest.
 const BREED_PHOTOS = Object.freeze({
+  "affenpinscher": {
+    "src": "/assets/breeds/affenpinscher.webp",
+    "alt": "Affenpinscher dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Affenmonkeyterrier1.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
+  },
   "afghan-hound": {
     "src": "/assets/breeds/afghan-hound.webp",
     "alt": "Afghan Hound dog",
@@ -7,6 +15,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Томасина"
+  },
+  "airedale-terrier": {
+    "src": "/assets/breeds/airedale-terrier.webp",
+    "alt": "Airedale Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Airedale-terrier-charles14m.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Zuni1520"
+  },
+  "akita": {
+    "src": "/assets/breeds/akita.webp",
+    "alt": "Akita dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:American_Akita_grey_3.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
   },
   "alaskan-malamute": {
     "src": "/assets/breeds/alaskan-malamute.webp",
@@ -32,6 +56,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
     "attribution": "Christmas w/a K"
   },
+  "american-foxhound": {
+    "src": "/assets/breeds/american-foxhound.webp",
+    "alt": "American Foxhound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Americanfox.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Canarian"
+  },
   "american-hairless-terrier": {
     "src": "/assets/breeds/american-hairless-terrier.webp",
     "alt": "American Hairless Terrier dog",
@@ -47,6 +79,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Svenska Mässan from Sweden"
+  },
+  "american-water-spaniel": {
+    "src": "/assets/breeds/american-water-spaniel.webp",
+    "alt": "American Water Spaniel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:American_Water_Spaniel_3.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Awsguy1 at the English-language Wikipedia"
   },
   "anatolian-shepherd-dog": {
     "src": "/assets/breeds/anatolian-shepherd-dog.webp",
@@ -80,6 +120,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "I, Lilly M"
   },
+  "azawakh": {
+    "src": "/assets/breeds/azawakh.webp",
+    "alt": "Azawakh dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Azawakh_Cezar_z_Marsiki_49,60_p.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Przykuta"
+  },
+  "barbet": {
+    "src": "/assets/breeds/barbet.webp",
+    "alt": "Barbet dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Barbet-brown.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
+  },
   "basenji": {
     "src": "/assets/breeds/basenji.webp",
     "alt": "Basenji dog",
@@ -87,6 +143,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "attribution": "Novoklimov"
+  },
+  "basset-fauve-de-bretagne": {
+    "src": "/assets/breeds/basset-fauve-de-bretagne.webp",
+    "alt": "Basset Fauve de Bretagne dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Basset_Fauve_de_Bretagne_Chester.JPG",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Kallewirsch"
+  },
+  "basset-hound": {
+    "src": "/assets/breeds/basset-hound.webp",
+    "alt": "Basset Hound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Basset_Hound_(Havl%C3%AD%C4%8Dk%C5%AFv_Brod)_02.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Pohled 111"
   },
   "beagle": {
     "src": "/assets/breeds/beagle.webp",
@@ -104,6 +176,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "marbla123"
   },
+  "beauceron": {
+    "src": "/assets/breeds/beauceron.webp",
+    "alt": "Beauceron dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Beauceron_uros_(cropped).jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "KekeK9"
+  },
   "bedlington-terrier": {
     "src": "/assets/breeds/bedlington-terrier.webp",
     "alt": "Bedlington Terrier dog",
@@ -111,6 +191,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "David Owsiany"
+  },
+  "belgian-laekenois": {
+    "src": "/assets/breeds/belgian-laekenois.webp",
+    "alt": "Belgian Laekenois dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Grupp1,_BELGISK_VALLHUND_7_LAEKEONIS,_DK_UCH_EUW-15_NO_UCH_SE_V-14_SE_V-15_Roughrags_Dazzling_Delilah_(23923778869).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Svenska Mässan from Sweden"
   },
   "belgian-malinois": {
     "src": "/assets/breeds/belgian-malinois.webp",
@@ -120,6 +208,30 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "Svenska Mässan from Sweden"
   },
+  "belgian-sheepdog": {
+    "src": "/assets/breeds/belgian-sheepdog.webp",
+    "alt": "Belgian Sheepdog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Belgian_Shepherd_Groenendael_portrait.jpg",
+    "licenseShortName": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "attribution": "Philco Ford"
+  },
+  "belgian-tervuren": {
+    "src": "/assets/breeds/belgian-tervuren.webp",
+    "alt": "Belgian Tervuren dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Belgian_Shepherd_Tervuren_in_Riga_1.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Томасина"
+  },
+  "bergamasco-sheepdog": {
+    "src": "/assets/breeds/bergamasco-sheepdog.webp",
+    "alt": "Bergamasco Sheepdog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Bergamasco_shepherd_dog_-_merle_female_cropped.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Towncommon"
+  },
   "berger-picard": {
     "src": "/assets/breeds/berger-picard.webp",
     "alt": "Berger Picard dog",
@@ -127,6 +239,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "No machine-readable author provided. Pleple2000 assumed (based on copyright claims)."
+  },
+  "bernese-mountain-dog": {
+    "src": "/assets/breeds/bernese-mountain-dog.webp",
+    "alt": "Bernese Mountain Dog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Bernese_Mountain_DOg2.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "AnetaAp"
   },
   "bichon-frise": {
     "src": "/assets/breeds/bichon-frise.webp",
@@ -152,6 +272,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
     "attribution": "Steffen Heinz ( Caronna )"
   },
+  "black-russian-terrier": {
+    "src": "/assets/breeds/black-russian-terrier.webp",
+    "alt": "Black Russian Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:2Tchiorny_Terrier.JPG",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Laslovarga"
+  },
   "bloodhound": {
     "src": "/assets/breeds/bloodhound.webp",
     "alt": "Bloodhound dog",
@@ -159,6 +287,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Mary Bloom, American Kennel Club"
+  },
+  "bluetick-coonhound": {
+    "src": "/assets/breeds/bluetick-coonhound.webp",
+    "alt": "Bluetick Coonhound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:BluetickCoonhound2.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "bark"
+  },
+  "boerboel": {
+    "src": "/assets/breeds/boerboel.webp",
+    "alt": "Boerboel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Themba_Boerboel.jpg",
+    "licenseShortName": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "Ch3vy"
   },
   "border-collie": {
     "src": "/assets/breeds/border-collie.webp",
@@ -192,6 +336,30 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "Svenska Mässan from Sweden"
   },
+  "bouvier-des-flandres": {
+    "src": "/assets/breeds/bouvier-des-flandres.webp",
+    "alt": "Bouvier des Flandres dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Grupp1,_BOUVIERS_DES_FLANDRES,_Rajfax_Magic_Maya_Of_Keewee_(23683385663).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Svenska Mässan from Sweden"
+  },
+  "boxer": {
+    "src": "/assets/breeds/boxer.webp",
+    "alt": "Boxer dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:1._Brindle_boxer_dog,_female.jpg",
+    "licenseShortName": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution": "Corporalen"
+  },
+  "boykin-spaniel": {
+    "src": "/assets/breeds/boykin-spaniel.webp",
+    "alt": "Boykin Spaniel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Boykin-in_the_azaleas.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "jetsonphoto"
+  },
   "bracco-italiano": {
     "src": "/assets/breeds/bracco-italiano.webp",
     "alt": "Bracco Italiano dog",
@@ -216,6 +384,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Pharaoh Hound"
   },
+  "brussels-griffon": {
+    "src": "/assets/breeds/brussels-griffon.webp",
+    "alt": "Brussels Griffon dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Brussels_Griffon_Rembrant_(jpg_format).jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "The original uploader was Dan9186 at English Wikipedia ."
+  },
   "bull-terrier": {
     "src": "/assets/breeds/bull-terrier.webp",
     "alt": "Bull Terrier dog",
@@ -231,6 +407,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Pleple2000"
+  },
+  "bullmastiff": {
+    "src": "/assets/breeds/bullmastiff.webp",
+    "alt": "Bullmastiff dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Bullmastiff_edited.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Fausto Moreno"
   },
   "cairn-terrier": {
     "src": "/assets/breeds/cairn-terrier.webp",
@@ -256,6 +440,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/es/deed.en",
     "attribution": "Marta García, juan Manuel Morato"
   },
+  "cardigan-welsh-corgi": {
+    "src": "/assets/breeds/cardigan-welsh-corgi.webp",
+    "alt": "Cardigan Welsh Corgi dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:%D7%95%D7%95%D7%9C%D7%A9_%D7%A7%D7%95%D7%A8%D7%92%D7%99_%D7%A7%D7%A8%D7%93%D7%99%D7%92%D7%9F.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "יבגני גלאובך"
+  },
   "cavalier-king-charles-spaniel": {
     "src": "/assets/breeds/cavalier-king-charles-spaniel.webp",
     "alt": "Cavalier King Charles Spaniel dog",
@@ -280,6 +472,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Nevilley"
   },
+  "chihuahua": {
+    "src": "/assets/breeds/chihuahua.webp",
+    "alt": "Chihuahua dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:00100trPORTRAIT_00100_BURST20200417141352037_COVER.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "ChihuahuaLover95"
+  },
   "chinese-crested": {
     "src": "/assets/breeds/chinese-crested.webp",
     "alt": "Chinese Crested dog",
@@ -295,6 +495,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "UpdOWN at ru.wikipedia"
+  },
+  "chinook": {
+    "src": "/assets/breeds/chinook.webp",
+    "alt": "Chinook dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Chinook_Olympics_07_136.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "jude"
   },
   "chow-chow": {
     "src": "/assets/breeds/chow-chow.webp",
@@ -320,6 +528,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Pleple2000"
   },
+  "cocker-spaniel": {
+    "src": "/assets/breeds/cocker-spaniel.webp",
+    "alt": "Cocker Spaniel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Amerikancockeribuff1.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Canarian"
+  },
+  "collie": {
+    "src": "/assets/breeds/collie.webp",
+    "alt": "Collie dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Collie_087.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Pleple2000"
+  },
   "coton-de-tulear": {
     "src": "/assets/breeds/coton-de-tulear.webp",
     "alt": "Coton de Tulear dog",
@@ -335,6 +559,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
     "attribution": "Mattias Agar"
+  },
+  "dachshund": {
+    "src": "/assets/breeds/dachshund.webp",
+    "alt": "Dachshund dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Poplar_tree_broken_by_April_2017_winter_storm_in_Dnipro_23.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Natalka Ukraine"
   },
   "dalmatian": {
     "src": "/assets/breeds/dalmatian.webp",
@@ -392,6 +624,30 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
     "attribution": "Jean-Pol GRANDMONT"
   },
+  "english-foxhound": {
+    "src": "/assets/breeds/english-foxhound.webp",
+    "alt": "English Foxhound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:English_foxhound.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
+  },
+  "english-setter": {
+    "src": "/assets/breeds/english-setter.webp",
+    "alt": "English Setter dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Bluebeltonsetter.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Fisher99"
+  },
+  "english-springer-spaniel": {
+    "src": "/assets/breeds/english-springer-spaniel.webp",
+    "alt": "English Springer Spaniel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Springer_Spaniel_Bob_31-07-04.jpg",
+    "licenseShortName": "CC BY 2.5 dk",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+    "attribution": "This file was made by Thomas Hindsgaul , and should be credited as such. If you make use of this picture outside of the Wiki community, an email to broadbeer [at] gmail.com would be appreciated. If you would like a better version of the image i.e. a higher resolution, or use it under another license please feel free to contact me ."
+  },
   "english-toy-spaniel": {
     "src": "/assets/breeds/english-toy-spaniel.webp",
     "alt": "English Toy Spaniel dog",
@@ -416,6 +672,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Pleple2000"
   },
+  "finnish-lapphund": {
+    "src": "/assets/breeds/finnish-lapphund.webp",
+    "alt": "Finnish Lapphund dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Finnishlapphundbrown%26tan1.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Canarian"
+  },
+  "finnish-spitz": {
+    "src": "/assets/breeds/finnish-spitz.webp",
+    "alt": "Finnish Spitz dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:FINNISH_SPITZ.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Karelgerda. Karelgerda"
+  },
   "flat-coated-retriever": {
     "src": "/assets/breeds/flat-coated-retriever.webp",
     "alt": "Flat-Coated Retriever dog",
@@ -432,6 +704,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "User:Frosya a"
   },
+  "german-pinscher": {
+    "src": "/assets/breeds/german-pinscher.webp",
+    "alt": "German Pinscher dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Pinczer_%C5%9Bredni_91.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Pleple2000 12:20, 5 April 2006 (UTC)"
+  },
   "german-shepherd-dog": {
     "src": "/assets/breeds/german-shepherd-dog.webp",
     "alt": "German Shepherd Dog dog",
@@ -439,6 +719,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Erick Drumss Hernández"
+  },
+  "german-shorthaired-pointer": {
+    "src": "/assets/breeds/german-shorthaired-pointer.webp",
+    "alt": "German Shorthaired Pointer dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:10_Week_Old_German_Shorthaired_Pointer_Puppy.jpg",
+    "licenseShortName": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution": "TruckMatt"
+  },
+  "german-wirehaired-pointer": {
+    "src": "/assets/breeds/german-wirehaired-pointer.webp",
+    "alt": "German Wirehaired Pointer dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:German_Wirehaired_Pointer_2011.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "ad bekkers"
   },
   "giant-schnauzer": {
     "src": "/assets/breeds/giant-schnauzer.webp",
@@ -456,6 +752,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
     "attribution": "photo by Scoo"
   },
+  "golden-retriever": {
+    "src": "/assets/breeds/golden-retriever.webp",
+    "alt": "Golden Retriever dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Agnes_the_Golden_Retriever.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Golden Retriever Raseåd"
+  },
+  "gordon-setter": {
+    "src": "/assets/breeds/gordon-setter.webp",
+    "alt": "Gordon Setter dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:BIR_Grupp_7-_GORDONSETTER,_Sansetters_Roover_(24234227995).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Svenska Mässan from Sweden"
+  },
   "grand-basset-griffon-vendeen": {
     "src": "/assets/breeds/grand-basset-griffon-vendeen.webp",
     "alt": "Grand Basset Griffon Vendeen dog",
@@ -472,6 +784,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/rs/deed.en",
     "attribution": "Original uploader was Markovade.pero at sr.wikipedia"
   },
+  "great-pyrenees": {
+    "src": "/assets/breeds/great-pyrenees.webp",
+    "alt": "Great Pyrenees dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Chien_de_montagne_des_Pyr%C3%A9n%C3%A9es_au_milieu_des_moutons.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Jérôme Bon from Paris, France"
+  },
+  "greater-swiss-mountain-dog": {
+    "src": "/assets/breeds/greater-swiss-mountain-dog.webp",
+    "alt": "Greater Swiss Mountain Dog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Greater_Swiss_Mountain_Dog_2018_(2).jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
+  },
   "greyhound": {
     "src": "/assets/breeds/greyhound.webp",
     "alt": "Greyhound dog",
@@ -479,6 +807,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Neurodoc"
+  },
+  "harrier": {
+    "src": "/assets/breeds/harrier.webp",
+    "alt": "Harrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Evforce_Miss_Havoc.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Evforce"
   },
   "havanese": {
     "src": "/assets/breeds/havanese.webp",
@@ -503,6 +839,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Zonjah"
+  },
+  "irish-red-and-white-setter": {
+    "src": "/assets/breeds/irish-red-and-white-setter.webp",
+    "alt": "Irish Red and White Setter dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Rzesz%C3%B3w_Irish_Red_and_White_Setter_3pl.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Pleple2000"
   },
   "irish-setter": {
     "src": "/assets/breeds/irish-setter.webp",
@@ -544,6 +888,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Tesori di Carli"
   },
+  "japanese-chin": {
+    "src": "/assets/breeds/japanese-chin.webp",
+    "alt": "Japanese Chin dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Japan_chin.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Arek Małyska"
+  },
   "keeshond": {
     "src": "/assets/breeds/keeshond.webp",
     "alt": "Keeshond dog",
@@ -560,6 +912,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
     "attribution": "© Peter Kumpert (Kempten)"
   },
+  "komondor": {
+    "src": "/assets/breeds/komondor.webp",
+    "alt": "Komondor dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Komondor_male_01.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Sagaciousphil"
+  },
+  "kuvasz": {
+    "src": "/assets/breeds/kuvasz.webp",
+    "alt": "Kuvasz dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Grupp_1,_KUVASZ,_FI_UCH_NO_UCH_SE_UCH_WW-14_Czaruso_Brian_Little_(23681983424).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Svenska Mässan from Sweden"
+  },
   "labrador-retriever": {
     "src": "/assets/breeds/labrador-retriever.webp",
     "alt": "Labrador Retriever dog",
@@ -567,6 +935,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "SixtyWeb"
+  },
+  "lagotto-romagnolo": {
+    "src": "/assets/breeds/lagotto-romagnolo.webp",
+    "alt": "Lagotto Romagnolo dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Bellalagotto4.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Entheta"
   },
   "lakeland-terrier": {
     "src": "/assets/breeds/lakeland-terrier.webp",
@@ -584,6 +960,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "Svenska Mässan from Sweden"
   },
+  "leonberger": {
+    "src": "/assets/breeds/leonberger.webp",
+    "alt": "Leonberger dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Hunderasse_Leonberger.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Dguendel"
+  },
   "lhasa-apso": {
     "src": "/assets/breeds/lhasa-apso.webp",
     "alt": "Lhasa Apso dog",
@@ -599,6 +983,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Jappitoo"
+  },
+  "maltese": {
+    "src": "/assets/breeds/maltese.webp",
+    "alt": "Maltese dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:A_cute_Maltese_dog.jpg",
+    "licenseShortName": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "attribution": "Ed Yourdon"
+  },
+  "manchester-terrier": {
+    "src": "/assets/breeds/manchester-terrier.webp",
+    "alt": "Manchester Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Manchester_Terrier,_suczka_4_lata_(na_2023_rok).jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Juhrek"
   },
   "mastiff": {
     "src": "/assets/breeds/mastiff.webp",
@@ -640,6 +1040,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Zorik07"
   },
+  "mudi": {
+    "src": "/assets/breeds/mudi.webp",
+    "alt": "Mudi dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Mudibrown3.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Canarian"
+  },
   "neapolitan-mastiff": {
     "src": "/assets/breeds/neapolitan-mastiff.webp",
     "alt": "Neapolitan Mastiff dog",
@@ -648,6 +1056,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Philip Thompson"
   },
+  "nederlandse-kooikerhondje": {
+    "src": "/assets/breeds/nederlandse-kooikerhondje.webp",
+    "alt": "Nederlandse Kooikerhondje dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Ammervill%27s_Julia_Juwell%27s.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Hundepfote"
+  },
   "newfoundland": {
     "src": "/assets/breeds/newfoundland.webp",
     "alt": "Newfoundland dog",
@@ -655,6 +1071,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Hartmann Linge"
+  },
+  "norfolk-terrier": {
+    "src": "/assets/breeds/norfolk-terrier.webp",
+    "alt": "Norfolk Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Norfolk_Terrier_Norway.JPG",
+    "licenseShortName": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "Hanne Tangenes"
+  },
+  "norwegian-buhund": {
+    "src": "/assets/breeds/norwegian-buhund.webp",
+    "alt": "Norwegian Buhund dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Buhunden.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canossa"
   },
   "norwegian-elkhound": {
     "src": "/assets/breeds/norwegian-elkhound.webp",
@@ -680,6 +1112,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "H. Gisin"
   },
+  "nova-scotia-duck-tolling-retriever": {
+    "src": "/assets/breeds/nova-scotia-duck-tolling-retriever.webp",
+    "alt": "Nova Scotia Duck Tolling Retriever dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Nova_Scotia_Duck_Tolling_Retriever_Female.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Gionabalena"
+  },
   "old-english-sheepdog": {
     "src": "/assets/breeds/old-english-sheepdog.webp",
     "alt": "Old English Sheepdog dog",
@@ -687,6 +1127,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Mona (uploaded by Caronna 08:14, 15 Apr 2005 (UTC))"
+  },
+  "otterhound": {
+    "src": "/assets/breeds/otterhound.webp",
+    "alt": "Otterhound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Saukkokoiraotter.jpg",
+    "licenseShortName": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Canarian"
   },
   "papillon": {
     "src": "/assets/breeds/papillon.webp",
@@ -744,6 +1192,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Canarian"
   },
+  "pointer": {
+    "src": "/assets/breeds/pointer.webp",
+    "alt": "Pointer dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:English_Pointer_Dog_-8.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "claralieu"
+  },
+  "polish-lowland-sheepdog": {
+    "src": "/assets/breeds/polish-lowland-sheepdog.webp",
+    "alt": "Polish Lowland Sheepdog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Storalvens_Dione.JPG",
+    "licenseShortName": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "Beltapar"
+  },
   "pomeranian": {
     "src": "/assets/breeds/pomeranian.webp",
     "alt": "Pomeranian dog",
@@ -759,6 +1223,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "attribution": "UszkarFoto92"
+  },
+  "portuguese-podengo-pequeno": {
+    "src": "/assets/breeds/portuguese-podengo-pequeno.webp",
+    "alt": "Portuguese Podengo Pequeno dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Portuguese_Podengo_Pequeno_Smooth_Coat_.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "UsernameDrama0909"
   },
   "portuguese-water-dog": {
     "src": "/assets/breeds/portuguese-water-dog.webp",
@@ -792,6 +1264,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Taru T Torpström"
   },
+  "pyrenean-shepherd": {
+    "src": "/assets/breeds/pyrenean-shepherd.webp",
+    "alt": "Pyrenean Shepherd dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Crufts_2019-_NEC,_Birmingham-_08-March_2019_-_32389380897.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "adam w"
+  },
   "rat-terrier": {
     "src": "/assets/breeds/rat-terrier.webp",
     "alt": "Rat Terrier dog",
@@ -815,6 +1295,30 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "Svenska Mässan from Sweden"
+  },
+  "rottweiler": {
+    "src": "/assets/breeds/rottweiler.webp",
+    "alt": "Rottweiler dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:%22Prince%22_(7369763074).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Phil Sangwell from United Kingdom"
+  },
+  "russell-terrier": {
+    "src": "/assets/breeds/russell-terrier.webp",
+    "alt": "Russell Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Russell_Terrier-11-GCH-Goldsand%27s_Billy_Jean_02_(16583577811).jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Pets Adviser from Brooklyn, USA"
+  },
+  "russian-toy": {
+    "src": "/assets/breeds/russian-toy.webp",
+    "alt": "Russian Toy dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Russkiy_Toy_Kurzhaar.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Dahmsto"
   },
   "russian-tsvetnaya-bolonka": {
     "src": "/assets/breeds/russian-tsvetnaya-bolonka.webp",
@@ -840,6 +1344,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "No machine-readable author provided. Pleple2000 assumed (based on copyright claims)."
   },
+  "schipperke": {
+    "src": "/assets/breeds/schipperke.webp",
+    "alt": "Schipperke dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Schipperkehpg002_(cropped).jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "JezevecStendencíLouhovatČaj"
+  },
   "scottish-deerhound": {
     "src": "/assets/breeds/scottish-deerhound.webp",
     "alt": "Scottish Deerhound dog",
@@ -855,6 +1367,30 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "I, Mider"
+  },
+  "sealyham-terrier": {
+    "src": "/assets/breeds/sealyham-terrier.webp",
+    "alt": "Sealyham Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Sealyham_terrier.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Tuomas Palonen"
+  },
+  "shetland-sheepdog": {
+    "src": "/assets/breeds/shetland-sheepdog.webp",
+    "alt": "Shetland Sheepdog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Border_City_Barkers_performing_at_the_Harrow_Fair,_Harrow,_Ontario,_2025-08-31_02.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Chris Woodrich"
+  },
+  "shiba-inu": {
+    "src": "/assets/breeds/shiba-inu.webp",
+    "alt": "Shiba Inu dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:A_Shiba_Inu_named_Kazumi.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "Maja Dumat"
   },
   "shih-tzu": {
     "src": "/assets/breeds/shih-tzu.webp",
@@ -899,10 +1435,10 @@ const BREED_PHOTOS = Object.freeze({
   "smooth-fox-terrier": {
     "src": "/assets/breeds/smooth-fox-terrier.webp",
     "alt": "Smooth Fox Terrier dog",
-    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Terrier_mix_sh_klaas.jpg",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:03030293_Foxterrier_glatt.jpg",
     "licenseShortName": "CC BY-SA 3.0",
-    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-    "attribution": "Hans863"
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Alephalpha"
   },
   "soft-coated-wheaten-terrier": {
     "src": "/assets/breeds/soft-coated-wheaten-terrier.webp",
@@ -912,6 +1448,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "sannse"
   },
+  "spanish-water-dog": {
+    "src": "/assets/breeds/spanish-water-dog.webp",
+    "alt": "Spanish Water Dog dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Emma_spanish_waterdog_4.jpg",
+    "licenseShortName": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
+    "attribution": "Moritz Zimmermann"
+  },
+  "spinone-italiano": {
+    "src": "/assets/breeds/spinone-italiano.webp",
+    "alt": "Spinone Italiano dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:05042363_Spinone_braun.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Alephalpha"
+  },
   "st-bernard": {
     "src": "/assets/breeds/st-bernard.webp",
     "alt": "St. Bernard dog",
@@ -920,6 +1472,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "attribution": "Rafael Dominguez Rodriguez"
   },
+  "staffordshire-bull-terrier": {
+    "src": "/assets/breeds/staffordshire-bull-terrier.webp",
+    "alt": "Staffordshire Bull Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Brindle_%26_white_Staffordshire_Bull_Terrier_(AKA_Essie).jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Serial Number 54129"
+  },
+  "standard-schnauzer": {
+    "src": "/assets/breeds/standard-schnauzer.webp",
+    "alt": "Standard Schnauzer dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Standard_Grey_Schnauzer_(cropped).JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Tamorlan"
+  },
   "sussex-spaniel": {
     "src": "/assets/breeds/sussex-spaniel.webp",
     "alt": "Sussex Spaniel dog",
@@ -927,6 +1495,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Pleple2000"
+  },
+  "swedish-vallhund": {
+    "src": "/assets/breeds/swedish-vallhund.webp",
+    "alt": "Swedish Vallhund dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Swedish_Vallhund_December_2012_005.JPG",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "WestportWiki"
   },
   "teddy-roosevelt-terrier": {
     "src": "/assets/breeds/teddy-roosevelt-terrier.webp",
@@ -944,6 +1520,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
     "attribution": "Pets Adviser from Brooklyn, USA"
   },
+  "tibetan-spaniel": {
+    "src": "/assets/breeds/tibetan-spaniel.webp",
+    "alt": "Tibetan Spaniel dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Melfjorden_20080606_DSCN5016.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Magne Tor Ingvald Aga"
+  },
   "tibetan-terrier": {
     "src": "/assets/breeds/tibetan-terrier.webp",
     "alt": "Tibetan Terrier dog",
@@ -960,6 +1544,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Jagrolet at English Wikipedia"
   },
+  "treeing-walker-coonhound": {
+    "src": "/assets/breeds/treeing-walker-coonhound.webp",
+    "alt": "Treeing Walker Coonhound dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Walkerinpkk1.jpg",
+    "licenseShortName": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Canarian"
+  },
   "vizsla": {
     "src": "/assets/breeds/vizsla.webp",
     "alt": "Vizsla dog",
@@ -968,6 +1560,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "attribution": "Pleple2000"
   },
+  "weimaraner": {
+    "src": "/assets/breeds/weimaraner.webp",
+    "alt": "Weimaraner dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Adult_Male_Weimeraner.jpg",
+    "licenseShortName": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution": "Borelandn"
+  },
   "welsh-springer-spaniel": {
     "src": "/assets/breeds/welsh-springer-spaniel.webp",
     "alt": "Welsh Springer Spaniel dog",
@@ -975,6 +1575,14 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "attribution": "Udo Tjalsma"
+  },
+  "welsh-terrier": {
+    "src": "/assets/breeds/welsh-terrier.webp",
+    "alt": "Welsh Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Welsh_Terrier.JPG",
+    "licenseShortName": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "Shleiderbmx"
   },
   "west-highland-white-terrier": {
     "src": "/assets/breeds/west-highland-white-terrier.webp",
@@ -991,6 +1599,22 @@ const BREED_PHOTOS = Object.freeze({
     "licenseShortName": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "attribution": "Sagaciousphil"
+  },
+  "wire-fox-terrier": {
+    "src": "/assets/breeds/wire-fox-terrier.webp",
+    "alt": "Wire Fox Terrier dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:01_Wire_Fox_terrier.jpg",
+    "licenseShortName": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "attribution": "State Farm"
+  },
+  "wirehaired-pointing-griffon": {
+    "src": "/assets/breeds/wirehaired-pointing-griffon.webp",
+    "alt": "Wirehaired Pointing Griffon dog",
+    "sourcePageUrl": "https://commons.wikimedia.org/wiki/File:Griffon_dog.jpg",
+    "licenseShortName": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Liv klesta"
   },
   "wirehaired-vizsla": {
     "src": "/assets/breeds/wirehaired-vizsla.webp",

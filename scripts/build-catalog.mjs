@@ -31,14 +31,11 @@ function displayGroup(group) {
 function breedItem(breed) {
   const search = [breed.name, breed.group, ...breed.secondaryGroups].join(" ").toLowerCase();
   const photo = photosByBreed.get(breed.id);
-  const media = photo
-    ? `<figure class="catalog-photo">
+  if (!photo) throw new Error(`Missing reviewed photo for ${breed.id}.`);
+  const media = `<figure class="catalog-photo">
               <img src="${escapeHtml(photo.localPath)}" alt="${escapeHtml(photo.alt)}" width="720" height="540" loading="lazy" decoding="async">
               <figcaption><a href="/photo-credits/#${escapeHtml(breed.id)}">${escapeHtml(photo.rights.licenseShortName)} photo credit</a></figcaption>
-            </figure>`
-    : `<div class="catalog-photo catalog-photo--fallback" aria-hidden="true">
-              <strong>u</strong>
-            </div>`;
+            </figure>`;
   return `          <li class="catalog-card" data-breed data-name="${escapeHtml(search)}" data-group="${escapeHtml(breed.group)}">
 ${media}
             <div class="catalog-card__top">
@@ -76,7 +73,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260810c">
+    <link rel="stylesheet" href="/styles.css?v=20260810h">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ur dog">
     <meta property="og:url" content="https://urdog.dev/breeds/">
@@ -183,7 +180,8 @@ ${list}
       </nav>
       <p>Educational breed research, not professional advice.</p>
     </footer>
-    <script src="/scripts/catalog.js?v=20260810c" defer></script>
+    <script src="/scripts/catalog.js?v=20260810h" defer></script>
+    <script type="module" src="/scripts/external-links.js?v=20260810h"></script>
   </body>
 </html>
 `;

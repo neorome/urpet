@@ -5,10 +5,11 @@ import {
   rankBreeds,
   shareText,
   validateAnswers
-} from "./breed-engine.js?v=20260810c";
-import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810c";
-import { BREED_PHOTOS } from "./breed-photos.js?v=20260810c";
-import { buildRescueMapUrl } from "./rescue-search.js?v=20260810c";
+} from "./breed-engine.js?v=20260810h";
+import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810h";
+import { BREED_PHOTOS } from "./breed-photos.js?v=20260810h";
+import { initRescueFinder } from "./rescue-map.js?v=20260810h";
+import "./external-links.js?v=20260810h";
 
 const STORAGE_KEY = "urdog-fit-briefs-v1";
 const MAX_SAVED = 8;
@@ -50,18 +51,18 @@ const savedCount = document.querySelector("#saved-count");
 const savedList = document.querySelector("#saved-list");
 const savedEmpty = document.querySelector("#saved-empty");
 const clearSavedButton = document.querySelector("#clear-saved");
+const resetDialog = document.querySelector("#reset-dialog");
+const cancelResetButton = document.querySelector("#cancel-reset");
+const confirmResetButton = document.querySelector("#confirm-reset");
 
-const rescueForm = document.querySelector("#rescue-search");
 const rescueFinderTitle = document.querySelector("#rescue-finder-title");
-const rescueLocation = document.querySelector("#rescue-location");
-const rescueStatus = document.querySelector("#rescue-search-status");
-const rescueMapLink = document.querySelector("#rescue-map-link");
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let currentStep = 0;
 let currentAnswers = null;
 let currentReport = null;
+let rescueFinder = null;
 
 function escapeHtml(value) {
   return String(value)
@@ -76,10 +77,17 @@ function currentStepHasAnswer() {
   return Boolean(steps[currentStep]?.querySelector("input:checked"));
 }
 
-function focusAndReveal(target) {
+function focusAndReveal(target, { instant = false } = {}) {
   if (!target) return;
   if (!target.matches("a, button, input, select, textarea, [tabindex]")) {
     target.setAttribute("tabindex", "-1");
+  }
+  if (instant) {
+    target.scrollIntoView({ behavior: "auto", block: "start" });
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => target.focus({ preventScroll: true }));
+    });
+    return;
   }
   window.requestAnimationFrame(() => {
     target.focus({ preventScroll: true });
@@ -224,14 +232,11 @@ function glanceMarkup(breed) {
 
 function breedPhotoMarkup(breed) {
   const photo = BREED_PHOTOS[breed.id];
-  if (photo) {
-    return `<figure class="breed-photo">
-      <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="720" height="540" loading="lazy" decoding="async">
-      <figcaption>${escapeHtml(photo.attribution)} · <a href="/photo-credits/#${escapeHtml(breed.id)}">${escapeHtml(photo.licenseShortName)}</a></figcaption>
-    </figure>`;
-  }
-
-  return `<div class="breed-photo breed-photo--fallback" aria-hidden="true"><span>u</span></div>`;
+  if (!photo) throw new Error(`Missing reviewed photo for ${breed.id}.`);
+  return `<figure class="breed-photo">
+    <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="720" height="540" loading="lazy" decoding="async">
+    <figcaption>${escapeHtml(photo.attribution)} · <a href="/photo-credits/#${escapeHtml(breed.id)}">${escapeHtml(photo.licenseShortName)}</a></figcaption>
+  </figure>`;
 }
 
 function renderRecommendations(report) {
@@ -292,7 +297,7 @@ function reportSummary(report) {
   return `${report.cleanCount} cleared every limit. ${nearCount === 1 ? "The other result shows" : "The other two results show"} the tradeoff${nearCount === 1 ? "" : "s"} to resolve.`;
 }
 
-function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
+function createBrief(answers, { updateUrl = true, scroll = true, instant = false } = {}) {
   if (!validateAnswers(answers)) return false;
   const report = rankBreeds(answers);
   if (!report) return false;
@@ -320,7 +325,7 @@ function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
 
   syncSaveButton();
   window.requestAnimationFrame(() => result.classList.add("is-entering"));
-  if (scroll) focusAndReveal(resultTitle);
+  if (scroll) focusAndReveal(resultTitle, { instant });
   return true;
 }
 
@@ -440,10 +445,8 @@ function resetAnswers() {
   quickCompareCards.replaceChildren();
   breedCards.replaceChildren();
   meetingQuestions.replaceChildren();
-  rescueForm.reset();
-  rescueMapLink.hidden = true;
-  rescueStatus.textContent = "ur dog does not save this place. The open map receives what u search.";
   meetingCopyStatus.textContent = "";
+  rescueFinder?.reset();
   history.replaceState({ urdog: true }, "", "/");
   showStep(0, { focus: false });
   focusAndReveal(steps[0].querySelector("legend"));
@@ -540,7 +543,19 @@ changeButton.addEventListener("click", () => {
   focusAndReveal(steps[0].querySelector("legend"));
 });
 jumpToRescueButton.addEventListener("click", () => focusAndReveal(rescueFinderTitle));
-resetButton.addEventListener("click", resetAnswers);
+resetButton.addEventListener("click", () => {
+  if (typeof resetDialog.showModal === "function") resetDialog.showModal();
+  else resetDialog.setAttribute("open", "");
+  cancelResetButton.focus();
+});
+cancelResetButton.addEventListener("click", () => resetDialog.close());
+confirmResetButton.addEventListener("click", () => {
+  resetDialog.close();
+  resetAnswers();
+});
+resetDialog.addEventListener("click", (event) => {
+  if (event.target === resetDialog) resetDialog.close();
+});
 
 openSavedButton.addEventListener("click", () => {
   renderSavedDialog();
@@ -576,27 +591,11 @@ clearSavedButton.addEventListener("click", () => {
   syncSaveButton();
 });
 
-rescueForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const url = buildRescueMapUrl(rescueLocation.value);
-  if (!url) {
-    rescueMapLink.hidden = true;
-    rescueStatus.textContent = "Enter a city, region, or postal code to search.";
-    rescueLocation.focus();
-    return;
-  }
-
-  rescueMapLink.href = url;
-  rescueMapLink.hidden = false;
-  rescueStatus.textContent = "Opening mapped shelters within 50 km (31 mi). This place is not saved by ur dog.";
-  window.open(url, "_blank", "noopener,noreferrer");
-});
-
 window.addEventListener("popstate", () => {
   const answers = parseAnswers(window.location.href);
   if (answers) {
     fillForm(answers);
-    createBrief(answers, { updateUrl: false, scroll: false });
+    createBrief(answers, { updateUrl: false, scroll: location.hash === "#result", instant: true });
   } else {
     result.hidden = true;
     currentAnswers = null;
@@ -605,11 +604,12 @@ window.addEventListener("popstate", () => {
 });
 
 syncSavedCount();
+rescueFinder = initRescueFinder();
 showStep(0, { focus: false });
 
 const linkedAnswers = parseAnswers(window.location.href);
 if (linkedAnswers) {
   fillForm(linkedAnswers);
   showStep(steps.length - 1, { focus: false });
-  createBrief(linkedAnswers, { updateUrl: false, scroll: true });
+  createBrief(linkedAnswers, { updateUrl: false, scroll: location.hash === "#result", instant: true });
 }

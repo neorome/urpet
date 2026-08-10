@@ -1,4 +1,4 @@
-import { BREED_TRAITS } from "./breed-traits.js?v=20260810c";
+import { BREED_TRAITS } from "./breed-traits.js?v=20260810h";
 
 const CATALOG_VERSION = "2026-08-10";
 const REGISTRY_CHECKED_ON = "2026-08-10";

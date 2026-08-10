@@ -17,6 +17,8 @@ const requiredAssets = [
   "scripts/breed-traits.js",
   "scripts/breed-photos.js",
   "scripts/rescue-search.js",
+  "scripts/rescue-map.js",
+  "scripts/external-links.js",
   "scripts/catalog.js",
   "scripts/dog-engine.js",
   "data/breed-photos.json",
@@ -25,7 +27,13 @@ const requiredAssets = [
   "social-card.png",
   "robots.txt",
   "sitemap.xml",
-  "site.webmanifest"
+  "site.webmanifest",
+  "vendor/leaflet/leaflet.css",
+  "vendor/leaflet/leaflet.js",
+  "vendor/leaflet/LICENSE",
+  "vendor/leaflet/images/marker-icon.png",
+  "vendor/leaflet/images/marker-icon-2x.png",
+  "vendor/leaflet/images/marker-shadow.png"
 ];
 
 await Promise.all(requiredAssets.map((file) => access(resolve(publicDir, file))));
@@ -38,6 +46,8 @@ const [
   app,
   engine,
   rescueSearch,
+  rescueMap,
+  externalLinks,
   robots,
   sitemap,
   manifestText,
@@ -51,6 +61,8 @@ const [
   readFile(resolve(publicDir, "scripts", "app.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "breed-engine.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "rescue-search.js"), "utf8"),
+  readFile(resolve(publicDir, "scripts", "rescue-map.js"), "utf8"),
+  readFile(resolve(publicDir, "scripts", "external-links.js"), "utf8"),
   readFile(resolve(publicDir, "robots.txt"), "utf8"),
   readFile(resolve(publicDir, "sitemap.xml"), "utf8"),
   readFile(resolve(publicDir, "site.webmanifest"), "utf8"),
@@ -102,11 +114,17 @@ assert.match(home, /id="result"[^>]*hidden/);
 assert.ok(home.indexOf('id="result-actions"') < 0, "result actions use a labeled class, not a duplicate landmark id");
 assert.ok(home.indexOf('id="save-brief"') < home.indexOf('id="breed-cards"'), "brief actions must appear before the long breed cards");
 assert.match(home, /id="reset-answers"/);
+assert.match(home, /id="reset-dialog"/);
+assert.match(home, /Saved briefs stay on this device/);
 assert.match(home, /id="jump-to-rescue"/);
 assert.match(home, /id="copy-questions"/);
 assert.match(home, /id="clear-saved"/);
-assert.match(home, /https:\/\/overpass-turbo\.eu\//);
-assert.match(home, /Powered by OpenStreetMap data/);
+assert.match(home, /id="rescue-use-location"/);
+assert.match(home, /id="rescue-map"[^>]+role="region"/);
+assert.match(home, /id="rescue-list"/);
+assert.match(home, /No map service is contacted before u do/);
+assert.match(home, /OpenStreetMap contributors/);
+assert.doesNotMatch(home, /overpass-turbo\.eu|rescue-map-link/);
 assert.match(home, /https:\/\/www\.petfinder\.com\/search\/dogs-for-adoption\//);
 assert.match(home, /mailto:team@neorome\.dev\?subject=ur%20dog%20support/);
 assert.match(home, /mailto:team@neorome\.dev\?subject=Sponsor%20ur%20dog/);
@@ -123,19 +141,23 @@ for (const page of [home, catalog, credits, app]) {
 }
 
 assert.equal(BREEDS.length, 205);
+assert.equal(photoManifest.approvedCount, 205);
+assert.equal(photoManifest.missingCount, 0);
 assert.equal((catalog.match(/data-breed(?:\s|>)/g) || []).length, 205, "catalog page must contain 205 crawlable rows");
 assert.equal((catalog.match(/class="catalog-card"/g) || []).length, 205);
-assert.equal((catalog.match(/class="catalog-photo"/g) || []).length, photoManifest.approvedCount);
-assert.equal((catalog.match(/catalog-photo--fallback/g) || []).length, photoManifest.missingCount);
+assert.equal((catalog.match(/class="catalog-photo"/g) || []).length, 205);
+assert.doesNotMatch(catalog, /catalog-photo--fallback/);
 for (const breed of BREEDS) {
   const escapedName = breed.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   assert.match(catalog, new RegExp(`<strong>${escapedName}<\\/strong>`));
 }
 
-assert.equal((credits.match(/class="credit-card"/g) || []).length, photoManifest.approvedCount);
-assert.equal((credits.match(/>Commons source file/g) || []).length, photoManifest.approvedCount);
-assert.equal((credits.match(/>license terms/g) || []).length, photoManifest.approvedCount);
-assert.match(credits, /127 credited photos/i);
+assert.equal((credits.match(/class="credit-card"/g) || []).length, 205);
+assert.equal((credits.match(/>Commons source file/g) || []).length, 205);
+assert.equal((credits.match(/>license terms/g) || []).length, 205);
+assert.match(credits, /205 credited photos/i);
+assert.doesNotMatch(app, /breed-photo--fallback/);
+assert.doesNotMatch(css, /breed-photo--fallback|catalog-photo--fallback/);
 
 assert.match(robots, /^User-agent: \*/m);
 assert.match(robots, /^Allow: \/$/m);
@@ -160,33 +182,50 @@ for (const icon of manifest.icons) {
 assert.match(worker, /www\.urdog\.dev/);
 assert.match(worker, /Content-Security-Policy/);
 assert.match(worker, /X-Robots-Tag/);
-assert.match(worker, /img-src 'self' data:/);
+assert.match(worker, /img-src 'self' data: https:\/\/tile\.openstreetmap\.org/);
+assert.match(worker, /geolocation=\(self\)/);
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 assert.match(css, /@media print/);
 assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, "CSS braces must balance");
 assert.match(app, /navigator\.share/);
 assert.match(app, /navigator\.clipboard/);
 assert.match(app, /BREED_PHOTOS/);
-assert.match(app, /focusAndReveal\(resultTitle\)/);
+assert.match(app, /focusAndReveal\(resultTitle, \{ instant \}\)/);
+assert.match(app, /location\.hash === "#result"/);
 assert.match(app, /Saved briefs cleared from this browser\./);
 assert.doesNotMatch(app, /setTimeout\(/, "result handoff must not depend on a timer");
 assert.match(engine, /import \{ BREEDS, CATALOG_VERSION \}/);
-assert.match(rescueSearch, /https:\/\/overpass-turbo\.eu\//);
-assert.match(rescueSearch, /geocodeCoords/);
-assert.match(rescueSearch, /amenity.*animal_shelter/);
-assert.match(rescueSearch, /around:\$\{SEARCH_RADIUS_METERS\}/);
+assert.match(rescueSearch, /https:\/\/nominatim\.openstreetmap\.org\/search/);
+assert.doesNotMatch(rescueSearch, /geocodeCoords|overpass-turbo|overpass-api/);
+assert.match(rescueSearch, /animal shelter/);
+assert.match(rescueSearch, /addressdetails/);
+assert.match(rescueSearch, /extratags/);
+assert.match(rescueMap, /navigator\.geolocation\.getCurrentPosition/);
+assert.match(rescueMap, /tile\.openstreetmap\.org/);
+assert.match(rescueMap, /script\.src = LEAFLET_SCRIPT/);
+assert.match(rescueMap, /Icon\.Default\.imagePath = "\/vendor\/leaflet\/images\/"/);
+assert.match(rescueMap, /scrollWheelZoom: false/);
+assert.doesNotMatch(app, /window\.open|buildRescueMapUrl/);
+assert.match(externalLinks, /showModal\(\)/);
+assert.match(externalLinks, /stay here/);
+assert.match(externalLinks, /noopener noreferrer external/);
+assert.match(app, /external-links\.js/);
+assert.match(catalog, /scripts\/external-links\.js/);
+assert.match(credits, /scripts\/external-links\.js/);
 
 const budgets = {
   "index.html": 55_000,
   "breeds/index.html": 300_000,
-  "photo-credits/index.html": 170_000,
-  "styles.css": 85_000,
+  "photo-credits/index.html": 300_000,
+  "styles.css": 105_000,
   "scripts/app.js": 28_000,
   "scripts/breed-engine.js": 22_000,
-  "scripts/rescue-search.js": 2_000,
+  "scripts/rescue-search.js": 8_000,
+  "scripts/rescue-map.js": 20_000,
+  "scripts/external-links.js": 9_000,
   "scripts/breed-catalog.js": 25_000,
   "scripts/breed-traits.js": 35_000,
-  "scripts/breed-photos.js": 100_000,
+  "scripts/breed-photos.js": 170_000,
   "scripts/dog-engine.js": 45_000,
   "social-card.png": 500_000
 };

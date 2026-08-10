@@ -28,7 +28,7 @@ npm run check must pass against the exact commit to deploy. Generated catalog an
 3. Record the new Worker version as the rollback target.
 4. Add the urdog.dev and www.urdog.dev custom-domain routes in wrangler.jsonc.
 5. Deploy the exact same validated source.
-6. Verify the apex, the permanent www redirect, TLS, all public pages, one photo and one fallback, and the complete matcher.
+6. Verify the apex, the permanent www redirect, TLS, all public pages, representative photos, the in-site map, the departure dialog, and the complete matcher.
 
 Deploy:
 
@@ -48,7 +48,7 @@ curl --fail --silent --show-error --max-time 20 \
   "https://urdog.dev/breeds/?release=<version>" | rg -F "all 205 breeds"
 
 curl --fail --silent --show-error --max-time 20 \
-  "https://urdog.dev/photo-credits/?release=<version>" | rg -F "127 credited photos"
+  "https://urdog.dev/photo-credits/?release=<version>" | rg -F "205 credited photos"
 
 curl --silent --show-error --head --max-time 20 \
   "https://www.urdog.dev/?release=<version>"
@@ -62,7 +62,7 @@ curl --fail --silent --show-error --max-time 20 \
 
 Expected: apex pages return 200; www returns 308 with an apex Location; TLS is valid; the sitemap contains /, /breeds/, and /photo-credits/; HTML has the security policy; image URLs are first-party; and a bad route returns 404 with X-Robots-Tag: noindex.
 
-The matcher also needs a browser smoke: finish all nine keyboard steps, confirm three cards, save locally, copy/share a deep link, reload it, reset the current answers, clear saved briefs, open a representative local shelter map with visible results, open the complete catalog, filter to one breed, and print the brief without the support request.
+The matcher also needs a browser smoke: finish all nine keyboard steps; confirm three cards and three photos; save locally; copy/share a deep link; reload it; reset the current answers; clear saved briefs; verify zero map-provider requests before interaction; run a typed-place shelter search; confirm the in-site map and matching result list; test denied geolocation; cancel and continue representative outbound links; open the complete catalog; filter to one breed; and print the brief without the support request.
 
 ## Rollback
 
@@ -73,4 +73,4 @@ npx wrangler rollback <known-good-version-id>
 
 After rollback, rerun every production smoke check. Rollback changes Worker code and assets; it does not remove custom-domain DNS or certificates.
 
-If only a photo is disputed, remove that approved manifest row and derivative, regenerate the catalog and credits, run the full gate, and deploy. The breed remains available through the branded fallback.
+If a photo is disputed, do not deploy a placeholder. Keep or roll back to the last fully reviewed production version, replace the disputed source through the photo review gate, regenerate the catalog and credits, run the full gate, and deploy only when coverage is back at 205/205.
