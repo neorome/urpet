@@ -48,7 +48,7 @@ curl --fail --silent --show-error --max-time 20 \
   "https://urdog.dev/breeds/?release=<version>" | rg -F "all 205 breeds"
 
 curl --fail --silent --show-error --max-time 20 \
-  "https://urdog.dev/photo-credits/?release=<version>" | rg -F "every real photo"
+  "https://urdog.dev/photo-credits/?release=<version>" | rg -F "127 credited photos"
 
 curl --silent --show-error --head --max-time 20 \
   "https://www.urdog.dev/?release=<version>"
