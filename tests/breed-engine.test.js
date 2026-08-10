@@ -91,13 +91,27 @@ test("complete answers validate and share links round-trip exactly", () => {
   assert.equal(validateAnswers({ ...COMPLETE_ANSWERS, activity: "heroic-saturday" }), false);
 });
 
+test("a household can include every real condition without choosing a vague bucket", () => {
+  const answers = { ...COMPLETE_ANSWERS, household: "children+dog+cats" };
+
+  assert.equal(validateAnswers(answers), true);
+  assert.deepEqual(parseAnswers(encodeAnswers(answers)), answers);
+  assert.equal(validateAnswers({ ...COMPLETE_ANSWERS, household: "adults+cats" }), false);
+});
+
+test("old mixed-household links migrate to the explicit household conditions", () => {
+  const legacy = encodeAnswers(COMPLETE_ANSWERS).replace("h=adults", "h=mixed");
+  assert.equal(legacy.includes("h=mixed"), true);
+  assert.equal(parseAnswers(legacy)?.household, "children+dog+cats");
+});
+
 test("the matcher returns three unique, explainable research leads", () => {
   const scenarios = [
     COMPLETE_ANSWERS,
     { ...COMPLETE_ANSWERS, activity: "steady", training: "routine", grooming: "simple", shedding: "low", size: "small", goal: "companion" },
     { ...COMPLETE_ANSWERS, activity: "very-active", training: "skilled", grooming: "professional", shedding: "high", size: "large", goal: "sport" },
     { ...COMPLETE_ANSWERS, size: "giant", goal: "walks", stage: "adult" },
-    { ...COMPLETE_ANSWERS, company: "no-break-yet", household: "mixed", stage: "puppy" }
+    { ...COMPLETE_ANSWERS, company: "no-break-yet", household: "children+dog+cats", stage: "puppy" }
   ];
 
   for (const answers of scenarios) {
@@ -124,7 +138,7 @@ test("a missing weekday care plan is never disguised as a breed solution", () =>
 });
 
 test("the household and search path produce questions for the individual dog", () => {
-  const report = rankBreeds({ ...COMPLETE_ANSWERS, household: "mixed", stage: "either" });
+  const report = rankBreeds({ ...COMPLETE_ANSWERS, household: "children+dog+cats", stage: "either" });
   const checklist = report.checklist.join(" ");
   assert.match(checklist, /children/i);
   assert.match(checklist, /cats/i);

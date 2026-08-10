@@ -1,4 +1,4 @@
-import { BREEDS, CATALOG_VERSION } from "./breed-catalog.js?v=20260810b";
+import { BREEDS, CATALOG_VERSION } from "./breed-catalog.js?v=20260810c";
 
 const REVIEWED_ON = CATALOG_VERSION;
 
@@ -10,7 +10,7 @@ const ANSWER_OPTIONS = Object.freeze({
   shedding: Object.freeze(["low", "moderate", "high"]),
   size: Object.freeze(["small", "medium", "large", "giant", "flexible"]),
   goal: Object.freeze(["companion", "walks", "adventure", "sport"]),
-  household: Object.freeze(["adults", "children", "dog", "cats", "mixed"]),
+  household: Object.freeze(["adults", "children", "dog", "cats"]),
   stage: Object.freeze(["adult", "puppy", "either", "learning"])
 });
 
@@ -67,6 +67,14 @@ const LEVEL = Object.freeze({
 });
 
 function isValidAnswer(key, value) {
+  if (key === "household") {
+    if (typeof value !== "string" || !value) return false;
+    const selected = value.split("+");
+    const unique = new Set(selected);
+    return unique.size === selected.length
+      && selected.every((option) => ANSWER_OPTIONS.household.includes(option))
+      && !(unique.has("adults") && unique.size > 1);
+  }
   return typeof value === "string" && ANSWER_OPTIONS[key]?.includes(value);
 }
 
@@ -189,6 +197,7 @@ function readinessFor(answers) {
 }
 
 function buildChecklist(answers) {
+  const household = new Set(answers.household.split("+"));
   const questions = [
     "What does a normal Tuesday of exercise, enrichment, rest, and company look like for this dog?",
     "How has this individual dog handled being left alone, and what signs of stress have you observed?",
@@ -197,13 +206,13 @@ function buildChecklist(answers) {
     "What support and return policy applies if the placement is not workable?"
   ];
 
-  if (["children", "mixed"].includes(answers.household)) {
+  if (household.has("children")) {
     questions.push("Has this individual dog lived with children of similar ages, and what introduction and supervision plan is recommended?");
   }
-  if (["cats", "mixed"].includes(answers.household)) {
+  if (household.has("cats")) {
     questions.push("Has this dog lived with cats or small animals, what was observed, and what separation or introduction plan is recommended?");
   }
-  if (["dog", "mixed"].includes(answers.household)) {
+  if (household.has("dog")) {
     questions.push("How should this dog meet the resident dog, and what resource, play, or separation issues should we plan for?");
   }
 
@@ -285,6 +294,7 @@ function parseAnswers(input) {
 
   const answers = {};
   for (const [key, shortKey] of Object.entries(QUERY_KEYS)) answers[key] = params.get(shortKey) || "";
+  if (answers.household === "mixed") answers.household = "children+dog+cats";
   return validateAnswers(answers) ? answers : null;
 }
 

@@ -5,9 +5,10 @@ import {
   rankBreeds,
   shareText,
   validateAnswers
-} from "./breed-engine.js?v=20260810b";
-import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810b";
-import { BREED_PHOTOS } from "./breed-photos.js?v=20260810b";
+} from "./breed-engine.js?v=20260810c";
+import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810c";
+import { BREED_PHOTOS } from "./breed-photos.js?v=20260810c";
+import { buildRescueMapUrl } from "./rescue-search.js?v=20260810c";
 
 const STORAGE_KEY = "urdog-fit-briefs-v1";
 const MAX_SAVED = 8;
@@ -28,13 +29,19 @@ const resultSummary = document.querySelector("#result-summary");
 const readiness = document.querySelector("#readiness");
 const readinessTitle = document.querySelector("#readiness-title");
 const readinessText = document.querySelector("#readiness-text");
+const answerSummary = document.querySelector("#answer-summary");
+const quickCompareCards = document.querySelector("#quick-compare-cards");
 const breedCards = document.querySelector("#breed-cards");
 const meetingQuestions = document.querySelector("#meeting-questions");
 const saveButton = document.querySelector("#save-brief");
 const shareButton = document.querySelector("#share-brief");
 const printButton = document.querySelector("#print-brief");
 const changeButton = document.querySelector("#change-answers");
+const jumpToRescueButton = document.querySelector("#jump-to-rescue");
+const resetButton = document.querySelector("#reset-answers");
 const actionStatus = document.querySelector("#action-status");
+const copyQuestionsButton = document.querySelector("#copy-questions");
+const meetingCopyStatus = document.querySelector("#meeting-copy-status");
 
 const savedDialog = document.querySelector("#saved-dialog");
 const openSavedButton = document.querySelector("#open-saved");
@@ -42,6 +49,15 @@ const closeSavedButton = document.querySelector("#close-saved");
 const savedCount = document.querySelector("#saved-count");
 const savedList = document.querySelector("#saved-list");
 const savedEmpty = document.querySelector("#saved-empty");
+const clearSavedButton = document.querySelector("#clear-saved");
+
+const rescueForm = document.querySelector("#rescue-search");
+const rescueFinderTitle = document.querySelector("#rescue-finder-title");
+const rescueLocation = document.querySelector("#rescue-location");
+const rescueStatus = document.querySelector("#rescue-search-status");
+const rescueMapLink = document.querySelector("#rescue-map-link");
+
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let currentStep = 0;
 let currentAnswers = null;
@@ -58,6 +74,20 @@ function escapeHtml(value) {
 
 function currentStepHasAnswer() {
   return Boolean(steps[currentStep]?.querySelector("input:checked"));
+}
+
+function focusAndReveal(target) {
+  if (!target) return;
+  if (!target.matches("a, button, input, select, textarea, [tabindex]")) {
+    target.setAttribute("tabindex", "-1");
+  }
+  window.requestAnimationFrame(() => {
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+      block: "start"
+    });
+  });
 }
 
 function renderDeskDog(stepIndex) {
@@ -115,16 +145,69 @@ function gatherAnswers() {
     shedding: data.get("shedding") || "",
     size: data.get("size") || "",
     goal: data.get("goal") || "",
-    household: data.get("household") || "",
+    household: data.getAll("household").map(String).join("+"),
     stage: data.get("stage") || ""
   };
 }
 
 function fillForm(answers) {
+  form.reset();
   for (const [name, value] of Object.entries(answers)) {
-    const input = form.querySelector(`input[name="${name}"][value="${value}"]`);
-    if (input) input.checked = true;
+    const values = name === "household" ? value.split("+") : [value];
+    values.forEach((entry) => {
+      const input = form.querySelector(`input[name="${name}"][value="${entry}"]`);
+      if (input) input.checked = true;
+    });
   }
+}
+
+function answerLabel(key, value) {
+  if (key !== "household") return LABELS[value] || value;
+  return value.split("+").map((entry) => LABELS[entry] || entry).join(" · ");
+}
+
+function renderAnswerSummary(answers) {
+  const entries = [
+    ["weekday care", "company"],
+    ["movement", "activity"],
+    ["training", "training"],
+    ["coat care", "grooming"],
+    ["shedding", "shedding"],
+    ["adult size", "size"],
+    ["what u want", "goal"],
+    ["household", "household"],
+    ["search stage", "stage"]
+  ];
+
+  answerSummary.innerHTML = entries.map(([label, key]) => `<div>
+    <dt>${escapeHtml(label)}</dt>
+    <dd>${escapeHtml(answerLabel(key, answers[key]))}</dd>
+  </div>`).join("");
+}
+
+function renderQuickCompare(report, answers) {
+  quickCompareCards.innerHTML = report.recommendations.map((item, index) => {
+    const { breed, cleanFit, mismatches } = item;
+    const goalMatch = breed.goals.includes(answers.goal);
+    const limitText = cleanFit
+      ? "clears your stated limits"
+      : `${mismatches.length} limit tradeoff${mismatches.length === 1 ? "" : "s"}`;
+    const goalText = goalMatch
+      ? `matches ${LABELS[answers.goal]}`
+      : `not centered on ${LABELS[answers.goal]}`;
+    const firstCheck = mismatches[0] || breed.cautions[0] || breed.caution;
+
+    return `<article data-fit="${cleanFit ? "clean" : "near"}">
+      <p class="quick-compare__rank">0${index + 1} · ${escapeHtml(breed.group.replace("-", " "))}</p>
+      <h4>${escapeHtml(breed.name)}</h4>
+      <ul>
+        <li data-state="${cleanFit ? "yes" : "check"}"><strong>limits</strong><span>${escapeHtml(limitText)}</span></li>
+        <li data-state="${goalMatch ? "yes" : "check"}"><strong>goal</strong><span>${escapeHtml(goalText)}</span></li>
+      </ul>
+      <p><strong>check first:</strong> ${escapeHtml(firstCheck)}</p>
+      <a href="${escapeHtml(breed.source)}" target="_blank" rel="noopener noreferrer external">breed profile <span aria-hidden="true">↗</span></a>
+    </article>`;
+  }).join("");
 }
 
 function glanceMarkup(breed) {
@@ -154,7 +237,7 @@ function breedPhotoMarkup(breed) {
 function renderRecommendations(report) {
   breedCards.innerHTML = report.recommendations.map((item, index) => {
     const { breed, cleanFit, mismatches, reasons } = item;
-    const fitLabel = cleanFit ? "within your stated limits" : `${mismatches.length} tradeoff${mismatches.length === 1 ? "" : "s"} to resolve`;
+    const fitLabel = cleanFit ? "clears your stated limits" : `${mismatches.length} limit tradeoff${mismatches.length === 1 ? "" : "s"} to resolve`;
     const cautionMarkup = (breed.cautions.length ? breed.cautions : [breed.caution])
       .map((caution) => `<li>${escapeHtml(caution)}</li>`)
       .join("");
@@ -200,12 +283,13 @@ function renderChecklist(report) {
 
 function reportSummary(report) {
   if (report.cleanCount === 3) {
-    return "All three fit the limits u chose. Meet individual dogs to check the rest.";
+    return "All three clear the size and care limits u chose. Goal matches are marked separately.";
   }
   if (report.cleanCount === 0) {
     return "No breed cleared every limit. These are the nearest three; each conflict is marked.";
   }
-  return `${report.cleanCount} cleared every limit. The other result shows the tradeoff to resolve.`;
+  const nearCount = 3 - report.cleanCount;
+  return `${report.cleanCount} cleared every limit. ${nearCount === 1 ? "The other result shows" : "The other two results show"} the tradeoff${nearCount === 1 ? "" : "s"} to resolve.`;
 }
 
 function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
@@ -215,6 +299,8 @@ function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
 
   currentAnswers = answers;
   currentReport = report;
+  renderAnswerSummary(answers);
+  renderQuickCompare(report, answers);
   renderRecommendations(report);
   renderChecklist(report);
 
@@ -223,7 +309,9 @@ function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
   readinessTitle.textContent = report.readiness.title;
   readinessText.textContent = report.readiness.text;
   result.hidden = false;
+  result.classList.remove("is-entering");
   actionStatus.textContent = "";
+  meetingCopyStatus.textContent = "";
 
   if (updateUrl) {
     const query = encodeAnswers(answers);
@@ -231,8 +319,8 @@ function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
   }
 
   syncSaveButton();
-  if (scroll) result.scrollIntoView({ behavior: "smooth", block: "start" });
-  window.setTimeout(() => resultTitle.focus({ preventScroll: true }), scroll ? 450 : 0);
+  window.requestAnimationFrame(() => result.classList.add("is-entering"));
+  if (scroll) focusAndReveal(resultTitle);
   return true;
 }
 
@@ -240,9 +328,16 @@ function readSaved() {
   try {
     const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     if (!Array.isArray(parsed)) return [];
-    return parsed
-      .filter((entry) => entry && typeof entry.query === "string" && parseAnswers(entry.query))
-      .slice(0, MAX_SAVED);
+    const seen = new Set();
+    return parsed.flatMap((entry) => {
+      if (!entry || typeof entry.query !== "string") return [];
+      const answers = parseAnswers(entry.query);
+      if (!answers) return [];
+      const query = encodeAnswers(answers);
+      if (!query || seen.has(query)) return [];
+      seen.add(query);
+      return [{ ...entry, query }];
+    }).slice(0, MAX_SAVED);
   } catch {
     return [];
   }
@@ -301,6 +396,7 @@ function renderSavedDialog() {
   const entries = readSaved();
   savedList.replaceChildren();
   savedEmpty.hidden = entries.length > 0;
+  clearSavedButton.hidden = entries.length === 0;
 
   entries.forEach((entry) => {
     const answers = parseAnswers(entry.query);
@@ -316,7 +412,11 @@ function renderSavedDialog() {
     const removeButton = document.createElement("button");
 
     title.textContent = report.recommendations.map(({ breed }) => breed.name).join(" · ");
-    detail.textContent = `${LABELS[answers.activity]} · ${LABELS[answers.size]} · ${LABELS[answers.goal]}`;
+    const savedDate = new Date(entry.savedAt || "");
+    const savedLabel = Number.isNaN(savedDate.getTime())
+      ? ""
+      : `saved ${new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(savedDate)} · `;
+    detail.textContent = `${savedLabel}${LABELS[answers.activity]} · ${LABELS[answers.size]} · ${LABELS[answers.goal]}`;
     openLink.href = `/?${entry.query}#result`;
     openLink.textContent = "open brief";
     removeButton.type = "button";
@@ -328,6 +428,25 @@ function renderSavedDialog() {
     item.append(copy, actions);
     savedList.append(item);
   });
+}
+
+function resetAnswers() {
+  form.reset();
+  currentAnswers = null;
+  currentReport = null;
+  result.hidden = true;
+  result.classList.remove("is-entering");
+  answerSummary.replaceChildren();
+  quickCompareCards.replaceChildren();
+  breedCards.replaceChildren();
+  meetingQuestions.replaceChildren();
+  rescueForm.reset();
+  rescueMapLink.hidden = true;
+  rescueStatus.textContent = "ur dog does not save this place. The open map receives what u search.";
+  meetingCopyStatus.textContent = "";
+  history.replaceState({ urdog: true }, "", "/");
+  showStep(0, { focus: false });
+  focusAndReveal(steps[0].querySelector("legend"));
 }
 
 async function copyText(text) {
@@ -373,8 +492,30 @@ async function shareBrief() {
   }
 }
 
+async function copyMeetingQuestions() {
+  if (!currentReport) return;
+  const text = currentReport.checklist.map((question, index) => `${index + 1}. ${question}`).join("\n");
+  try {
+    await copyText(`Questions to ask before bringing a dog home\n\n${text}`);
+    meetingCopyStatus.textContent = "Questions copied.";
+  } catch {
+    meetingCopyStatus.textContent = "Copy was blocked. Print or save the full brief instead.";
+  }
+}
+
 form.addEventListener("change", (event) => {
-  if (!event.target.matches("input[type=radio]")) return;
+  if (!event.target.matches("input")) return;
+  if (event.target.name === "household" && event.target.checked) {
+    const householdInputs = [...form.querySelectorAll('input[name="household"]')];
+    if (event.target.value === "adults") {
+      householdInputs.forEach((input) => {
+        if (input !== event.target) input.checked = false;
+      });
+    } else {
+      const adultsOnly = form.querySelector('#household-adults');
+      if (adultsOnly) adultsOnly.checked = false;
+    }
+  }
   nextButton.disabled = !currentStepHasAnswer();
 });
 
@@ -393,11 +534,13 @@ backButton.addEventListener("click", () => showStep(currentStep - 1));
 saveButton.addEventListener("click", toggleSave);
 shareButton.addEventListener("click", shareBrief);
 printButton.addEventListener("click", () => window.print());
+copyQuestionsButton.addEventListener("click", copyMeetingQuestions);
 changeButton.addEventListener("click", () => {
   showStep(0, { focus: false });
-  document.querySelector("#match-desk").scrollIntoView({ behavior: "smooth", block: "start" });
-  window.setTimeout(() => steps[0].querySelector("legend").focus({ preventScroll: true }), 450);
+  focusAndReveal(steps[0].querySelector("legend"));
 });
+jumpToRescueButton.addEventListener("click", () => focusAndReveal(rescueFinderTitle));
+resetButton.addEventListener("click", resetAnswers);
 
 openSavedButton.addEventListener("click", () => {
   renderSavedDialog();
@@ -413,10 +556,40 @@ savedList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-remove-query]");
   if (!button) return;
   const entries = readSaved().filter((entry) => entry.query !== button.dataset.removeQuery);
-  writeSaved(entries);
+  if (writeSaved(entries)) actionStatus.textContent = "Removed a saved brief from this browser.";
+  else actionStatus.textContent = "This browser did not allow the saved brief to be removed.";
   renderSavedDialog();
   syncSavedCount();
   syncSaveButton();
+});
+
+clearSavedButton.addEventListener("click", () => {
+  if (!readSaved().length) return;
+  if (!window.confirm("Clear every saved dog fit brief from this browser?")) return;
+  if (!writeSaved([])) {
+    actionStatus.textContent = "This browser did not allow saved briefs to be cleared.";
+    return;
+  }
+  actionStatus.textContent = "Saved briefs cleared from this browser.";
+  renderSavedDialog();
+  syncSavedCount();
+  syncSaveButton();
+});
+
+rescueForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const url = buildRescueMapUrl(rescueLocation.value);
+  if (!url) {
+    rescueMapLink.hidden = true;
+    rescueStatus.textContent = "Enter a city, region, or postal code to search.";
+    rescueLocation.focus();
+    return;
+  }
+
+  rescueMapLink.href = url;
+  rescueMapLink.hidden = false;
+  rescueStatus.textContent = "Opening mapped shelters within 50 km (31 mi). This place is not saved by ur dog.";
+  window.open(url, "_blank", "noopener,noreferrer");
 });
 
 window.addEventListener("popstate", () => {
@@ -438,6 +611,5 @@ const linkedAnswers = parseAnswers(window.location.href);
 if (linkedAnswers) {
   fillForm(linkedAnswers);
   showStep(steps.length - 1, { focus: false });
-  createBrief(linkedAnswers, { updateUrl: false, scroll: false });
-  window.requestAnimationFrame(() => result.scrollIntoView({ block: "start" }));
+  createBrief(linkedAnswers, { updateUrl: false, scroll: true });
 }

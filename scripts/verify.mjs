@@ -16,6 +16,7 @@ const requiredAssets = [
   "scripts/breed-catalog.js",
   "scripts/breed-traits.js",
   "scripts/breed-photos.js",
+  "scripts/rescue-search.js",
   "scripts/catalog.js",
   "scripts/dog-engine.js",
   "data/breed-photos.json",
@@ -36,6 +37,7 @@ const [
   css,
   app,
   engine,
+  rescueSearch,
   robots,
   sitemap,
   manifestText,
@@ -48,6 +50,7 @@ const [
   readFile(resolve(publicDir, "styles.css"), "utf8"),
   readFile(resolve(publicDir, "scripts", "app.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "breed-engine.js"), "utf8"),
+  readFile(resolve(publicDir, "scripts", "rescue-search.js"), "utf8"),
   readFile(resolve(publicDir, "robots.txt"), "utf8"),
   readFile(resolve(publicDir, "sitemap.xml"), "utf8"),
   readFile(resolve(publicDir, "site.webmanifest"), "utf8"),
@@ -89,12 +92,24 @@ assert.match(home, /<meta name="robots" content="index, follow,/);
 assert.match(home, /<meta property="og:image" content="https:\/\/urdog\.dev\/social-card\.png">/);
 assert.match(home, /<meta name="twitter:card" content="summary_large_image">/);
 assert.equal((home.match(/<fieldset\b/g) || []).length, 9, "the matcher must expose nine questions");
-assert.equal((home.match(/type="radio"/g) || []).length, 34, "the matcher must expose all 34 explicit choices");
+assert.equal((home.match(/type="radio"/g) || []).length, 29, "the matcher must expose all 29 exclusive choices");
+assert.equal((home.match(/type="checkbox"/g) || []).length, 4, "household context must expose four combinable choices");
 assert.equal((home.match(/<legend>/g) || []).length, 9, "every matcher question needs a legend");
-for (const id of [...home.matchAll(/type="radio"[^>]+id="([^"]+)"/g)].map((match) => match[1])) {
-  assert.match(home, new RegExp(`<label[^>]+for="${id}"`), `Radio ${id} needs a label`);
+for (const id of [...home.matchAll(/type="(?:radio|checkbox)"[^>]+id="([^"]+)"/g)].map((match) => match[1])) {
+  assert.match(home, new RegExp(`<label[^>]+for="${id}"`), `Choice ${id} needs a label`);
 }
 assert.match(home, /id="result"[^>]*hidden/);
+assert.ok(home.indexOf('id="result-actions"') < 0, "result actions use a labeled class, not a duplicate landmark id");
+assert.ok(home.indexOf('id="save-brief"') < home.indexOf('id="breed-cards"'), "brief actions must appear before the long breed cards");
+assert.match(home, /id="reset-answers"/);
+assert.match(home, /id="jump-to-rescue"/);
+assert.match(home, /id="copy-questions"/);
+assert.match(home, /id="clear-saved"/);
+assert.match(home, /https:\/\/overpass-turbo\.eu\//);
+assert.match(home, /Powered by OpenStreetMap data/);
+assert.match(home, /https:\/\/www\.petfinder\.com\/search\/dogs-for-adoption\//);
+assert.match(home, /mailto:team@neorome\.dev\?subject=ur%20dog%20support/);
+assert.match(home, /mailto:team@neorome\.dev\?subject=Sponsor%20ur%20dog/);
 assert.match(home, /href="\/breeds\/">all 205 breeds<\/a>/);
 assert.match(home, /All 205 AKC-recognized breeds/);
 assert.match(home, /href="https:\/\/buymeacoffee\.com\/baneydonovan"/);
@@ -152,7 +167,14 @@ assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, "CS
 assert.match(app, /navigator\.share/);
 assert.match(app, /navigator\.clipboard/);
 assert.match(app, /BREED_PHOTOS/);
+assert.match(app, /focusAndReveal\(resultTitle\)/);
+assert.match(app, /Saved briefs cleared from this browser\./);
+assert.doesNotMatch(app, /setTimeout\(/, "result handoff must not depend on a timer");
 assert.match(engine, /import \{ BREEDS, CATALOG_VERSION \}/);
+assert.match(rescueSearch, /https:\/\/overpass-turbo\.eu\//);
+assert.match(rescueSearch, /geocodeCoords/);
+assert.match(rescueSearch, /amenity.*animal_shelter/);
+assert.match(rescueSearch, /around:\$\{SEARCH_RADIUS_METERS\}/);
 
 const budgets = {
   "index.html": 55_000,
@@ -161,6 +183,7 @@ const budgets = {
   "styles.css": 85_000,
   "scripts/app.js": 28_000,
   "scripts/breed-engine.js": 22_000,
+  "scripts/rescue-search.js": 2_000,
   "scripts/breed-catalog.js": 25_000,
   "scripts/breed-traits.js": 35_000,
   "scripts/breed-photos.js": 100_000,

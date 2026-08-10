@@ -62,7 +62,7 @@ curl --fail --silent --show-error --max-time 20 \
 
 Expected: apex pages return 200; www returns 308 with an apex Location; TLS is valid; the sitemap contains /, /breeds/, and /photo-credits/; HTML has the security policy; image URLs are first-party; and a bad route returns 404 with X-Robots-Tag: noindex.
 
-The matcher also needs a browser smoke: finish all nine keyboard steps, confirm three cards, save locally, copy/share a deep link, reload it, open the complete catalog, filter to one breed, and print the brief without the support request.
+The matcher also needs a browser smoke: finish all nine keyboard steps, confirm three cards, save locally, copy/share a deep link, reload it, reset the current answers, clear saved briefs, open a representative local shelter map with visible results, open the complete catalog, filter to one breed, and print the brief without the support request.
 
 ## Rollback
 

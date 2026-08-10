@@ -15,10 +15,10 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260810b">
-    <link rel="modulepreload" href="/scripts/breed-engine.js?v=20260810b">
-    <link rel="modulepreload" href="/scripts/dog-engine.js?v=20260810b">
-    <link rel="modulepreload" href="/scripts/breed-photos.js?v=20260810b">
+    <link rel="stylesheet" href="/styles.css?v=20260810c">
+    <link rel="modulepreload" href="/scripts/breed-engine.js?v=20260810c">
+    <link rel="modulepreload" href="/scripts/dog-engine.js?v=20260810c">
+    <link rel="modulepreload" href="/scripts/breed-photos.js?v=20260810c">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ur dog">
@@ -240,22 +240,19 @@
 
             <fieldset class="match-step" data-step="7" hidden>
               <legend>who must the individual dog fit with?</legend>
-              <p class="question-note">This changes what to ask about the individual dog.</p>
-              <div class="choice-grid choice-grid--size">
-                <input class="choice-input" type="radio" name="household" id="household-adults" value="adults">
-                <label class="choice" for="household-adults"><span aria-hidden="true">01</span><strong>adults</strong><small>no resident pets</small></label>
+              <p class="question-note">Choose every condition that applies. “Adults only” clears the others.</p>
+              <div class="choice-grid choice-grid--two">
+                <input class="choice-input" type="checkbox" name="household" id="household-adults" value="adults">
+                <label class="choice" for="household-adults"><span aria-hidden="true">01</span><strong>adults only</strong><small>no resident pets or children</small></label>
 
-                <input class="choice-input" type="radio" name="household" id="household-children" value="children">
+                <input class="choice-input" type="checkbox" name="household" id="household-children" value="children">
                 <label class="choice" for="household-children"><span aria-hidden="true">02</span><strong>children</strong><small>live here or visit often</small></label>
 
-                <input class="choice-input" type="radio" name="household" id="household-dog" value="dog">
+                <input class="choice-input" type="checkbox" name="household" id="household-dog" value="dog">
                 <label class="choice" for="household-dog"><span aria-hidden="true">03</span><strong>a resident dog</strong><small>introductions matter</small></label>
 
-                <input class="choice-input" type="radio" name="household" id="household-cats" value="cats">
+                <input class="choice-input" type="checkbox" name="household" id="household-cats" value="cats">
                 <label class="choice" for="household-cats"><span aria-hidden="true">04</span><strong>cats / small pets</strong><small>history matters</small></label>
-
-                <input class="choice-input" type="radio" name="household" id="household-mixed" value="mixed">
-                <label class="choice" for="household-mixed"><span aria-hidden="true">05</span><strong>a mix</strong><small>busy household</small></label>
               </div>
             </fieldset>
 
@@ -308,6 +305,43 @@
           </div>
         </aside>
 
+        <div class="result-tools">
+          <div class="result-actions" aria-label="Brief actions">
+            <button class="button button--primary" type="button" id="save-brief">save on this device</button>
+            <button class="button button--secondary" type="button" id="share-brief">share brief <span aria-hidden="true">↗</span></button>
+            <button class="button button--secondary" type="button" id="change-answers">change answers</button>
+            <button class="button button--secondary" type="button" id="print-brief">print / save PDF</button>
+            <button class="button button--secondary" type="button" id="jump-to-rescue">find local dogs</button>
+            <button class="button button--text" type="button" id="reset-answers">reset answers</button>
+          </div>
+          <p class="action-status" id="action-status" aria-live="polite"></p>
+          <p class="action-privacy">Saved briefs stay in this browser. A shared link contains your nine answers.</p>
+        </div>
+
+        <section class="answer-recap" aria-labelledby="answer-recap-title">
+          <div>
+            <p class="section-kicker">what u told us</p>
+            <h3 id="answer-recap-title">the real week behind this list.</h3>
+          </div>
+          <dl id="answer-summary"></dl>
+        </section>
+
+        <section class="quick-compare" aria-labelledby="quick-compare-title">
+          <header>
+            <div>
+              <p class="section-kicker">three at a glance</p>
+              <h3 id="quick-compare-title">compare before u scroll.</h3>
+            </div>
+            <p>Meeting your limits and matching your wish are shown separately.</p>
+          </header>
+          <div class="quick-compare__grid" id="quick-compare-cards"></div>
+        </section>
+
+        <div class="full-notes-heading">
+          <p class="section-kicker">full research notes</p>
+          <h3>the fit, the catches, and what to verify.</h3>
+        </div>
+
         <div class="breed-cards" id="breed-cards"></div>
 
         <p class="review-note">All 205 AKC-recognized breeds · reviewed <time datetime="2026-08-10">August 10, 2026</time> · <a href="/breeds/">browse the catalog</a></p>
@@ -316,7 +350,9 @@
           <div class="meeting-list__heading">
             <p class="section-kicker">take this into the real conversation</p>
             <h3 id="meeting-title">questions before anyone comes home</h3>
-            <p>Ask the people who know the dog. Specific answers matter.</p>
+            <p class="meeting-intro">Ask the people who know the dog. Specific answers matter.</p>
+            <button class="button button--secondary meeting-copy" type="button" id="copy-questions">copy these questions</button>
+            <p class="meeting-copy-status" id="meeting-copy-status" aria-live="polite"></p>
           </div>
           <ol id="meeting-questions"></ol>
           <div class="health-note">
@@ -326,21 +362,33 @@
           </div>
         </section>
 
-        <div class="result-actions" aria-label="Brief actions">
-          <button class="button button--primary" type="button" id="save-brief">save on this device</button>
-          <button class="button button--secondary" type="button" id="share-brief">share brief <span aria-hidden="true">↗</span></button>
-          <button class="button button--secondary" type="button" id="print-brief">print / save PDF</button>
-          <button class="button button--text" type="button" id="change-answers">change answers</button>
-        </div>
-        <p class="action-status" id="action-status" aria-live="polite"></p>
+        <section class="rescue-finder" id="rescue-finder" aria-labelledby="rescue-finder-title">
+          <div class="rescue-finder__intro">
+            <p class="section-kicker">turn research into real meetings</p>
+            <h3 id="rescue-finder-title">find local dogs to meet.</h3>
+            <p>Open animal shelters mapped within 50 km (31 mi), then use your checklist with the people who know each dog.</p>
+          </div>
+          <form class="rescue-search" id="rescue-search">
+            <label for="rescue-location">city, region, or postal code</label>
+            <div>
+              <input id="rescue-location" name="location" type="search" maxlength="120" autocomplete="postal-code" enterkeyhint="search" placeholder="e.g. Durham, NC" aria-describedby="rescue-search-status" required>
+              <button class="button button--primary" type="submit">open nearby shelter map <span aria-hidden="true">↗</span></button>
+            </div>
+            <p id="rescue-search-status" aria-live="polite">ur dog does not save this place. The open map receives what u search.</p>
+            <a id="rescue-map-link" href="https://overpass-turbo.eu/" target="_blank" rel="noopener noreferrer external" hidden>map did not open? view the shelter results <span aria-hidden="true">↗</span></a>
+            <p class="rescue-coverage">Powered by OpenStreetMap data. Community map coverage varies; call before visiting.</p>
+          </form>
+          <p class="dog-listing-link">Want individual listings? <a href="https://www.petfinder.com/search/dogs-for-adoption/" target="_blank" rel="noopener noreferrer external">search adoptable dogs on Petfinder <span aria-hidden="true">↗</span></a></p>
+        </section>
 
         <aside class="support-card">
-          <div class="support-card__coin" aria-hidden="true">☕</div>
+          <div class="support-card__coin" aria-hidden="true">tip</div>
           <div>
             <p class="section-kicker">did this make the dog search less chaotic?</p>
             <h3>keep the match desk open.</h3>
             <p>If this brief helped, a coffee keeps the breed notes reviewed.</p>
             <a class="button button--coffee" href="https://buymeacoffee.com/baneydonovan" target="_blank" rel="noopener noreferrer external">buy the matchmaker a coffee <span aria-hidden="true">↗</span></a>
+            <p class="sponsor-note">Want to sponsor useful dog-search work? <a href="mailto:team@neorome.dev?subject=Sponsor%20ur%20dog">Email the team.</a></p>
           </div>
         </aside>
       </section>
@@ -398,6 +446,9 @@
         <p>No saved briefs yet. Finish the matcher, then save the report you want to revisit.</p>
       </div>
       <ul class="saved-list" id="saved-list"></ul>
+      <div class="saved-dialog__footer">
+        <button class="button button--text" id="clear-saved" type="button">clear every saved brief</button>
+      </div>
     </dialog>
 
     <footer class="site-footer">
@@ -406,9 +457,13 @@
         <span class="brand__words">ur dog</span>
       </a>
       <p>research first. meet the dog. keep the promise.</p>
+      <nav class="footer-contact" aria-label="Support and sponsorship">
+        <a href="mailto:team@neorome.dev?subject=ur%20dog%20support">support: team@neorome.dev</a>
+        <a href="mailto:team@neorome.dev?subject=Sponsor%20ur%20dog">sponsor ur dog</a>
+      </nav>
       <p>205-breed catalog reviewed August 10, 2026. Educational breed research, not professional advice.</p>
     </footer>
 
-    <script type="module" src="/scripts/app.js?v=20260810b"></script>
+    <script type="module" src="/scripts/app.js?v=20260810c"></script>
   </body>
 </html>

@@ -76,7 +76,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260810b">
+    <link rel="stylesheet" href="/styles.css?v=20260810c">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ur dog">
     <meta property="og:url" content="https://urdog.dev/breeds/">
@@ -177,9 +177,13 @@ ${list}
         <span class="brand__words">ur dog</span>
       </a>
       <p>research first. meet the dog. keep the promise.</p>
+      <nav class="footer-contact" aria-label="Support and sponsorship">
+        <a href="mailto:team@neorome.dev?subject=ur%20dog%20support">support: team@neorome.dev</a>
+        <a href="mailto:team@neorome.dev?subject=Sponsor%20ur%20dog">sponsor ur dog</a>
+      </nav>
       <p>Educational breed research, not professional advice.</p>
     </footer>
-    <script src="/scripts/catalog.js?v=20260810b" defer></script>
+    <script src="/scripts/catalog.js?v=20260810c" defer></script>
   </body>
 </html>
 `;

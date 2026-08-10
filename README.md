@@ -8,12 +8,14 @@ Nine ordinary-life questions produce three research leads, visible tradeoffs, a 
 
 - complete 205-breed matcher catalog;
 - searchable, crawlable /breeds/ index;
-- save-on-device, share, and print / PDF Dog Fit Brief;
+- compact answer recap and side-by-side limit-versus-goal comparison;
+- save-on-device, share, reset, and print / PDF Dog Fit Brief;
+- local shelter discovery through a runnable nearby-feature map built on OpenStreetMap data, plus Petfinder listings;
 - equal puppy and adult-rescue paths;
 - 127 reviewed Wikimedia Commons photos with per-file attribution;
 - branded tiles for unresolved photos;
 - optional Buy Me a Coffee support after value is delivered;
-- static Cloudflare Worker deployment with no database, account, analytics SDK, or paid API.
+- static Cloudflare Worker deployment with no database, account, analytics SDK, paid API, location storage, or live third-party map embed; map searches open on Overpass Turbo.
 
 ## Local development
 

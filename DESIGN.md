@@ -17,10 +17,11 @@ The public site contains:
 - a nine-question lifestyle matcher;
 - a 205-row, searchable and crawlable catalog covering every AKC-recognized breed in the registry effective January 1, 2026;
 - one explicit broad-fit record per breed for adult size, activity, training involvement, coat care, shedding, historical purpose, and material research flags;
-- three ranked research leads with every coded mismatch shown;
+- three ranked research leads with every coded mismatch shown and a compact limit-versus-goal comparison;
 - a care-plan readiness call that no breed can outvote;
 - a household- and search-path-specific meeting checklist;
-- local-only saving, a durable deep link, and print / save PDF;
+- an answer recap, local-only saving, explicit reset controls, a durable deep link, and print / save PDF;
+- a user-initiated nearby-shelter map using OpenStreetMap data, plus a direct Petfinder dog-search link;
 - an adult-rescue path treated as equal to a puppy path;
 - an optional Buy Me a Coffee request only after the full result;
 - per-file photo credits and a branded tile where no photo passed review.
@@ -34,7 +35,7 @@ The public site contains:
 5. shedding tolerance;
 6. adult-size logistics;
 7. the relationship or activities wanted;
-8. household context;
+8. every applicable household condition (adults only, children, a resident dog, cats or small pets);
 9. puppy, adult rescue, either, or research-only intent.
 
 ## Evidence boundary
@@ -96,7 +97,10 @@ SEO must never outrun product truth. There are no generated thin breed pages, ra
 - Representative low-key, active, sport, giant-ready, mixed-household, puppy, adult, and care-gap scenarios return three explainable leads.
 - Deep links reproduce all nine answers; invalid inputs fail closed.
 - Save is local-only, share has a copy fallback, and print removes navigation and the tip request.
-- Keyboard labels, reduced motion, 320 px layout, metadata, structured data, sitemap, robots, 404, redirects, headers, and deployment build have automated or browser proof.
+- Reset answers does not erase saved briefs; clearing every saved brief requires a separate confirmation.
+- Result generation moves focus and the viewport to the report title without a timer, and shared links reproduce multi-condition households.
+- Local rescue search builds a 50 km nearby-feature query and opens it on Overpass Turbo using OpenStreetMap data; ur dog does not request geolocation or store the entered place.
+- Keyboard labels, reduced motion, 320 px layout, desktop, iPhone, iPad, metadata, structured data, sitemap, robots, 404, redirects, headers, and deployment build have automated or browser proof.
 
 ## Authority and changed surface
 

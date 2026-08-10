@@ -46,7 +46,7 @@ function renderPage() {
     <meta name="theme-color" content="#FFF8E8">
     <link rel="canonical" href="https://urdog.dev/photo-credits/">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=20260810b">
+    <link rel="stylesheet" href="/styles.css?v=20260810c">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ur dog">
     <meta property="og:url" content="https://urdog.dev/photo-credits/">
@@ -83,6 +83,10 @@ ${credits}
         <span class="brand__words">ur dog</span>
       </a>
       <p>credit the human. meet the dog.</p>
+      <nav class="footer-contact" aria-label="Support and sponsorship">
+        <a href="mailto:team@neorome.dev?subject=ur%20dog%20support">support: team@neorome.dev</a>
+        <a href="mailto:team@neorome.dev?subject=Sponsor%20ur%20dog">sponsor ur dog</a>
+      </nav>
       <p>Photo rights belong to their respective creators under the licenses linked above.</p>
     </footer>
   </body>
