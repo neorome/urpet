@@ -63,9 +63,20 @@ test("every breed has explicit fit bands, cautions, and an official research lin
     assert.ok(allowedShedding.has(breed.shedding), `${breed.name} needs a shedding band`);
     assert.ok(breed.goals.length >= 1 && breed.goals.every((goal) => allowedGoals.has(goal)));
     assert.ok(breed.caution.length >= 40, `${breed.name} needs useful caution copy`);
+    assert.equal(breed.cautions.length, breed.flags.length, `${breed.name} has a trait flag without user-facing guidance`);
     assert.match(breed.source, /^https:\/\/www\.akc\.org\/dog-breeds\/[a-z0-9-]+\/$/);
     assert.equal(breed.reviewedOn, "2026-08-10");
   }
+});
+
+test("Xolo care is not mislabeled as short-muzzle risk", () => {
+  const xolo = BREEDS.find(({ id }) => id === "xoloitzcuintli");
+
+  assert.ok(xolo.flags.includes("xolo-variety-care"));
+  assert.ok(!xolo.flags.includes("short-muzzle-health"));
+  assert.doesNotMatch(xolo.cautions.join(" "), /short-muzzled|breathing/i);
+  assert.match(xolo.cautions.join(" "), /hairless and coated Xolos/i);
+  assert.match(xolo.cautions.join(" "), /skin care, weather protection, and dental history/i);
 });
 
 test("cross-group varieties remain one breed without losing their useful ranges", () => {

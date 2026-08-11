@@ -158,6 +158,10 @@ assert.equal((credits.match(/>license terms/g) || []).length, 205);
 assert.match(credits, /205 credited photos/i);
 assert.doesNotMatch(app, /breed-photo--fallback/);
 assert.doesNotMatch(css, /breed-photo--fallback|catalog-photo--fallback/);
+assert.match(css, /\.breed-photo img \{[^}]*object-fit: contain;/s);
+assert.match(css, /\.catalog-photo img \{[^}]*object-fit: contain;/s);
+assert.match(css, /\.credit-card > img \{[^}]*object-fit: contain;/s);
+assert.doesNotMatch(css, /\.breed-photo img \{[^}]*object-fit: cover;/s);
 
 assert.match(robots, /^User-agent: \*/m);
 assert.match(robots, /^Allow: \/$/m);

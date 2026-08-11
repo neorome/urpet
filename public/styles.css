@@ -1117,8 +1117,10 @@ h1 em::after {
 .breed-photo img {
   display: block;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  background: var(--cream);
+  object-fit: contain;
 }
 
 .breed-photo figcaption {
@@ -2431,7 +2433,7 @@ details p {
 .catalog-photo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .catalog-photo figcaption {
@@ -2676,7 +2678,8 @@ details p {
   height: 100%;
   min-height: 250px;
   border-right: var(--line);
-  object-fit: cover;
+  background: var(--cream);
+  object-fit: contain;
 }
 
 .credit-card > div {
@@ -3089,10 +3092,6 @@ details p {
 
   .breed-card__head {
     min-height: 0;
-  }
-
-  .breed-photo img {
-    height: 185px;
   }
 
   .review-note {

@@ -1,4 +1,4 @@
-import { BREEDS, CATALOG_VERSION } from "./breed-catalog.js?v=20260810h";
+import { BREEDS, CATALOG_VERSION } from "./breed-catalog.js?v=20260810i";
 
 const REVIEWED_ON = CATALOG_VERSION;
 

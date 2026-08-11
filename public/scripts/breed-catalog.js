@@ -1,4 +1,4 @@
-import { BREED_TRAITS } from "./breed-traits.js?v=20260810h";
+import { BREED_TRAITS } from "./breed-traits.js?v=20260810i";
 
 const CATALOG_VERSION = "2026-08-10";
 const REGISTRY_CHECKED_ON = "2026-08-10";
@@ -242,7 +242,8 @@ function parseRows(group, text) {
 }
 
 const CAUTION_COPY = Object.freeze({
-  "heat-health": "Short-muzzled body shape can add breathing, heat-management, and ongoing-care questions; put health before convenience.",
+  "short-muzzle-health": "Short-muzzled body shape can add breathing, heat-management, and ongoing-care questions; put health before convenience.",
+  "xolo-variety-care": "Hairless and coated Xolos have different care needs; ask which variety this dog is and what is known about its skin care, weather protection, and dental history.",
   "giant-logistics": "Giant-dog food, transport, handling, housing, and veterinary costs need a real plan before the dog comes home.",
   guardian: "Guardian heritage makes visitor plans, secure management, and evidence about the individual dog especially important.",
   "conformation-health": "Body shape makes health history, movement, weight, and suitable activity questions part of the decision.",
@@ -257,7 +258,7 @@ const CAUTION_COPY = Object.freeze({
 });
 
 function cautionFor(profile) {
-  const priorities = ["heat-health", "giant-logistics", "guardian", "conformation-health", "chase", "professional-coat", "high-engagement", "heavy-coat", "vocal", "independent", "secure-containment"];
+  const priorities = ["short-muzzle-health", "xolo-variety-care", "giant-logistics", "guardian", "conformation-health", "chase", "professional-coat", "high-engagement", "heavy-coat", "vocal", "independent", "secure-containment"];
   const first = priorities.find((flag) => profile.flags.includes(flag));
   if (first) return CAUTION_COPY[first];
   return `Research the individual dog alongside the breed’s ${profile.activity} activity, ${profile.training} training, and ${profile.grooming} coat-care bands.`;

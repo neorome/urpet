@@ -5,11 +5,11 @@ import {
   rankBreeds,
   shareText,
   validateAnswers
-} from "./breed-engine.js?v=20260810h";
-import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810h";
-import { BREED_PHOTOS } from "./breed-photos.js?v=20260810h";
-import { initRescueFinder } from "./rescue-map.js?v=20260810h";
-import "./external-links.js?v=20260810h";
+} from "./breed-engine.js?v=20260810i";
+import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260810i";
+import { BREED_PHOTOS } from "./breed-photos.js?v=20260810i";
+import { initRescueFinder } from "./rescue-map.js?v=20260810i";
+import "./external-links.js?v=20260810i";
 
 const STORAGE_KEY = "urdog-fit-briefs-v1";
 const MAX_SAVED = 8;

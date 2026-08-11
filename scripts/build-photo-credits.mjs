@@ -46,7 +46,7 @@ function renderPage() {
     <meta name="theme-color" content="#FFF8E8">
     <link rel="canonical" href="https://urdog.dev/photo-credits/">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=20260810h">
+    <link rel="stylesheet" href="/styles.css?v=20260810i">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ur dog">
     <meta property="og:url" content="https://urdog.dev/photo-credits/">
@@ -89,7 +89,7 @@ ${credits}
       </nav>
       <p>Photo rights belong to their respective creators under the licenses linked above.</p>
     </footer>
-    <script type="module" src="/scripts/external-links.js?v=20260810h"></script>
+    <script type="module" src="/scripts/external-links.js?v=20260810i"></script>
   </body>
 </html>
 `;
