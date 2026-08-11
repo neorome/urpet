@@ -18,6 +18,7 @@ const requiredAssets = [
   "scripts/breed-photos.js",
   "scripts/rescue-search.js",
   "scripts/rescue-map.js",
+  "scripts/honduras-rescues.js",
   "scripts/external-links.js",
   "scripts/catalog.js",
   "scripts/dog-engine.js",
@@ -47,6 +48,7 @@ const [
   engine,
   rescueSearch,
   rescueMap,
+  hondurasRescues,
   externalLinks,
   robots,
   sitemap,
@@ -62,6 +64,7 @@ const [
   readFile(resolve(publicDir, "scripts", "breed-engine.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "rescue-search.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "rescue-map.js"), "utf8"),
+  readFile(resolve(publicDir, "scripts", "honduras-rescues.js"), "utf8"),
   readFile(resolve(publicDir, "scripts", "external-links.js"), "utf8"),
   readFile(resolve(publicDir, "robots.txt"), "utf8"),
   readFile(resolve(publicDir, "sitemap.xml"), "utf8"),
@@ -209,6 +212,10 @@ assert.match(rescueMap, /tile\.openstreetmap\.org/);
 assert.match(rescueMap, /script\.src = LEAFLET_SCRIPT/);
 assert.match(rescueMap, /Icon\.Default\.imagePath = "\/vendor\/leaflet\/images\/"/);
 assert.match(rescueMap, /scrollWheelZoom: false/);
+assert.match(rescueMap, /parseDirectoryResults\(HONDURAS_RESCUES, origin\)/);
+assert.match(hondurasRescues, /Tegucigalpa/);
+assert.match(hondurasRescues, /San Pedro Sula/);
+assert.match(hondurasRescues, /locationPrecision: "city"/);
 assert.doesNotMatch(app, /window\.open|buildRescueMapUrl/);
 assert.match(externalLinks, /showModal\(\)/);
 assert.match(externalLinks, /stay here/);
@@ -224,8 +231,9 @@ const budgets = {
   "styles.css": 105_000,
   "scripts/app.js": 28_000,
   "scripts/breed-engine.js": 22_000,
-  "scripts/rescue-search.js": 8_000,
+  "scripts/rescue-search.js": 9_000,
   "scripts/rescue-map.js": 20_000,
+  "scripts/honduras-rescues.js": 6_000,
   "scripts/external-links.js": 9_000,
   "scripts/breed-catalog.js": 25_000,
   "scripts/breed-traits.js": 35_000,

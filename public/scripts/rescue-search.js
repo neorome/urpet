@@ -121,11 +121,54 @@ function parseRescueResults(rows, origin) {
       phone: String(extras.phone || extras["contact:phone"] || ""),
       website: safeWebUrl(extras.website || extras["contact:website"] || extras.url || ""),
       openingHours: String(extras.opening_hours || ""),
-      osmUrl: `https://www.openstreetmap.org/${osmType}/${encodeURIComponent(osmId)}`
+      osmUrl: `https://www.openstreetmap.org/${osmType}/${encodeURIComponent(osmId)}`,
+      locationPrecision: "mapped",
+      sourceUrl: `https://www.openstreetmap.org/${osmType}/${encodeURIComponent(osmId)}`,
+      sourceLabel: "OpenStreetMap record"
     });
   }
 
   return shelters.sort((left, right) => left.distanceKm - right.distanceKm || left.name.localeCompare(right.name));
+}
+
+function parseDirectoryResults(rows, origin) {
+  const normalizedOrigin = providerCoordinates(origin?.latitude, origin?.longitude);
+  if (!normalizedOrigin || !Array.isArray(rows)) return [];
+
+  return rows.flatMap((row) => {
+    const coordinates = providerCoordinates(row?.latitude, row?.longitude);
+    const name = String(row?.name || "").trim();
+    const id = String(row?.id || "").trim();
+    if (!coordinates || !name || !id) return [];
+    const distanceKm = distanceKilometers(normalizedOrigin, coordinates);
+    if (distanceKm > SEARCH_RADIUS_METERS / 1000) return [];
+    const city = String(row.city || "").trim();
+    const region = String(row.region || "").trim();
+    const country = String(row.country || "").trim();
+    return [{
+      id: `directory:${id}`,
+      name,
+      ...coordinates,
+      distanceKm,
+      address: [city, region, country].filter(Boolean).join(", "),
+      phone: String(row.phone || ""),
+      website: safeWebUrl(row.website || ""),
+      openingHours: "",
+      osmUrl: "",
+      locationPrecision: row.locationPrecision === "exact" ? "exact" : "city",
+      sourceUrl: safeWebUrl(row.sourceUrl || ""),
+      sourceLabel: String(row.sourceLabel || "rescue directory")
+    }];
+  }).sort((left, right) => left.distanceKm - right.distanceKm || left.name.localeCompare(right.name));
+}
+
+function mergeRescueResults(...groups) {
+  const seen = new Set();
+  return groups.flat().filter((rescue) => {
+    if (!rescue?.id || seen.has(rescue.id)) return false;
+    seen.add(rescue.id);
+    return true;
+  }).sort((left, right) => left.distanceKm - right.distanceKm || left.name.localeCompare(right.name));
 }
 
 function parseGeocodeResults(rows) {
@@ -149,6 +192,8 @@ export {
   buildShelterSearchUrl,
   normalizeCoordinates,
   normalizeLocation,
+  mergeRescueResults,
+  parseDirectoryResults,
   parseGeocodeResults,
   parseRescueResults,
   safeWebUrl

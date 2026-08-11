@@ -2,10 +2,13 @@ import {
   SEARCH_RADIUS_METERS,
   buildGeocodeUrl,
   buildShelterSearchUrl,
+  mergeRescueResults,
   normalizeCoordinates,
+  parseDirectoryResults,
   parseGeocodeResults,
   parseRescueResults
-} from "./rescue-search.js?v=20260810i";
+} from "./rescue-search.js?v=20260811a";
+import { HONDURAS_RESCUES } from "./honduras-rescues.js?v=20260811a";
 
 const LEAFLET_STYLESHEET = "/vendor/leaflet/leaflet.css?v=1.9.4";
 const LEAFLET_SCRIPT = "/vendor/leaflet/leaflet.js?v=1.9.4";
@@ -162,7 +165,13 @@ function initRescueFinder() {
     name.textContent = shelter.name;
     heading.append(number, name);
     row.append(heading, textLine("distance", `${shelter.distanceKm.toFixed(1)} km / ${(shelter.distanceKm * 0.621371).toFixed(1)} mi`));
-    row.append(textLine("address", shelter.address || "not listed in OpenStreetMap—call before visiting"));
+    row.append(textLine(
+      shelter.locationPrecision === "city" ? "service area" : "address",
+      shelter.address || "not publicly listed—call before visiting"
+    ));
+    if (shelter.locationPrecision === "city") {
+      row.append(textLine("before u go", "city-level marker only—contact the rescue for its current meeting or visit location"));
+    }
     if (shelter.phone) {
       const phone = document.createElement("a");
       phone.href = `tel:${shelter.phone.replace(/[^+\d]/g, "")}`;
@@ -182,15 +191,17 @@ function initRescueFinder() {
       website.href = shelter.website;
       website.target = "_blank";
       website.rel = "noopener noreferrer external";
-      website.textContent = "shelter website ↗";
+      website.textContent = "rescue website ↗";
       actions.append(website);
     }
-    const osm = document.createElement("a");
-    osm.href = shelter.osmUrl;
-    osm.target = "_blank";
-    osm.rel = "noopener noreferrer external";
-    osm.textContent = "map record ↗";
-    actions.append(osm);
+    if (shelter.sourceUrl && shelter.sourceUrl !== shelter.website) {
+      const source = document.createElement("a");
+      source.href = shelter.sourceUrl;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer external";
+      source.textContent = `${shelter.sourceLabel || "listing source"} ↗`;
+      actions.append(source);
+    }
     row.append(actions);
     return row;
   }
@@ -255,24 +266,27 @@ function initRescueFinder() {
     clearMap();
     setBusy(true);
     choices.hidden = true;
-    status.textContent = "Checking OpenStreetMap for animal shelters within 50 km (31 mi)…";
+    status.textContent = "Checking shelters and rescue groups within 50 km (31 mi)…";
     activeController = new AbortController();
 
     try {
       const providerUrl = buildShelterSearchUrl(origin.latitude, origin.longitude);
       if (!providerUrl) throw new Error("The rounded search area could not be built.");
       const payload = await providerJson(providerUrl, activeController.signal);
-      const shelters = parseRescueResults(payload, origin).slice(0, DISPLAY_LIMIT);
+      const shelters = mergeRescueResults(
+        parseRescueResults(payload, origin),
+        parseDirectoryResults(HONDURAS_RESCUES, origin)
+      ).slice(0, DISPLAY_LIMIT);
       area.textContent = label || "your selected area";
       count.textContent = shelters.length
-        ? `${shelters.length} mapped shelter${shelters.length === 1 ? "" : "s"}`
-        : "no mapped shelters found";
+        ? `${shelters.length} rescue contact${shelters.length === 1 ? "" : "s"}`
+        : "no nearby contacts found";
       for (const [index, shelter] of shelters.entries()) list.append(shelterRow(shelter, index));
       results.hidden = false;
       await renderMap(origin, shelters);
       status.textContent = shelters.length
-        ? `Found ${shelters.length} mapped shelter${shelters.length === 1 ? "" : "s"}. Select a list result or marker to compare.`
-        : "No animal shelters are mapped here yet. Try another place or use the Petfinder link below.";
+        ? `Found ${shelters.length} shelter or rescue contact${shelters.length === 1 ? "" : "s"}. Select a result or marker to compare.`
+        : "No shelter or rescue contacts are mapped here yet. Try another nearby place.";
       results.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     } catch (error) {
       if (error.name === "AbortError") return;

@@ -5,10 +5,13 @@ import {
   SEARCH_RADIUS_METERS,
   buildGeocodeUrl,
   buildShelterSearchUrl,
+  mergeRescueResults,
   normalizeCoordinates,
   normalizeLocation,
+  parseDirectoryResults,
   parseRescueResults
 } from "../public/scripts/rescue-search.js";
+import { HONDURAS_RESCUES } from "../public/scripts/honduras-rescues.js";
 
 test("coordinates are validated and deliberately rounded before leaving the browser", () => {
   assert.deepEqual(normalizeCoordinates(35.9940329, -78.898619), {
@@ -110,4 +113,29 @@ test("unsafe contact URLs and malformed provider rows fail closed", () => {
   assert.equal(shelters.length, 1);
   assert.equal(shelters[0].website, "");
   assert.equal(shelters[0].phone, "<img src=x>");
+});
+
+test("Tegucigalpa gets a useful Honduras rescue contact even when OpenStreetMap has none", () => {
+  const origin = { latitude: 14.1058135, longitude: -87.2047053 };
+  const rescues = parseDirectoryResults(HONDURAS_RESCUES, origin);
+
+  assert.ok(HONDURAS_RESCUES.length >= 10, "the directory should cover more than one Honduran region");
+  assert.equal(rescues[0].name, "Organización Ari");
+  assert.equal(rescues[0].address, "Tegucigalpa, Francisco Morazán, Honduras");
+  assert.equal(rescues[0].locationPrecision, "city");
+  assert.equal(rescues[0].phone, "+504 3158-2017");
+  assert.equal(rescues[0].sourceLabel, "Honduras rescue directory");
+});
+
+test("Honduras directory pins stay local and merge with mapped shelters nearest-first", () => {
+  const origin = { latitude: 15.5053535, longitude: -88.0250839 };
+  const directory = parseDirectoryResults(HONDURAS_RESCUES, origin);
+  const farAway = parseDirectoryResults(HONDURAS_RESCUES, { latitude: 40.7128, longitude: -74.006 });
+  const mapped = [{ id: "node:1", name: "Mapped shelter", distanceKm: 0.1 }];
+  const merged = mergeRescueResults(directory, mapped, mapped);
+
+  assert.equal(farAway.length, 0);
+  assert.equal(merged[0].name, "Refugio Amor y Abrigo");
+  assert.equal(merged.filter(({ id }) => id === "node:1").length, 1);
+  assert.ok(directory.some(({ name }) => name === "Refugio Amor y Abrigo"));
 });
