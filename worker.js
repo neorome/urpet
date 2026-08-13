@@ -465,15 +465,11 @@ async function callCerebras(validated, env) {
         schema: {
           type: "object",
           properties: {
-            questionIds: {
-              type: "array",
-              minItems: 3,
-              maxItems: 3,
-              uniqueItems: true,
-              items: { type: "string", enum: allowedQuestionIds }
-            }
+            questionId1: { type: "string", enum: allowedQuestionIds },
+            questionId2: { type: "string", enum: allowedQuestionIds },
+            questionId3: { type: "string", enum: allowedQuestionIds }
           },
-          required: ["questionIds"],
+          required: ["questionId1", "questionId2", "questionId3"],
           additionalProperties: false
         }
       }
@@ -483,7 +479,8 @@ async function callCerebras(validated, env) {
         role: "system",
         content: [
           "You organize a source-reviewed pet research brief.",
-          "Return only JSON containing exactly three unique questionIds.",
+          "Return only JSON containing questionId1, questionId2, and questionId3.",
+          "Each value must be different.",
           "Select the three most useful reviewed questions for the supplied answer IDs.",
           "Never write a question, recommendation, care fact, or medical advice.",
           "Use only IDs from the supplied reviewedQuestionOptions."
@@ -611,7 +608,11 @@ export async function handleGuide(request, env) {
   } catch {
     parsed = null;
   }
-  const questions = reviewedQuestionsFor(validated.profile.id, parsed?.questionIds);
+  const selectedIds = parsed && typeof parsed === "object" && !Array.isArray(parsed)
+    && Object.keys(parsed).sort().join(",") === "questionId1,questionId2,questionId3"
+    ? [parsed.questionId1, parsed.questionId2, parsed.questionId3]
+    : null;
+  const questions = reviewedQuestionsFor(validated.profile.id, selectedIds);
   const outcome = questions ? "completed" : "invalid_output";
   await settleBudget(env, {
     id,

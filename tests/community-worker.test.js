@@ -158,6 +158,13 @@ function guideBody() {
   };
 }
 
+function structuredQuestionSelection(profileId = "domestic-cat-adult") {
+  const [questionId1, questionId2, questionId3] = GUIDE_QUESTION_BANKS[profileId]
+    .slice(0, 3)
+    .map(({ id }) => id);
+  return { questionId1, questionId2, questionId3 };
+}
+
 function guideRequest(body = guideBody(), headers = {}) {
   return new Request("https://urdog.dev/api/community/guide", {
     method: "POST",
@@ -365,9 +372,12 @@ test("a verified guide call settles actual token cost and stores no identity, pr
       const sent = JSON.parse(init.body);
       assert.equal(sent.model, "gpt-oss-120b");
       assert.doesNotMatch(init.body, /verified-token|192\.0\.2\.10/);
-      assert.deepEqual(sent.response_format.json_schema.schema.properties.questionIds.items.enum, GUIDE_QUESTION_BANKS["domestic-cat-adult"].map(({ id }) => id));
+      for (const key of ["questionId1", "questionId2", "questionId3"]) {
+        assert.deepEqual(sent.response_format.json_schema.schema.properties[key].enum, GUIDE_QUESTION_BANKS["domestic-cat-adult"].map(({ id }) => id));
+      }
+      assert.doesNotMatch(init.body, /minItems|maxItems|uniqueItems/);
       return Response.json({
-        choices: [{ message: { content: JSON.stringify({ questionIds: GUIDE_QUESTION_BANKS["domestic-cat-adult"].slice(0, 3).map(({ id }) => id) }) } }],
+        choices: [{ message: { content: JSON.stringify(structuredQuestionSelection()) } }],
         usage: { prompt_tokens: 100, completion_tokens: 50 }
       });
     }
@@ -513,7 +523,7 @@ test("model output can select only three unique repository-reviewed question IDs
     globalThis.fetch = async (input) => String(input).includes("turnstile")
       ? Response.json({ success: true, action: "community_guide", hostname: "urdog.dev" })
       : Response.json({
-        choices: [{ message: { content: JSON.stringify({ questionIds }) } }],
+        choices: [{ message: { content: JSON.stringify({ questionId1: questionIds[0], questionId2: questionIds[1], questionId3: questionIds[2] }) } }],
         usage: { prompt_tokens: 100, completion_tokens: 50 }
       });
     assert.equal((await handleGuide(guideRequest(), env)).status, 503);
@@ -532,7 +542,7 @@ test("distributed callers cannot exceed the exact UTC-day call ceiling", async (
   globalThis.fetch = async (input) => String(input).includes("turnstile")
     ? Response.json({ success: true, action: "community_guide", hostname: "urdog.dev" })
     : Response.json({
-      choices: [{ message: { content: JSON.stringify({ questionIds: GUIDE_QUESTION_BANKS["domestic-cat-adult"].slice(0, 3).map(({ id }) => id) }) } }],
+      choices: [{ message: { content: JSON.stringify(structuredQuestionSelection()) } }],
       usage: { prompt_tokens: 100, completion_tokens: 50 }
     });
 
@@ -560,7 +570,7 @@ test("concurrent reservations cannot overshoot the exact daily spend ceiling", a
     if (String(input).includes("turnstile")) return Response.json({ success: true, action: "community_guide", hostname: "urdog.dev" });
     await providerGate;
     return Response.json({
-      choices: [{ message: { content: JSON.stringify({ questionIds: GUIDE_QUESTION_BANKS["domestic-cat-adult"].slice(0, 3).map(({ id }) => id) }) } }],
+      choices: [{ message: { content: JSON.stringify(structuredQuestionSelection()) } }],
       usage: { prompt_tokens: 100, completion_tokens: 50 }
     });
   };
