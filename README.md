@@ -11,8 +11,8 @@ The product covers ten launch lanes: dogs, cats, freshwater aquariums, companion
 - Hard habitat, food, household-health, veterinary, space, and lifetime conflicts appear before benefits.
 - There is no account, Stripe checkout, paywall, or visible chatbot.
 - Buy Me a Coffee is the only support link and appears after useful results.
-- A support note containing `urpet` or the legacy name `urdog` earmarks 75% for Cerebras credits and 25% for payment fees and site upkeep.
-- Buy Me a Coffee cannot purchase Cerebras credit automatically. A signed webhook records the earmark; a separate operator receipt records credit actually funded at Cerebras. Shared guide usage is allowed only up to the lesser of those two amounts.
+- Buy Me a Coffee supports research, hosting, and upkeep generally. It does not promise AI credits, extra use, or a feature allocation.
+- Buy Me a Coffee support is not counted toward the AI budget while business payout and accounting are unresolved. The optional guide uses a separately bounded owner allowance.
 - The optional one-shot community guide lets the model choose three IDs from a repository-reviewed question bank; model prose never reaches the page. If it is unconfigured, unfunded, rate-limited, or unavailable, the complete deterministic brief continues to work.
 
 The project owner may seed at most $10 total. D1 enforces the lifetime ceiling, append-only receipts, a 250-call UTC-day limit, and a $0.10 daily committed-spend ceiling.
@@ -33,7 +33,7 @@ The Cloudflare identifiers `urdog`, `urdog-community`, and the public host `urdo
 npm run check
 ```
 
-The gate runs deterministic pet and dog scenarios, signed-payment/refund and shared-budget tests, privacy and abuse controls, reconciliation tests, generated-page checks, SEO/accessibility structure, all 205 photo licenses and hashes, and a Cloudflare deployment dry run.
+The gate runs deterministic pet and dog scenarios, dormant-webhook safety tests, owner-budget and abuse controls, reconciliation tests, generated-page checks, SEO/accessibility structure, all 205 photo licenses and hashes, and a Cloudflare deployment dry run.
 
 Focused commands:
 

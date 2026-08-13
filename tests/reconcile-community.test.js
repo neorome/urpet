@@ -7,11 +7,11 @@ import {
   verifyReconciliationOutput
 } from "../scripts/reconcile-community.mjs";
 
-test("reconciliation defaults to a non-mutating support dry run", () => {
-  assert.deepEqual(parseArguments(["--receipt-id=bmc_2026-08-12", "--usd-cents=750"]), {
+test("reconciliation defaults to a non-mutating owner-allowance dry run", () => {
+  assert.deepEqual(parseArguments(["--receipt-id=owner_2026-08-13", "--usd-cents=750"]), {
     apply: false,
-    receiptId: "bmc_2026-08-12",
-    source: "support",
+    receiptId: "owner_2026-08-13",
+    source: "owner_seed",
     usdCents: 750,
     usdMicro: 7_500_000
   });
@@ -24,24 +24,25 @@ test("owner funding is explicit and arguments cannot inject SQL or overflow", ()
   assert.equal(parsed.usdMicro, 10_000_000);
   assert.throws(() => parseArguments(["--receipt-id=x';DROP TABLE funding_receipts;--", "--usd-cents=1"]), /receipt-id/);
   assert.throws(() => parseArguments(["--receipt-id=x", "--usd-cents=1.5"]), /whole number/);
-  assert.throws(() => parseArguments(["--receipt-id=x", "--usd-cents=1", "--source=gift"]), /support or owner-seed/);
+  assert.throws(() => parseArguments(["--receipt-id=x", "--usd-cents=1", "--source=support"]), /owner-seed while support allocation is deferred/);
+  assert.throws(() => parseArguments(["--receipt-id=x", "--usd-cents=1", "--source=gift"]), /owner-seed while support allocation is deferred/);
   assert.throws(() => parseArguments(["--receipt-id=x", "--usd-cents=1", "--wat=yes"]), /Unsupported/);
 });
 
 test("the apply SQL is idempotent and reads authoritative receipt and budget state", () => {
-  const sql = buildReconciliationSql({ receiptId: "receipt-1", source: "support", usdMicro: 500_000 });
+  const sql = buildReconciliationSql({ receiptId: "receipt-1", source: "owner_seed", usdMicro: 500_000 });
   assert.match(sql, /INSERT OR IGNORE INTO funding_receipts/);
   assert.match(sql, /WHERE receipt_id = 'receipt-1'/);
-  assert.match(sql, /MIN\(/);
-  assert.match(sql, /support_payments WHERE active = 1/);
+  assert.doesNotMatch(sql, /MIN\(/);
+  assert.doesNotMatch(sql, /support_payments/);
 });
 
 test("verification rejects an absent or conflicting immutable receipt", () => {
-  const expected = { receiptId: "receipt-1", source: "support", usdMicro: 500_000 };
+  const expected = { receiptId: "receipt-1", source: "owner_seed", usdMicro: 500_000 };
   assert.throws(() => verifyReconciliationOutput(JSON.stringify([{ results: [] }]), expected), /did not return/);
-  assert.throws(() => verifyReconciliationOutput(JSON.stringify([{ results: [{ receipt_id: "receipt-1", source: "owner_seed", usd_micro: 500_000 }] }]), expected), /different immutable values/);
+  assert.throws(() => verifyReconciliationOutput(JSON.stringify([{ results: [{ receipt_id: "receipt-1", source: "support", usd_micro: 500_000 }] }]), expected), /different immutable values/);
   assert.deepEqual(
-    verifyReconciliationOutput(JSON.stringify([{ results: [{ receipt_id: "receipt-1", source: "support", usd_micro: 500_000 }] }]), expected).receipt,
-    { receipt_id: "receipt-1", source: "support", usd_micro: 500_000 }
+    verifyReconciliationOutput(JSON.stringify([{ results: [{ receipt_id: "receipt-1", source: "owner_seed", usd_micro: 500_000 }] }]), expected).receipt,
+    { receipt_id: "receipt-1", source: "owner_seed", usd_micro: 500_000 }
   );
 });

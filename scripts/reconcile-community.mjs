@@ -30,15 +30,15 @@ export function parseArguments(argv) {
   const usdCents = Number(centsText);
   if (!Number.isSafeInteger(usdCents) || usdCents > 900_000_000) throw new Error("--usd-cents is outside the supported range");
 
-  const requestedSource = values.get("source") || "support";
-  if (!["support", "owner-seed"].includes(requestedSource)) {
-    throw new Error("--source must be support or owner-seed");
+  const requestedSource = values.get("source") || "owner-seed";
+  if (requestedSource !== "owner-seed") {
+    throw new Error("--source must be owner-seed while support allocation is deferred");
   }
 
   return {
     apply: argv.includes("--apply"),
     receiptId,
-    source: requestedSource === "owner-seed" ? "owner_seed" : "support",
+    source: "owner_seed",
     usdCents,
     usdMicro: usdCents * 10_000
   };
@@ -51,10 +51,6 @@ export function buildReconciliationSql({ receiptId, source, usdMicro }) {
     "SELECT source, COALESCE(SUM(usd_micro), 0) AS funded_usd_micro FROM funding_receipts GROUP BY source ORDER BY source",
     `SELECT
       COALESCE((SELECT SUM(usd_micro) FROM funding_receipts WHERE source = 'owner_seed'), 0)
-      + MIN(
-        COALESCE((SELECT SUM(usd_micro) FROM funding_receipts WHERE source = 'support'), 0),
-        COALESCE((SELECT SUM(earmarked_usd_micro) FROM support_payments WHERE active = 1), 0)
-      )
       - reserved_usd_micro - spent_usd_micro AS available_usd_micro
       FROM community_budget WHERE id = 1`
   ].map((statement) => `${statement};`).join("\n");
@@ -104,7 +100,7 @@ export function main(argv = process.argv.slice(2)) {
     options = parseArguments(argv);
   } catch (error) {
     console.error(error.message);
-    console.error("Usage: npm run community:reconcile -- --receipt-id=<id> --usd-cents=<integer> [--source=support|owner-seed] [--apply]");
+    console.error("Usage: npm run community:reconcile -- --receipt-id=<id> --usd-cents=<integer> [--source=owner-seed] [--apply]");
     return 2;
   }
 
@@ -113,9 +109,7 @@ export function main(argv = process.argv.slice(2)) {
     receiptId: options.receiptId,
     source: options.source,
     usdCents: options.usdCents,
-    guardrail: options.source === "owner_seed"
-      ? "The database rejects cumulative owner funding above $10."
-      : "Support receipts authorize at most the lesser of funded credit and active 75% BMC earmarks."
+    guardrail: "The database rejects cumulative owner allowance above $10; support never authorizes AI usage."
   };
   console.log(JSON.stringify(plan, null, 2));
   if (!options.apply) return 0;

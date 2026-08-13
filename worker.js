@@ -284,10 +284,6 @@ export async function handleWebhook(request, env) {
 
 const AVAILABLE_BUDGET_EXPRESSION = `
   COALESCE((SELECT SUM(usd_micro) FROM funding_receipts WHERE source = 'owner_seed'), 0)
-  + MIN(
-    COALESCE((SELECT SUM(usd_micro) FROM funding_receipts WHERE source = 'support'), 0),
-    COALESCE((SELECT SUM(earmarked_usd_micro) FROM support_payments WHERE active = 1), 0)
-  )
   - reserved_usd_micro
   - spent_usd_micro
 `;

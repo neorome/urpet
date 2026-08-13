@@ -56,13 +56,12 @@ A research lead means only that the profile did not conflict with the selected b
 
 The deterministic matcher is always free and does not consume a shared budget. There are no accounts, purchases, entitlements, or personal credit balances.
 
-Buy Me a Coffee is the only support provider. Notes containing `urpet` or legacy `urdog` qualify after punctuation, spacing, and capitalization normalization. For successful live USD donations, 75% of the gross amount is entered as an earmark; 25% is retained for payment fees and site upkeep. Signed refunds reverse the original earmark exactly once.
+Buy Me a Coffee is the only public support provider. Support is for urpet’s research, hosting, and upkeep generally. It does not buy AI credits, unlock extra use, or guarantee a feature. No public allocation percentage or token promise is made while business payout and accounting are unresolved.
 
-The site never claims that Buy Me a Coffee transfers funds to Cerebras. A funding receipt is recorded only after an operator verifies actual provider credit. Authorized shared spend is:
+The dormant signed-webhook implementation may retain privacy and idempotency tests, but support events and support receipts do not authorize Cerebras usage. Authorized guide spend is:
 
 ```text
-owner credit actually funded
-+ min(active 75% support earmarks, support credit actually funded)
+bounded owner allowance
 - reserved usage
 - settled usage
 ```
@@ -71,7 +70,7 @@ Owner receipts are append-only and capped at $10 cumulatively by database trigge
 
 Guide settlement uses the pinned public `gpt-oss-120b` rates in `lib/cerebras-pricing.js`. Before the guide is enabled, `npm run check:guide-pricing` must match that pin against Cerebras's public model endpoint; any mismatch leaves the guide off until the rates, cost tests, and budget review are updated together.
 
-The ledger stores payment and event IDs, amounts, status, receipt IDs, aggregate budget, profile ID, token counts, cost, and outcome. It does not store supporter name, email, raw note, browser IP, Turnstile token, prompt, or model output.
+The active guide ledger stores the owner allowance, aggregate budget, profile ID, token counts, cost, and outcome. Dormant support tables store only payment/event IDs, amounts, and status for future review; they do not affect guide availability. No ledger stores supporter name, email, raw note, browser IP, Turnstile token, prompt, or model output.
 
 ## Voice and visual system
 
@@ -104,7 +103,7 @@ The dog module preserves 205 unique AKC-recognized breed rows, conservative edit
 
 ## Acceptance proof
 
-- Automated tests cover all ten lanes, exact profile counts, normalization, hard conflicts, zero-lead results, dog-module routing, support keywords, exact raw-body HMAC, donation idempotency, refunds and out-of-order delivery, privacy-minimized schema, immutable owner cap, dual-ledger budget, exact host/origin, distributed daily limits, concurrent reservations, Turnstile hostname/action/IP/idempotency, closed guide input, allowlisted output, token-cost settlement, stale/unknown outcomes, and dry-run reconciliation.
+- Automated tests cover all ten lanes, exact profile counts, normalization, hard conflicts, zero-lead results, dog-module routing, dormant-webhook isolation, privacy-minimized schema, immutable owner cap, owner-only guide budget, exact host/origin, distributed daily limits, concurrent reservations, Turnstile hostname/action/IP/idempotency, closed guide input, allowlisted output, token-cost settlement, stale/unknown outcomes, and dry-run reconciliation.
 - Static verification covers the nine-step root, flat intake/results, preserved nine-step dog module, `/dogs/` deep links, 205 dog photos, ten exact profile photos, metadata, sitemap, no hotlinks, 320 px CSS, reduced motion, print, headers, and asset budgets.
 - Browser proof covers desktop and mobile completion, hard-conflict output, keyboard focus, hidden unfunded guide, dog module, outbound support confirmation, and overflow.
 - Deployment proof distinguishes local checks, committed and pushed code, applied D1 migration, configured secrets, deployed Worker version, and cache-busted live checks.

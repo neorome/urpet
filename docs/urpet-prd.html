@@ -263,26 +263,25 @@
       <section id="support">
         <div class="wrap">
           <p class="eyebrow">05 · support without accounts</p>
-          <h2>one shared pool, never personal access.</h2>
+          <h2>general support; separately bounded AI.</h2>
           <div class="grid-2">
             <article class="card">
               <h3>Visitor promise</h3>
               <ul>
                 <li>The matcher is free, anonymous, and unlimited.</li>
                 <li>Buy Me a Coffee appears only after a complete result.</li>
-                <li>A note containing <code>urpet</code> or legacy <code>urdog</code> assigns 75% to a Cerebras-credit earmark and 25% to fees/upkeep.</li>
-                <li>Support benefits the shared optional guide; it does not buy the supporter priority or extra personal use.</li>
+                <li>Support helps urpet’s research, hosting, and upkeep generally.</li>
+                <li>Support does not buy AI credits, priority, extra use, or a guaranteed feature.</li>
               </ul>
             </article>
             <article class="card warning">
               <h3>Provider truth</h3>
-              <p>Buy Me a Coffee supplies signed event notifications; it does not automatically buy Cerebras credit. Cerebras credit is added in its Cloud Console. Therefore shared use opens only after both a qualifying support earmark and a separately verified provider-funding receipt exist.</p>
-              <p>Owner-funded receipts are separately capped at <strong>$10 total</strong>.</p>
+              <p>Business payout and accounting are unresolved, so the Buy Me a Coffee webhook stays unconfigured and support is excluded from AI authorization. Any future allocation requires a new product and accounting decision before public copy or code is enabled.</p>
+              <p>The active AI allowance is owner-controlled and capped at <strong>$10 total</strong>.</p>
             </article>
           </div>
           <h3>Usage authorization</h3>
-          <pre class="card contract"><code>available = verified owner credit
-          + min(active 75% support earmarks, verified support credit)
+          <pre class="card contract"><code>available = bounded owner allowance
           - reserved model calls
           - settled model cost</code></pre>
           <p>The optional guide is one request, not a conversation: select a compatible profile, pass Turnstile, and receive exactly three repository-reviewed provider questions. The model may choose only three allowlisted question IDs; it cannot send prose to the page. The guide is hidden when configuration, daily allowance, or prepaid budget is unavailable.</p>
@@ -295,14 +294,12 @@
           <h2>deterministic core; gated optional organizer.</h2>
           <div class="grid-3">
             <article class="card"><h3>Browser</h3><p>Static HTML/CSS/JavaScript. Closed answer vocabulary. Deterministic ranking. No account, cookie profile, user upload, or free-form prompt. The Turnstile script loads only after the status endpoint reports a funded guide ready.</p></article>
-            <article class="card"><h3>Cloudflare Worker</h3><p>Canonical redirects and security headers; BMC webhook; non-sensitive guide status; exact production-host guide endpoint; Cloudflare rate limiter; Turnstile Siteverify; provider timeout; and strict question-ID validation.</p></article>
-            <article class="card"><h3>D1</h3><p>Privacy-minimized support events, append-only provider-funding receipts, exact UTC-day limits, durable per-request reservations, one aggregate budget, and per-call profile/token/cost/outcome audit. No identity, IP, raw note, prompt, or output.</p></article>
+            <article class="card"><h3>Cloudflare Worker</h3><p>Canonical redirects and security headers; unavailable-by-default BMC webhook; non-sensitive guide status; exact production-host guide endpoint; Cloudflare rate limiter; Turnstile Siteverify; provider timeout; and strict question-ID validation.</p></article>
+            <article class="card"><h3>D1</h3><p>Owner-only authorization, exact UTC-day limits, durable per-request reservations, one aggregate budget, and per-call profile/token/cost/outcome audit. Dormant support tables do not affect AI availability. No identity, IP, raw note, prompt, or output.</p></article>
           </div>
           <h3>Abuse and accounting controls</h3>
           <ol class="checklist">
-            <li>Verify the exact raw BMC body with HMAC-SHA256 and constant-time comparison before parsing.</li>
-            <li>Accept only live <code>donation.created</code> and <code>donation.refunded</code> events; make event and payment handling idempotent.</li>
-            <li>Normalize only for the keyword decision; never persist the support note.</li>
+            <li>Leave the BMC webhook secret absent and exclude support tables from AI authorization until a new review explicitly activates them.</li>
             <li>Validate guide origin, content type, body size, exact keys, profile ID, and every answer ID.</li>
             <li>Use a three-per-minute per-IP edge limiter and managed Turnstile. Send the edge IP to Siteverify for verification context, but never store it.</li>
             <li>Require server-side Turnstile success, a single-use idempotency key, the exact action, and the exact <code>urdog.dev</code> hostname; disable Workers.dev and preview-host access.</li>
@@ -316,7 +313,7 @@
               <tr><th>Product, package, repo</th><td><code>urpet</code> / <code>neorome/urpet</code></td></tr>
               <tr><th>Public domain</th><td><code>urdog.dev</code> and canonical apex URLs remain unchanged.</td></tr>
               <tr><th>Legacy Cloudflare resources</th><td>Worker <code>urdog</code> and D1 <code>urdog-community</code> remain stable for routing and rollback.</td></tr>
-              <tr><th>Compatibility</th><td>Dog saved-brief key and legacy <code>urdog</code> donation keyword continue to work.</td></tr>
+              <tr><th>Compatibility</th><td>The dog saved-brief key remains compatible. No support-note keyword has an active product effect.</td></tr>
             </tbody>
           </table>
         </div>
@@ -333,7 +330,7 @@
                 <li>Exactly ten lanes and eleven specific launch profiles.</li>
                 <li>Hard-conflict scenarios across aquarium, bird, rabbit, hamster, tortoise, gecko, and snake profiles.</li>
                 <li>Dog module remains nine questions, 205 breeds, 205 licensed local photos, and `/dogs/` deep links.</li>
-                <li>Signed create/refund idempotency, out-of-order refund, 75%, privacy schema, append-only receipts, $10 owner cap, and dual funding ledger.</li>
+                <li>Dormant-webhook isolation, privacy schema, immutable $10 owner cap, and owner-only AI authorization.</li>
                 <li>Closed guide input, exact host/origin/Turnstile checks, distributed daily limits, concurrent reservations, allowlisted output, token settlement, and stale/unknown-provider accounting.</li>
                 <li>Ten exact post-match photos, metadata, sitemap, headers, generated pages, CSS balance, 320 px rules, reduced motion, print, and deployment dry run.</li>
               </ul>
@@ -349,7 +346,7 @@
               </ul>
             </article>
           </div>
-          <div class="callout"><strong>Protected release gates:</strong> adding or rotating secrets, creating a Turnstile widget, configuring the BMC webhook, applying remote D1 state, or buying Cerebras credit requires current authorization. The deterministic urpet release may deploy with the shared guide resting.</div>
+          <div class="callout"><strong>Protected release gates:</strong> adding or rotating secrets, configuring the BMC webhook, changing the owner allowance, or buying Cerebras credit requires current authorization. The deterministic urpet release remains complete if the optional guide is resting.</div>
         </div>
       </section>
 

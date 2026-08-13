@@ -840,8 +840,19 @@
 }
 
 .all-pets-sources {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 5vw, 64px);
   border-top: var(--line);
   background: var(--sky);
+}
+
+.all-pets-sources > div {
+  min-width: 0;
+}
+
+.all-pets-sources > div:first-child h2 {
+  max-width: 7.5ch;
+  font-size: clamp(2.6rem, 4vw, 4rem);
 }
 
 @media (max-width: 980px) {
@@ -991,7 +1002,8 @@
   }
 
   .community-guide,
-  .coverage {
+  .coverage,
+  .all-pets-sources {
     grid-template-columns: 1fr;
   }
 

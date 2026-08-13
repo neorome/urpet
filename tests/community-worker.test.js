@@ -16,7 +16,7 @@ import {
 } from "../worker.js";
 import { encodeGuideAnswerIds, GUIDE_QUESTION_BANKS } from "../public/scripts/all-pets-engine.js";
 
-const migration = ["0001_community.sql", "0002_guide_reservations.sql"]
+const migration = ["0001_community.sql", "0002_guide_reservations.sql", "0003_owner_only_guide_budget.sql"]
   .map((name) => readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8"))
   .join("\n");
 const GUIDE_RESERVATION_USD_MICRO = getGuideReservationUsdMicro();
@@ -271,7 +271,7 @@ test("BMC string booleans fail closed when a create is already refunded", async 
   assert.equal(database.get("SELECT outcome FROM support_events").outcome, "not_qualified");
 });
 
-test("support receipts authorize only the amount both earmarked and actually funded", async (t) => {
+test("support activity never authorizes AI usage while allocation is deferred", async (t) => {
   const database = new D1Mock();
   t.after(() => database.close());
   const env = baseEnvironment(database);
@@ -282,13 +282,17 @@ test("support receipts authorize only the amount both earmarked and actually fun
   });
 
   await handleWebhook(await webhookRequest(createdEvent()), env);
-  const ready = await (await handleStatus(new Request("https://urdog.dev/api/community/status"), env)).json();
-  assert.equal(ready.guideEnabled, true);
-  assert.equal(ready.turnstileSiteKey, "turnstile-site-key");
-  assert.equal("availableUsd" in ready, false);
+  const afterSupport = await (await handleStatus(new Request("https://urdog.dev/api/community/status"), env)).json();
+  assert.deepEqual(afterSupport, { guideEnabled: false, state: "resting" });
 
   await handleWebhook(await webhookRequest({ event_id: "evt_refund_status", type: "donation.refunded", live_mode: true, data: { id: "support_1" } }), env);
   assert.equal((await (await handleStatus(new Request("https://urdog.dev/api/community/status"), env)).json()).guideEnabled, false);
+
+  database.exec("INSERT INTO funding_receipts VALUES('owner-credit', 'owner_seed', 1000000, unixepoch())");
+  const ownerReady = await (await handleStatus(new Request("https://urdog.dev/api/community/status"), env)).json();
+  assert.equal(ownerReady.guideEnabled, true);
+  assert.equal(ownerReady.turnstileSiteKey, "turnstile-site-key");
+  assert.equal("availableUsd" in ownerReady, false);
 });
 
 test("the owner seed is capped at ten dollars by the database", (t) => {

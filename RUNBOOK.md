@@ -46,10 +46,9 @@ npm run check:guide-pricing
 
 Any mismatch is a hard stop: leave the guide `resting`, update the pinned rates and cost tests, and repeat the budget review before enabling it. The current pin is effective 2026-08-12 for `gpt-oss-120b` at $0.35/M input and $0.75/M output tokens. Gemma 4 31B was checked and rejected for this text-only job because its public rates were higher.
 
-Required bindings:
+Required guide bindings:
 
 - secret `CEREBRAS_API_KEY`;
-- secret `BMC_WEBHOOK_SECRET` from Buy Me a Coffee;
 - public `TURNSTILE_SITE_KEY`;
 - secret `TURNSTILE_SECRET`;
 - `TURNSTILE_HOSTNAMES=urdog.dev`;
@@ -58,28 +57,30 @@ Required bindings:
 
 Do not place secret values in the repository, shell history, command arguments, logs, or this runbook. Install or rotate them only with explicit current authorization. `scripts/create-turnstile-widget.mjs` safely reuses the exact named widget and installs its secret without printing it; `scripts/install-worker-secret-from-env.mjs` accepts only `CEREBRAS_API_KEY` from a protected environment and pipes it directly to Wrangler.
 
-Configure Buy Me a Coffee to send `donation.created` and `donation.refunded` to:
+Do not configure the Buy Me a Coffee webhook while business payout and accounting are unresolved. Public support is general project support and makes no AI-credit, percentage-allocation, or feature promise. The dormant endpoint remains unavailable without `BMC_WEBHOOK_SECRET`, and support tables are excluded from the active guide-budget calculation.
+
+The reserved future endpoint is:
 
 ```text
 https://urdog.dev/api/community/bmc-webhook
 ```
 
-Test-mode events are acknowledged but ignored. Only live, successful, unrefunded USD donations with notes containing normalized `urpet` or legacy `urdog` are earmarked. Signed refunds reverse the original once. The public copy must continue saying that Buy Me a Coffee does not automatically purchase Cerebras credit.
+Any future activation requires a new product, accounting, privacy, and security review before installing a webhook secret or changing the owner-only guide-budget trigger.
 
 ## Funding reconciliation
 
-First run a dry plan:
+First run an owner-allowance dry plan:
 
 ```sh
 npm run community:reconcile -- \
   --receipt-id=<provider-receipt-id> \
   --usd-cents=<whole-cents> \
-  --source=support
+  --source=owner-seed
 ```
 
-After independently verifying that the exact credit is present at Cerebras, repeat with `--apply`. Owner funding uses `--source=owner-seed`; D1 rejects a cumulative value above $10. The script inserts idempotently, then queries the authoritative immutable receipt and budget. After a timeout or non-JSON response, treat state as unknown and inspect D1 before retrying.
+After verifying the intended owner allowance and Cerebras availability, repeat with `--apply`. D1 rejects a cumulative owner allowance above $10. The script inserts idempotently, then queries the authoritative immutable record and budget. After a timeout or non-JSON response, treat state as unknown and inspect D1 before retrying.
 
-The site spends at most the lesser of active 75% BMC earmarks and reconciled support credit, plus reconciled owner credit. A BMC event alone never authorizes model use.
+The site spends only from the reconciled owner allowance. Buy Me a Coffee activity never authorizes model use.
 
 ## Deploy
 
@@ -96,7 +97,7 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Immediate predecessor: `626e27e2-f676-4da3-85d4-45582785a73e`
 - Last commit-labelled rollback: `ab4e67ff-040f-4b8d-8e16-087d028d07c1` (`59427c8`)
 - D1 migrations: `0001_community_budget.sql`, `0002_guide_reservations.sql`; no pending migrations
-- Community guide: `resting` by design; Turnstile is installed, while provider funding, `CEREBRAS_API_KEY`, and the Buy Me a Coffee webhook secret remain absent
+- Community guide at this release: `resting`; Turnstile is installed and the Cerebras credential was added later through KeepKeys, while the owner allowance had not yet been activated
 - Live proof: all four public pages and the new profile image returned 200; `www` returned 308 to the apex; an unknown route returned 404 with `X-Robots-Tag: noindex`; the exact community status was `{"guideEnabled":false,"state":"resting"}`
 - Browser proof: completed a 320 px cat lead and a prepare-first tortoise path, verified a 3:2 local image with visible attribution, source-linked conflict disclosure, and no horizontal scrolling; the 1280 px lane screen exposed ten grouped text rows with no pre-match photography and no horizontal scrolling
 
