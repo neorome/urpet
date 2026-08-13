@@ -15,8 +15,8 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260813a">
-    <link rel="modulepreload" href="/scripts/all-pets-engine.js?v=20260812b">
+    <link rel="stylesheet" href="/styles.css?v=20260813b">
+    <link rel="modulepreload" href="/scripts/all-pets-engine.js?v=20260813a">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
@@ -98,32 +98,30 @@
 
         <div class="pet-matcher-shell" id="pet-matcher">
           <div class="pet-progress">
-            <p id="pet-step-status">question <strong>1</strong> of 9</p>
-            <div class="progress-track" role="progressbar" aria-labelledby="pet-step-status" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1">
+            <p id="pet-step-status">question <strong>1</strong> of 8</p>
+            <div class="progress-track" role="progressbar" aria-labelledby="pet-step-status" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1">
               <span id="pet-progress-fill"></span>
             </div>
           </div>
 
           <form id="pet-conversation" novalidate>
-            <fieldset class="pet-step" data-step="0">
-              <legend>what kind of search are you starting?</legend>
+            <fieldset class="pet-step" data-step="search">
+              <legend>what pets are you considering?</legend>
               <p class="question-note">Choose one. You can revise it later.</p>
               <div class="pet-choice-grid">
                 <input class="choice-input" type="radio" name="mode" id="mode-open" value="open">
-                <label class="choice" for="mode-open"><span aria-hidden="true">01</span><strong>I’m open to any reviewed pet</strong><small>let my ordinary week lead</small></label>
+                <label class="choice" for="mode-open"><span aria-hidden="true">01</span><strong>Show me anything reviewed</strong><small>let my ordinary week lead</small></label>
 
                 <input class="choice-input" type="radio" name="mode" id="mode-kind" value="kind">
-                <label class="choice" for="mode-kind"><span aria-hidden="true">02</span><strong>I know the kind I want</strong><small>screen one lane honestly</small></label>
+                <label class="choice" for="mode-kind"><span aria-hidden="true">02</span><strong>One pet type</strong><small>choose one</small></label>
 
                 <input class="choice-input" type="radio" name="mode" id="mode-compare" value="compare">
-                <label class="choice" for="mode-compare"><span aria-hidden="true">03</span><strong>I want to compare a few</strong><small>choose two or three lanes</small></label>
+                <label class="choice" for="mode-compare"><span aria-hidden="true">03</span><strong>Compare a few</strong><small>choose two or three</small></label>
               </div>
-            </fieldset>
-
-            <fieldset class="pet-step" data-step="1" hidden>
-              <legend>which pet lanes belong in this search?</legend>
-              <p class="question-note" id="lane-instructions">Open searches may leave every lane unchecked. A known-kind search needs one; compare needs two or three.</p>
-              <div class="lane-choice-grid" aria-describedby="lane-instructions">
+              <div class="lane-followup" id="lane-followup" hidden>
+                <h3>choose pet types</h3>
+                <p class="question-note" id="lane-instructions">Choose one pet type.</p>
+                <div class="lane-choice-grid" aria-describedby="lane-instructions">
                 <p class="lane-group-title">companions at home</p>
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-dogs" value="dogs">
                 <label for="lane-dogs"><strong>Dogs</strong><small>205-breed module</small></label>
@@ -156,10 +154,11 @@
                 <p class="lane-group-title">social and noise-sensitive</p>
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-birds" value="birds">
                 <label for="lane-birds"><strong>Companion birds</strong><small>budgie or cockatiel pair</small></label>
+                </div>
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="2" hidden>
+            <fieldset class="pet-step" data-step="time" hidden>
               <legend>what care rhythm can you protect every day?</legend>
               <p class="question-note">Choose the routine you can keep on a tired Tuesday.</p>
               <div class="pet-choice-grid">
@@ -174,7 +173,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="3" hidden>
+            <fieldset class="pet-step" data-step="space" hidden>
               <legend>what space can stay dedicated to the animal?</legend>
               <p class="question-note">Floor space is only one part; transport, power, ventilation, and rules still matter.</p>
               <div class="pet-choice-grid">
@@ -189,7 +188,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="4" hidden>
+            <fieldset class="pet-step" data-step="rhythm" hidden>
               <legend>which relationship rhythm sounds right?</legend>
               <p class="question-note">The animal—not the aesthetic—sets the handling limit.</p>
               <div class="pet-choice-grid pet-choice-grid--two">
@@ -207,7 +206,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="5" hidden>
+            <fieldset class="pet-step" data-step="care" hidden>
               <legend>which specialist food or maintenance routines are acceptable?</legend>
               <p class="question-note" id="care-instructions">Choose every routine you can genuinely keep. “None” cannot be combined.</p>
               <div class="care-choice-grid" aria-describedby="care-instructions">
@@ -225,7 +224,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="6" hidden>
+            <fieldset class="pet-step" data-step="household" hidden>
               <legend>does a reptile household health gate apply?</legend>
               <p class="question-note">CDC advises extra caution because healthy reptiles can still carry Salmonella.</p>
               <div class="pet-choice-grid pet-choice-grid--two">
@@ -237,7 +236,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="7" hidden>
+            <fieldset class="pet-step" data-step="vet" hidden>
               <legend>what veterinary access is real today?</legend>
               <p class="question-note">“I will find one later” is a plan to make, not current access.</p>
               <div class="pet-choice-grid">
@@ -252,7 +251,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="pet-step" data-step="8" hidden>
+            <fieldset class="pet-step" data-step="horizon" hidden>
               <legend>what whole-life commitment can you plan now?</legend>
               <p class="question-note">Holiday care, moves, education, work, and cost changes belong in this answer.</p>
               <div class="pet-choice-grid">
@@ -268,6 +267,7 @@
             </fieldset>
 
             <p class="form-error" id="pet-form-error" role="alert" hidden></p>
+            <p class="form-hint" id="pet-form-hint" role="status">Choose one answer to continue.</p>
             <div class="pet-form-actions">
               <button class="button button--text" id="pet-back" type="button">back</button>
               <button class="button button--primary" id="pet-next" type="button">next question <span aria-hidden="true">→</span></button>
@@ -288,6 +288,7 @@
           <p class="section-kicker">your pet fit brief</p>
           <h2 id="pet-result-title" tabindex="-1">research leads, not a verdict.</h2>
           <p id="pet-result-summary"></p>
+          <a class="button button--primary result-primary-action" id="review-top-lead" href="#pet-leads">review the top lead <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="reptile-gate" id="reptile-gate" hidden>
@@ -300,16 +301,23 @@
         <div class="pet-leads" id="pet-leads"></div>
 
         <section class="prepare-first" id="prepare-first" aria-labelledby="prepare-first-title" hidden>
-          <p class="section-kicker">do this before choosing</p>
-          <h3 id="prepare-first-title">the current brief has hard conflicts.</h3>
-          <div id="blocked-profiles"></div>
+          <details class="prepare-first__details">
+            <summary><span class="section-kicker">not a fit yet</span><strong id="prepare-first-title">alternatives need preparation</strong></summary>
+            <div class="prepare-first__inside">
+              <p>Open this only if you want to see which requirements ruled other profiles out.</p>
+              <div id="blocked-profiles"></div>
+            </div>
+          </details>
         </section>
 
-        <div class="pet-result-actions">
-          <button class="button button--secondary" id="print-pet-brief" type="button">print this brief</button>
-          <button class="button button--text" id="change-pet-answers" type="button">change answers</button>
-          <button class="button button--text" id="restart-pet-brief" type="button">start over</button>
-        </div>
+        <details class="result-tools">
+          <summary>print or revise this brief</summary>
+          <div class="pet-result-actions">
+            <button class="button button--secondary" id="print-pet-brief" type="button">print this brief</button>
+            <button class="button button--text" id="change-pet-answers" type="button">change answers</button>
+            <button class="button button--text" id="restart-pet-brief" type="button">start over</button>
+          </div>
+        </details>
 
         <details class="community-guide" id="community-guide" hidden>
           <summary id="community-guide-title">need help preparing for a provider conversation?</summary>
@@ -387,7 +395,7 @@
       <p>Educational screening, not veterinary or professional advice. Coverage reviewed August 12, 2026.</p>
     </footer>
 
-    <script type="module" src="/scripts/all-pets.js?v=20260812b"></script>
+    <script type="module" src="/scripts/all-pets.js?v=20260813a"></script>
     <script type="module" src="/scripts/external-links.js?v=20260812b"></script>
   </body>
 </html>

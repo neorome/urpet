@@ -2,7 +2,11 @@ import {
   encodeGuideAnswerIds,
   normalizePetAnswers,
   rankPetProfiles
-} from "./all-pets-engine.js?v=20260812b";
+} from "./all-pets-engine.js?v=20260813a";
+import {
+  activePetStepIds,
+  answersWithSafeSkippedDefaults
+} from "./all-pets-flow.js?v=20260813a";
 import { PROFILE_PHOTOS } from "../data/profile-photos.js?v=20260813a";
 
 const form = document.querySelector("#pet-conversation");
@@ -13,9 +17,13 @@ const stepStatus = document.querySelector("#pet-step-status");
 const progressBar = document.querySelector(".pet-progress .progress-track");
 const progressFill = document.querySelector("#pet-progress-fill");
 const formError = document.querySelector("#pet-form-error");
+const formHint = document.querySelector("#pet-form-hint");
+const laneFollowup = document.querySelector("#lane-followup");
+const laneInstructions = document.querySelector("#lane-instructions");
 const result = document.querySelector("#pet-result");
 const resultTitle = document.querySelector("#pet-result-title");
 const resultSummary = document.querySelector("#pet-result-summary");
+const primaryResultAction = document.querySelector("#review-top-lead");
 const leadsRoot = document.querySelector("#pet-leads");
 const prepareFirst = document.querySelector("#prepare-first");
 const blockedRoot = document.querySelector("#blocked-profiles");
@@ -71,6 +79,21 @@ function laneLimit() {
   return 3;
 }
 
+function activeSteps() {
+  const activeIds = activePetStepIds({ mode: selectedMode(), lanes: checkedValues("lanes") });
+  return activeIds.map((id) => steps.find((step) => step.dataset.step === id)).filter(Boolean);
+}
+
+function updateLaneFollowup() {
+  const mode = selectedMode();
+  const needsLanes = mode === "kind" || mode === "compare";
+  laneFollowup.hidden = !needsLanes;
+  laneInstructions.textContent = mode === "compare" ? "Choose two or three pet types." : "Choose one pet type.";
+  if (mode === "open") {
+    form.querySelectorAll('input[name="lanes"]').forEach((input) => { input.checked = false; });
+  }
+}
+
 function showError(message) {
   formError.textContent = message;
   formError.hidden = false;
@@ -83,12 +106,16 @@ function clearError() {
 
 function currentStepValid({ announce = false } = {}) {
   clearError();
-  const step = steps[currentStep];
+  const step = activeSteps()[currentStep];
   if (!step) return false;
 
-  if (currentStep === 1) {
+  if (step.dataset.step === "search") {
     const mode = selectedMode();
     const count = checkedValues("lanes").length;
+    if (!mode) {
+      if (announce) showError("Choose how you want to search.");
+      return false;
+    }
     if (mode === "kind" && count !== 1) {
       if (announce) showError("Choose exactly one pet lane for a known-kind search.");
       return false;
@@ -97,14 +124,10 @@ function currentStepValid({ announce = false } = {}) {
       if (announce) showError("Choose two or three pet lanes to compare.");
       return false;
     }
-    if (mode === "open" && count > 3) {
-      if (announce) showError("Choose up to three priority lanes, or leave every lane unchecked.");
-      return false;
-    }
     return true;
   }
 
-  if (currentStep === 5) {
+  if (step.dataset.step === "care") {
     const care = checkedValues("care");
     if (!care.length) {
       if (announce) showError("Choose at least one food or maintenance boundary.");
@@ -122,25 +145,38 @@ function currentStepValid({ announce = false } = {}) {
   return valid;
 }
 
+function currentRequirement() {
+  const step = activeSteps()[currentStep];
+  if (!step || currentStepValid()) return "Ready to continue.";
+  if (step.dataset.step === "search") {
+    const mode = selectedMode();
+    if (!mode) return "Choose how you want to search.";
+    return mode === "kind" ? "Choose one pet type." : "Choose two or three pet types.";
+  }
+  if (step.dataset.step === "care") return "Choose at least one routine.";
+  return "Choose one answer to continue.";
+}
+
 function showStep(index, { focus = true } = {}) {
-  currentStep = Math.max(0, Math.min(index, steps.length - 1));
+  const visibleSteps = activeSteps();
+  currentStep = Math.max(0, Math.min(index, visibleSteps.length - 1));
   clearError();
-  steps.forEach((step, stepIndex) => {
-    step.hidden = stepIndex !== currentStep;
-  });
+  const current = visibleSteps[currentStep];
+  steps.forEach((step) => { step.hidden = step !== current; });
 
   const visible = currentStep + 1;
-  stepStatus.innerHTML = `question <strong>${visible}</strong> of ${steps.length}`;
+  stepStatus.innerHTML = `question <strong>${visible}</strong> of ${visibleSteps.length}`;
+  progressBar.setAttribute("aria-valuemax", String(visibleSteps.length));
   progressBar.setAttribute("aria-valuenow", String(visible));
-  progressFill.style.width = `${(visible / steps.length) * 100}%`;
+  progressFill.style.width = `${(visible / visibleSteps.length) * 100}%`;
   backButton.hidden = currentStep === 0;
-  nextButton.innerHTML = currentStep === steps.length - 1
+  nextButton.innerHTML = currentStep === visibleSteps.length - 1
     ? `build my research brief <span aria-hidden="true">→</span>`
     : `next question <span aria-hidden="true">→</span>`;
-  nextButton.disabled = !currentStepValid();
+  formHint.textContent = currentRequirement();
 
   if (focus) {
-    const legend = steps[currentStep].querySelector("legend");
+    const legend = current.querySelector("legend");
     legend.setAttribute("tabindex", "-1");
     legend.focus({ preventScroll: true });
   }
@@ -148,7 +184,7 @@ function showStep(index, { focus = true } = {}) {
 
 function gatherAnswers() {
   const data = new FormData(form);
-  return normalizePetAnswers({
+  return normalizePetAnswers(answersWithSafeSkippedDefaults({
     mode: data.get("mode"),
     lanes: data.getAll("lanes"),
     time: data.get("time"),
@@ -158,7 +194,7 @@ function gatherAnswers() {
     household: data.get("household"),
     vet: data.get("vet"),
     horizon: data.get("horizon")
-  });
+  }));
 }
 
 function sourceLinks(profile) {
@@ -177,21 +213,46 @@ function renderLead(profile, index) {
     <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="1200" height="800" loading="lazy" decoding="async">
     <figcaption><a href="${escapeHtml(photo.source)}" target="_blank" rel="noopener noreferrer external">${escapeHtml(photo.creator)}</a> · <a href="${escapeHtml(photo.licenseUrl)}" target="_blank" rel="noopener noreferrer external">${escapeHtml(photo.license)}</a> · cropped</figcaption>
   </figure>` : "";
-  return `<li class="pet-lead" data-profile-id="${escapeHtml(profile.id)}">
+  const links = sourceLinks(profile);
+  if (index > 0) {
+    return `<li class="pet-lead pet-lead--alternative" data-profile-id="${escapeHtml(profile.id)}">
+      <details>
+        <summary><span><small>alternative 0${index + 1}</small><strong>${escapeHtml(profile.label)}</strong></span><span aria-hidden="true">+</span></summary>
+        <div class="pet-lead--alternative__inside">
+          <p>${escapeHtml(profile.summary)}</p>
+          <p><strong>why it may fit</strong> ${escapeHtml(profile.reasons.slice(0, 2).join(" ") || "It clears the hard limits in this brief.")}</p>
+          <p><strong>check first</strong> ${escapeHtml(profile.questions[0] || profile.summary)}</p>
+          <details class="pet-lead__notes">
+            <summary>sources and research notes</summary>
+            <div>
+              <section><h4>fit notes</h4><ul>${reasons}</ul></section>
+              <section><h4>source notes</h4><ul>${evidence}</ul></section>
+              <section><h4>questions to ask</h4><ol>${questions}</ol></section>
+              <div class="pet-lead__actions">${links}</div>
+            </div>
+          </details>
+        </div>
+      </details>
+    </li>`;
+  }
+  const visibleAction = profile.href ? `<div class="pet-lead__actions">${links}</div>` : "";
+  const researchAction = profile.href ? "" : `<div class="pet-lead__actions">${links}</div>`;
+  return `<li class="pet-lead pet-lead--primary" data-profile-id="${escapeHtml(profile.id)}">
     ${photoMarkup}
     <div class="pet-lead__main">
       <p class="pet-lead__rank">0${index + 1} · ${escapeHtml(profile.eyebrow)}</p>
       <h3>${escapeHtml(profile.label)}</h3>
       <p class="pet-lead__summary">${escapeHtml(profile.summary)}</p>
-      <p class="pet-lead__fit"><strong>why it fits</strong> ${escapeHtml(profile.reasons[0] || "It clears the hard limits in this brief.")}</p>
+      <p class="pet-lead__fit"><strong>why it fits</strong> ${escapeHtml(profile.reasons.slice(0, 2).join(" ") || "It clears the hard limits in this brief.")}</p>
       <p class="pet-lead__caution"><strong>check first</strong> ${escapeHtml(profile.questions[0] || profile.summary)}</p>
-      <div class="pet-lead__actions">${sourceLinks(profile)}</div>
+      ${visibleAction}
       <details class="pet-lead__notes">
-        <summary>see research notes</summary>
+        <summary>sources and research notes</summary>
         <div>
           <section><h4>fit notes</h4><ul>${reasons}</ul></section>
           <section><h4>source notes</h4><ul>${evidence}</ul></section>
           <section><h4>questions to ask</h4><ol>${questions}</ol></section>
+          ${researchAction}
         </div>
       </details>
     </div>
@@ -224,11 +285,14 @@ function renderReport(report) {
     ? `<ol class="blocked-profile-list">${report.blocked.map(renderBlocked).join("")}</ol>`
     : "";
   prepareFirst.hidden = report.blocked.length === 0;
+  prepareFirst.querySelector("details").open = false;
   reptileGate.hidden = !report.hasReptileGate;
+  primaryResultAction.hidden = report.leads.length === 0;
 
   if (report.leads.length) {
-    const leadLabel = report.leads.length === 1 ? "one source-linked lead" : `${report.leads.length} source-linked leads`;
-    resultSummary.textContent = `This brief has ${leadLabel}. Each still needs an individual-animal, provider, veterinary, cost, and local-rules check.`;
+    resultSummary.textContent = report.leads.length === 1
+      ? "Start with this source-linked lead, then verify the individual animal, provider, veterinary access, cost, and local rules."
+      : `${report.leads.length} possibilities. Start with the first; the others are compact alternatives.`;
   } else {
     resultSummary.textContent = "No reviewed profile clears every hard limit in this brief. The conflicts below are plans to resolve—not reasons to hide an animal’s needs.";
   }
@@ -415,17 +479,18 @@ async function runCommunityGuide() {
 
 form.addEventListener("change", (event) => {
   if (!event.target.matches("input")) return;
+  if (event.target.name === "mode") updateLaneFollowup();
   if (event.target.name === "lanes") enforceLaneLimit(event.target);
   if (event.target.name === "care") enforceCareChoice(event.target);
   clearError();
-  nextButton.disabled = !currentStepValid();
+  formHint.textContent = currentRequirement();
 });
 
 form.addEventListener("submit", (event) => event.preventDefault());
 
 nextButton.addEventListener("click", () => {
   if (!currentStepValid({ announce: true })) return;
-  if (currentStep < steps.length - 1) {
+  if (currentStep < activeSteps().length - 1) {
     showStep(currentStep + 1);
     return;
   }
@@ -440,6 +505,7 @@ changeButton.addEventListener("click", () => {
 });
 restartButton.addEventListener("click", () => {
   form.reset();
+  updateLaneFollowup();
   currentReport = null;
   result.hidden = true;
   guidePreparationSequence += 1;
@@ -452,4 +518,5 @@ guide.addEventListener("toggle", () => {
 });
 guideButton.addEventListener("click", runCommunityGuide);
 
+updateLaneFollowup();
 showStep(0, { focus: false });

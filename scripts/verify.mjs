@@ -146,9 +146,12 @@ assert.equal(appNode.offers.price, "0");
 
 assert.equal(PET_LANES.length, 10);
 assert.equal(PET_PROFILES.length, 11);
-assert.equal((home.match(/class="pet-step"/g) || []).length, 9, "all-pets flow must have nine progressive questions");
+assert.equal((home.match(/class="pet-step"/g) || []).length, 8, "all-pets flow must have eight adaptive questions");
 assert.equal((home.match(/name="lanes"/g) || []).length, 10, "all-pets flow must show exactly ten lanes");
-assert.equal((home.match(/<legend>/g) || []).length, 9);
+assert.equal((home.match(/<legend>/g) || []).length, 8);
+assert.match(home, /id="lane-followup"[^>]*hidden/);
+assert.match(home, /id="pet-form-hint"/);
+assert.match(home, /class="result-tools"/);
 for (const id of [...home.matchAll(/type="(?:radio|checkbox)"[^>]+id="([^"]+)"/g)].map((match) => match[1])) {
   assert.match(home, new RegExp(`<label[^>]+for="${id}"`), `All-pets choice ${id} needs a label`);
 }

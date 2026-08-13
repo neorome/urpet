@@ -361,11 +361,32 @@ function preferenceScore(profile, answers) {
 }
 
 function matchReasons(profile, answers) {
+  const timeLabels = {
+    steady: "steady daily feeding, cleaning, checks, and enrichment",
+    substantial: "substantial daily social care, cleaning, and movement",
+    habitat: "hands-on habitat maintenance"
+  };
+  const spaceLabels = {
+    compact: "compact enriched zone",
+    room: "room-scale movement space",
+    specialist: "specialist habitat"
+  };
+  const rhythmLabels = {
+    observe: "quiet observation",
+    gentle: "gentle, animal-led contact",
+    social: "daily social company",
+    night: "nighttime activity"
+  };
+  const horizonLabels = {
+    "under-ten": "under-ten-year plan",
+    "ten-plus": "ten-year-plus plan",
+    multidecade: "multidecade plan"
+  };
   const reasons = [];
-  if (profile.time?.includes(answers.time)) reasons.push("Its care rhythm aligns with the kind of daily work you selected.");
-  if (profile.spaces?.includes(answers.space)) reasons.push("Your stated space approach can support the reviewed setup.");
-  if (profile.rhythms?.includes(answers.rhythm)) reasons.push("Its interaction and activity rhythm is close to what you want.");
-  if (profile.horizons?.includes(answers.horizon)) reasons.push("Your commitment horizon covers the reviewed minimum.");
+  if (profile.time?.includes(answers.time)) reasons.push(`You selected ${timeLabels[answers.time]}, which this profile needs.`);
+  if (profile.spaces?.includes(answers.space)) reasons.push(`Your ${spaceLabels[answers.space]} choice clears this profile’s housing threshold.`);
+  if (profile.rhythms?.includes(answers.rhythm)) reasons.push(`Its normal interaction pattern matches your preference for ${rhythmLabels[answers.rhythm]}.`);
+  if (profile.horizons?.includes(answers.horizon)) reasons.push(`Your ${horizonLabels[answers.horizon]} covers the reviewed lifespan minimum.`);
   if (!reasons.length) reasons.push("It remains in your chosen lane, but the setup details need closer review.");
   return reasons.slice(0, 3);
 }

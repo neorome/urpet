@@ -13,6 +13,10 @@ import {
   normalizeSupportNote,
   qualifyingSupportNote
 } from "../worker.js";
+import {
+  activePetStepIds,
+  answersWithSafeSkippedDefaults
+} from "../public/scripts/all-pets-flow.js";
 
 const baseline = Object.freeze({
   mode: "kind",
@@ -51,6 +55,41 @@ test("answer normalization fails closed around lane counts and specialist-food c
   assert.equal(normalizePetAnswers(answers({ mode: "compare", lanes: ["cats", "birds", "dogs", "snakes"] })), null);
   assert.equal(normalizePetAnswers(answers({ lanes: ["unknown"] })), null);
   assert.equal(normalizePetAnswers(answers({ care: ["no-specialist-food", "water-care"] })), null);
+});
+
+test("the conversation skips only questions irrelevant to the selected pet lanes", () => {
+  assert.deepEqual(activePetStepIds({ mode: "kind", lanes: ["cats"] }), [
+    "search", "time", "space", "rhythm", "horizon"
+  ]);
+  assert.deepEqual(activePetStepIds({ mode: "compare", lanes: ["cats", "birds"] }), [
+    "search", "time", "space", "rhythm", "horizon"
+  ]);
+  assert.deepEqual(activePetStepIds({ mode: "kind", lanes: ["aquariums"] }), [
+    "search", "time", "space", "rhythm", "care", "horizon"
+  ]);
+  assert.deepEqual(activePetStepIds({ mode: "kind", lanes: ["geckos"] }), [
+    "search", "time", "space", "rhythm", "care", "household", "vet", "horizon"
+  ]);
+  assert.deepEqual(activePetStepIds({ mode: "open", lanes: [] }), [
+    "search", "time", "space", "rhythm", "care", "household", "vet", "horizon"
+  ]);
+});
+
+test("skipped specialist questions receive conservative valid defaults", () => {
+  assert.deepEqual(answersWithSafeSkippedDefaults({ care: [], household: "", vet: "" }), {
+    care: ["no-specialist-food"],
+    household: "clear",
+    vet: "general"
+  });
+  assert.deepEqual(answersWithSafeSkippedDefaults({
+    care: ["live-insects"],
+    household: "higher-risk",
+    vet: "specialist-ready"
+  }), {
+    care: ["live-insects"],
+    household: "higher-risk",
+    vet: "specialist-ready"
+  });
 });
 
 test("a reviewed cat can remain a research lead without implying a verdict", () => {
