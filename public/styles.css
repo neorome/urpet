@@ -632,6 +632,7 @@
 
 .blocked-profile details {
   align-self: center;
+  overflow: hidden;
   font-size: 0.77rem;
 }
 
@@ -642,12 +643,13 @@
 }
 
 .blocked-profile details ul {
-  margin-top: 12px;
+  margin: 0;
+  padding: 0 17px 0 37px;
 }
 
 .blocked-profile__sources {
   display: flex;
-  margin: 16px 0 0;
+  margin: 16px 17px 17px;
   flex-wrap: wrap;
   gap: 8px 14px;
 }
@@ -755,11 +757,17 @@
 }
 
 .pet-support p {
+  flex: 1 1 420px;
   margin: 0;
 }
 
 .pet-support .support-policy {
-  margin: 0 0 0 auto;
+  max-width: 310px;
+  margin: 0;
+  flex: 0 1 310px;
+  border-color: rgb(255 248 232 / 55%);
+  color: var(--cream);
+  background: transparent;
 }
 
 .support-policy {
@@ -777,6 +785,21 @@
 .support-policy p {
   margin: 10px 0 0 !important;
   font-size: 0.76rem;
+}
+
+.pet-support .support-policy summary {
+  padding: 11px 42px 11px 14px;
+  color: inherit;
+  font-size: 0.72rem;
+}
+
+.pet-support .support-policy summary::after {
+  right: 14px;
+}
+
+.pet-support .support-policy p {
+  padding: 0 14px 14px;
+  color: #ded7cc;
 }
 
 .coverage {
@@ -994,7 +1017,10 @@
   }
 
   .pet-support .support-policy {
+    width: 100%;
+    max-width: none;
     margin-left: 0;
+    flex-basis: auto;
   }
 
   .blocked-profile {
