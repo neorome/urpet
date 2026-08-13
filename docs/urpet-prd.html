@@ -254,7 +254,7 @@
           </div>
           <div class="grid-3">
             <article class="card"><h3>Conversation behavior</h3><ul><li>One fieldset visible at a time.</li><li>Visible “question n of 9” progress.</li><li>Back never erases later answers.</li><li>Invalid lane counts explain the exact correction.</li><li>Focus moves to each legend and the result title.</li></ul></article>
-            <article class="card"><h3>Result anatomy</h3><ul><li>Plain “research leads, not a verdict” heading.</li><li>Profile summary and why it stayed in.</li><li>Source-linked care facts.</li><li>Three real-world questions.</li><li>Hard conflicts in a separate prepare-first block.</li></ul></article>
+            <article class="card"><h3>Result anatomy</h3><ul><li>Plain “research leads, not a verdict” heading.</li><li>One ordered list, never a wall of result cards.</li><li>Exact local profile photo only after matching, with creator and license.</li><li>Fit and check-first notes visible; full research notes disclosed on demand.</li><li>Hard conflicts in a separate prepare-first block.</li></ul></article>
             <article class="card"><h3>Fallbacks</h3><ul><li>No reviewed fit may be the correct result.</li><li>No JavaScript still shows method, sources, dog module, and email.</li><li>Guide failures never alter the deterministic brief.</li><li>Unsupported animals stay researching.</li></ul></article>
           </div>
         </div>
@@ -285,7 +285,7 @@
           + min(active 75% support earmarks, verified support credit)
           - reserved model calls
           - settled model cost</code></pre>
-          <p>The optional guide is one request, not a conversation: select a compatible profile, pass Turnstile, receive exactly three short provider questions. It is hidden when configuration or budget is unavailable.</p>
+          <p>The optional guide is one request, not a conversation: select a compatible profile, pass Turnstile, and receive exactly three repository-reviewed provider questions. The model may choose only three allowlisted question IDs; it cannot send prose to the page. The guide is hidden when configuration, daily allowance, or prepaid budget is unavailable.</p>
         </div>
       </section>
 
@@ -295,8 +295,8 @@
           <h2>deterministic core; gated optional organizer.</h2>
           <div class="grid-3">
             <article class="card"><h3>Browser</h3><p>Static HTML/CSS/JavaScript. Closed answer vocabulary. Deterministic ranking. No account, cookie profile, user upload, or free-form prompt. The Turnstile script loads only after the status endpoint reports a funded guide ready.</p></article>
-            <article class="card"><h3>Cloudflare Worker</h3><p>Canonical redirects and security headers; BMC webhook; non-sensitive guide status; same-origin guide endpoint; Cloudflare rate limiter; Turnstile Siteverify; timeout and output validation.</p></article>
-            <article class="card"><h3>D1</h3><p>Privacy-minimized support payments/events, immutable provider-funding receipts, one aggregate budget, and per-call profile/token/cost/outcome audit. No identity, IP, raw note, prompt, or output.</p></article>
+            <article class="card"><h3>Cloudflare Worker</h3><p>Canonical redirects and security headers; BMC webhook; non-sensitive guide status; exact production-host guide endpoint; Cloudflare rate limiter; Turnstile Siteverify; provider timeout; and strict question-ID validation.</p></article>
+            <article class="card"><h3>D1</h3><p>Privacy-minimized support events, append-only provider-funding receipts, exact UTC-day limits, durable per-request reservations, one aggregate budget, and per-call profile/token/cost/outcome audit. No identity, IP, raw note, prompt, or output.</p></article>
           </div>
           <h3>Abuse and accounting controls</h3>
           <ol class="checklist">
@@ -304,10 +304,11 @@
             <li>Accept only live <code>donation.created</code> and <code>donation.refunded</code> events; make event and payment handling idempotent.</li>
             <li>Normalize only for the keyword decision; never persist the support note.</li>
             <li>Validate guide origin, content type, body size, exact keys, profile ID, and every answer ID.</li>
-            <li>Rate limit before costly provider work. Send the IP only to the Cloudflare rate-limit binding; do not store it.</li>
-            <li>Require server-side Turnstile success plus the exact action and production hostname.</li>
-            <li>Reserve shared budget atomically before Cerebras. Settle actual input/output token cost; charge the conservative reservation when the provider outcome is unknown.</li>
-            <li>Return only three nonempty strings of at most 180 characters. The model may organize reviewed information but cannot add care claims or change matches.</li>
+            <li>Use a three-per-minute per-IP edge limiter and managed Turnstile. Send the edge IP to Siteverify for verification context, but never store it.</li>
+            <li>Require server-side Turnstile success, a single-use idempotency key, the exact action, and the exact <code>urdog.dev</code> hostname; disable Workers.dev and preview-host access.</li>
+            <li>Enforce exact D1 UTC-day ceilings of 250 reservations and $0.10 committed model spend, independent of IP rotation.</li>
+            <li>Create a durable reservation before Cerebras, settle it exactly once, and conservatively charge stale or unknown provider outcomes through the 15-minute reconciliation job.</li>
+            <li>Accept only three unique IDs from the selected profile’s reviewed question bank, then map those IDs to repository-owned text. No model-created prose reaches the page.</li>
           </ol>
           <h3>Stable names</h3>
           <table>
@@ -332,9 +333,9 @@
                 <li>Exactly ten lanes and eleven specific launch profiles.</li>
                 <li>Hard-conflict scenarios across aquarium, bird, rabbit, hamster, tortoise, gecko, and snake profiles.</li>
                 <li>Dog module remains nine questions, 205 breeds, 205 licensed local photos, and `/dogs/` deep links.</li>
-                <li>Signed create/refund idempotency, out-of-order refund, 75%, privacy schema, $10 owner cap, dual funding ledger.</li>
-                <li>Closed guide input, origin/rate/Turnstile checks, token settlement, unknown-provider accounting.</li>
-                <li>Metadata, sitemap, headers, generated pages, CSS balance, 320 px rules, reduced motion, print, and deployment dry run.</li>
+                <li>Signed create/refund idempotency, out-of-order refund, 75%, privacy schema, append-only receipts, $10 owner cap, and dual funding ledger.</li>
+                <li>Closed guide input, exact host/origin/Turnstile checks, distributed daily limits, concurrent reservations, allowlisted output, token settlement, and stale/unknown-provider accounting.</li>
+                <li>Ten exact post-match photos, metadata, sitemap, headers, generated pages, CSS balance, 320 px rules, reduced motion, print, and deployment dry run.</li>
               </ul>
             </article>
             <article class="card">
@@ -359,7 +360,7 @@
           <ul>
             <li><a href="https://help.buymeacoffee.com/en/articles/15743173-how-to-setup-and-use-buy-me-a-coffee-webhooks">Buy Me a Coffee webhook setup and signature verification</a>.</li>
             <li><a href="https://inference-docs.cerebras.ai/console/account-billing">Cerebras Account &amp; Billing</a>: balance and credit addition live in the Cloud Console.</li>
-            <li><a href="https://inference-docs.cerebras.ai/api-reference/models/public-models">Cerebras public-model price reference</a>: <code>gpt-oss-120b</code> was $0.35/M input and $0.75/M output tokens on 2026-08-12. A live public-endpoint gate must match the pin before the optional guide is enabled.</li>
+            <li><a href="https://inference-docs.cerebras.ai/api-reference/models/public-models">Cerebras public-model price reference</a>: <code>gpt-oss-120b</code> was $0.35/M input and $0.75/M output tokens on 2026-08-12. <code>gemma-4-31b</code> was $0.99/M input and $1.49/M output, so it is not the cheaper text organizer. A live public-endpoint gate must match the selected model pin before the guide is enabled.</li>
             <li><a href="https://developers.cloudflare.com/turnstile/get-started/server-side-validation/">Cloudflare Turnstile server-side validation</a>: tokens require Siteverify and are single-use.</li>
             <li>Pet welfare links are attached directly to each shipped profile in the product source and result UI.</li>
           </ul>

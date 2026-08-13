@@ -22,7 +22,7 @@ npm run check
 git status --short --branch
 ```
 
-`npm run check` must pass against the exact commit. Generated catalog and credit pages must be current; all 205 photo hashes must match; the Worker dry run must list `COMMUNITY_DB`, `GUIDE_RATE_LIMIT`, `ASSETS`, `TURNSTILE_ACTION`, and `TURNSTILE_HOSTNAMES`.
+`npm run check` must pass against the exact commit. Generated catalog and credit pages must be current; all 205 dog photo hashes and all ten reviewed profile assets must pass; the Worker dry run must list `COMMUNITY_DB`, `GUIDE_RATE_LIMIT`, `ASSETS`, `TURNSTILE_ACTION`, `TURNSTILE_HOSTNAMES`, and `TURNSTILE_SITE_KEY`.
 
 ## Community database
 
@@ -34,7 +34,7 @@ npx wrangler d1 execute COMMUNITY_DB --remote --command \
   "SELECT name FROM sqlite_master WHERE type IN ('table','trigger') ORDER BY name" --json
 ```
 
-The schema stores no supporter identity, raw note, IP, prompt, or model output. `owner_seed_ten_dollar_limit` rejects cumulative owner receipts over $10.
+The schema stores no supporter identity, raw note, IP, prompt, or model output. Provider receipts are append-only even through SQLite replacement conflict policies. `owner_seed_ten_dollar_limit` rejects genuinely new owner receipts above $10 total. Exact UTC-day triggers reject more than 250 reservations or $0.10 in committed model spend, and a 15-minute Cron Trigger settles stale reservations conservatively.
 
 ## Optional community-guide configuration
 
@@ -44,7 +44,7 @@ Before adding any guide secret or funding receipt, verify that the cost oracle s
 npm run check:guide-pricing
 ```
 
-Any mismatch is a hard stop: leave the guide `resting`, update the pinned rates and cost tests, and repeat the budget review before enabling it. The current pin is effective 2026-08-12 for `gpt-oss-120b` at $0.35/M input and $0.75/M output tokens.
+Any mismatch is a hard stop: leave the guide `resting`, update the pinned rates and cost tests, and repeat the budget review before enabling it. The current pin is effective 2026-08-12 for `gpt-oss-120b` at $0.35/M input and $0.75/M output tokens. Gemma 4 31B was checked and rejected for this text-only job because its public rates were higher.
 
 Required bindings:
 
@@ -56,7 +56,7 @@ Required bindings:
 - `TURNSTILE_ACTION=community_guide`;
 - rate limiter `GUIDE_RATE_LIMIT`.
 
-Do not place secret values in the repository, shell history, command arguments, logs, or this runbook. Install or rotate them only with explicit current authorization.
+Do not place secret values in the repository, shell history, command arguments, logs, or this runbook. Install or rotate them only with explicit current authorization. `scripts/create-turnstile-widget.mjs` safely reuses the exact named widget and installs its secret without printing it; `scripts/install-worker-secret-from-env.mjs` accepts only `CEREBRAS_API_KEY` from a protected environment and pipes it directly to Wrangler.
 
 Configure Buy Me a Coffee to send `donation.created` and `donation.refunded` to:
 

@@ -3,7 +3,8 @@ import { access, readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { BREEDS } from "../public/scripts/breed-catalog.js";
-import { PET_LANES, PET_PROFILES } from "../public/scripts/all-pets-engine.js";
+import { GUIDE_PROFILE_IDS, PET_LANES, PET_PROFILES } from "../public/scripts/all-pets-engine.js";
+import { PROFILE_PHOTOS } from "../public/data/profile-photos.js";
 
 const root = resolve(import.meta.dirname, "..");
 const publicDir = resolve(root, "public");
@@ -27,6 +28,7 @@ const requiredAssets = [
   "scripts/external-links.js",
   "scripts/catalog.js",
   "scripts/dog-engine.js",
+  "data/profile-photos.js",
   "data/breed-photos.json",
   "favicon.svg",
   "apple-touch-icon.png",
@@ -67,6 +69,8 @@ const [
   worker,
   packageText,
   migration,
+  guideMigration,
+  wrangler,
   prd
 ] = await Promise.all([
   readPublic("index.html"),
@@ -89,6 +93,8 @@ const [
   readFile(resolve(root, "worker.js"), "utf8"),
   readFile(resolve(root, "package.json"), "utf8"),
   readFile(resolve(root, "migrations", "0001_community.sql"), "utf8"),
+  readFile(resolve(root, "migrations", "0002_guide_reservations.sql"), "utf8"),
+  readFile(resolve(root, "wrangler.jsonc"), "utf8"),
   readFile(resolve(root, "docs", "urpet-prd.html"), "utf8")
 ]);
 
@@ -149,10 +155,10 @@ for (const id of [...home.matchAll(/type="(?:radio|checkbox)"[^>]+id="([^"]+)"/g
 assert.match(home, /id="pet-result"[^>]*hidden/);
 assert.match(home, /id="community-guide"[^>]*hidden/);
 assert.match(home, /id="reptile-gate"[^>]*hidden/);
-assert.match(home, /how “urpet” support is used/);
-assert.match(home, /legacy name “urdog”/);
+assert.match(home, /how support is used/);
+assert.match(home, /legacy “urdog,”/);
 assert.match(home, /75% is earmarked/);
-assert.match(home, /Buy Me a Coffee cannot purchase Cerebras credits automatically/);
+assert.match(home, /Buy Me a Coffee records the donation, but Cerebras credit is verified separately/);
 assert.match(home, /mailto:team@neorome\.dev\?subject=urpet%20pet%20suggestion/);
 assert.match(home, /href="\/dogs\/">dog matcher<\/a>/);
 assert.match(home, /href="https:\/\/buymeacoffee\.com\/baneydonovan"/);
@@ -160,8 +166,31 @@ assert.ok(home.indexOf("buymeacoffee.com/baneydonovan") > home.indexOf('id="pet-
 assert.match(allPetsApp, /fetch\("\/api\/community\/status"/);
 assert.match(allPetsApp, /encodeGuideAnswerIds/);
 assert.match(allPetsApp, /prefers-reduced-motion/);
+assert.match(allPetsApp, /PROFILE_PHOTOS/);
+assert.match(allPetsApp, /loading="lazy" decoding="async"/);
+assert.match(allPetsApp, /class="blocked-profile-list"/);
+assert.doesNotMatch(allPetsApp, /<article class="blocked-profile">/);
+assert.doesNotMatch(home, /\/assets\/profiles\//, "Profile photos must appear only after matching, never in lane selection");
 assert.match(allPetsEngine, /hardConflicts/);
 assert.match(allPetsEngine, /CDC advises households/);
+
+const expectedProfilePhotoIds = [...GUIDE_PROFILE_IDS].sort();
+const profilePhotoIds = Object.keys(PROFILE_PHOTOS).sort();
+assert.deepEqual(profilePhotoIds, expectedProfilePhotoIds, "Every non-dog reviewed profile needs one exact local photo");
+for (const [profileId, photo] of Object.entries(PROFILE_PHOTOS)) {
+  assert.deepEqual(Object.keys(photo).sort(), ["alt", "creator", "license", "licenseUrl", "source", "src"].sort());
+  assert.equal(photo.src, `/assets/profiles/${profileId}.webp`);
+  assert.ok(photo.alt.length >= 20 && photo.alt.length <= 180);
+  assert.ok(photo.creator.length >= 2);
+  assert.match(photo.source, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+  assert.match(photo.license, /^CC BY(?:-SA)? /);
+  assert.match(photo.licenseUrl, /^https:\/\/creativecommons\.org\/licenses\/by(?:-sa)?\//);
+  for (const field of [photo.alt, photo.creator, photo.license]) assert.doesNotMatch(field, /[<>]/);
+  const file = await readFile(resolve(publicDir, photo.src.replace(/^\//, "")));
+  assert.equal(file.subarray(0, 4).toString("ascii"), "RIFF", `${profileId} is not a WebP RIFF file`);
+  assert.equal(file.subarray(8, 12).toString("ascii"), "WEBP", `${profileId} is not a WebP file`);
+  assert.ok(file.byteLength <= 300_000, `${profileId} profile photo is larger than 300 kB`);
+}
 
 assert.equal((dogs.match(/<fieldset\b/g) || []).length, 9, "dog module must preserve nine questions");
 assert.equal((dogs.match(/type="radio"/g) || []).length, 29, "dog module must preserve its radio choices");
@@ -223,10 +252,36 @@ for (const tableName of ["support_payments", "support_events", "guide_usage"]) {
   const columns = migration.match(new RegExp(`CREATE TABLE IF NOT EXISTS ${tableName} \\(([\\s\\S]*?)\\n\\);`))?.[1] || "";
   assert.doesNotMatch(columns, /support_note|\bemail\b|ip_address|prompt_text|model_output/);
 }
+assert.match(guideMigration, /CREATE TABLE IF NOT EXISTS guide_daily_windows/);
+assert.match(guideMigration, /CREATE TABLE IF NOT EXISTS guide_reservations/);
+assert.match(guideMigration, /daily guide call limit reached/);
+assert.match(guideMigration, /daily guide spend limit reached/);
+assert.match(guideMigration, /invalid guide reservation settlement/);
+assert.doesNotMatch(guideMigration, /SELECT CASE WHEN/, "D1 migrations must avoid CASE blocks inside trigger bodies");
+assert.match(guideMigration, /CREATE TRIGGER IF NOT EXISTS funding_receipts_immutable_update/);
+assert.match(guideMigration, /CREATE TRIGGER IF NOT EXISTS funding_receipts_immutable_delete/);
+assert.match(guideMigration, /CREATE TRIGGER IF NOT EXISTS funding_receipts_immutable_duplicate/);
+assert.match(guideMigration, /SELECT RAISE\(IGNORE\)/);
+assert.match(guideMigration, /NOT EXISTS\(SELECT 1 FROM funding_receipts WHERE receipt_id = NEW\.receipt_id\)/);
+for (const tableName of ["guide_daily_windows", "guide_reservations"]) {
+  const columns = guideMigration.match(new RegExp(`CREATE TABLE IF NOT EXISTS ${tableName} \\(([\\s\\S]*?)\\n\\);`))?.[1] || "";
+  assert.doesNotMatch(columns, /support_note|\bemail\b|ip_address|prompt_text|model_output|turnstile_token/);
+}
+assert.match(wrangler, /"workers_dev": false/);
+assert.match(wrangler, /"preview_urls": false/);
+assert.match(wrangler, /"limit": 3/);
+assert.match(wrangler, /"crons": \["\*\/15 \* \* \* \*"\]/);
 
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 assert.match(css, /@media print/);
 assert.match(css, /@media \(max-width: 390px\)/);
+const printCss = css.match(/@media print \{([\s\S]*)\}\s*$/)?.[1] || "";
+for (const selector of [".all-pets-hero", ".pet-result-actions", ".community-guide", ".pet-support", ".coverage"]) {
+  assert.match(printCss, new RegExp(selector.replace(".", "\\.")), `Print must hide ${selector}`);
+}
+assert.match(printCss, /\.pet-result \{/);
+assert.match(printCss, /\.all-pets-page main > :not\(\.pet-result\)/);
+assert.match(printCss, /background: #fff/);
 assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, "CSS braces must balance");
 assert.match(dogApp, /navigator\.share/);
 assert.match(dogApp, /navigator\.clipboard/);

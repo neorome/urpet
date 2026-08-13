@@ -124,17 +124,12 @@
               <legend>which pet lanes belong in this search?</legend>
               <p class="question-note" id="lane-instructions">Open searches may leave every lane unchecked. A known-kind search needs one; compare needs two or three.</p>
               <div class="lane-choice-grid" aria-describedby="lane-instructions">
+                <p class="lane-group-title">companions at home</p>
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-dogs" value="dogs">
                 <label for="lane-dogs"><strong>Dogs</strong><small>205-breed module</small></label>
 
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-cats" value="cats">
                 <label for="lane-cats"><strong>Cats</strong><small>adult domestic cat</small></label>
-
-                <input class="lane-input" type="checkbox" name="lanes" id="lane-aquariums" value="aquariums">
-                <label for="lane-aquariums"><strong>Freshwater aquariums</strong><small>mature goldfish setup</small></label>
-
-                <input class="lane-input" type="checkbox" name="lanes" id="lane-birds" value="birds">
-                <label for="lane-birds"><strong>Companion birds</strong><small>budgie or cockatiel pair</small></label>
 
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-rabbits" value="rabbits">
                 <label for="lane-rabbits"><strong>Rabbits</strong><small>bonded pair</small></label>
@@ -145,6 +140,10 @@
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-hamsters" value="hamsters">
                 <label for="lane-hamsters"><strong>Hamsters</strong><small>solo Syrian hamster</small></label>
 
+                <p class="lane-group-title">habitat-led care</p>
+                <input class="lane-input" type="checkbox" name="lanes" id="lane-aquariums" value="aquariums">
+                <label for="lane-aquariums"><strong>Freshwater aquariums</strong><small>mature goldfish setup</small></label>
+
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-tortoises" value="tortoises">
                 <label for="lane-tortoises"><strong>Turtles & tortoises</strong><small>Hermann’s tortoise reviewed</small></label>
 
@@ -153,6 +152,10 @@
 
                 <input class="lane-input" type="checkbox" name="lanes" id="lane-snakes" value="snakes">
                 <label for="lane-snakes"><strong>Snakes</strong><small>corn snake reviewed</small></label>
+
+                <p class="lane-group-title">social and noise-sensitive</p>
+                <input class="lane-input" type="checkbox" name="lanes" id="lane-birds" value="birds">
+                <label for="lane-birds"><strong>Companion birds</strong><small>budgie or cockatiel pair</small></label>
               </div>
             </fieldset>
 
@@ -308,33 +311,26 @@
           <button class="button button--text" id="restart-pet-brief" type="button">start over</button>
         </div>
 
-        <section class="community-guide" id="community-guide" aria-labelledby="community-guide-title" hidden>
-          <div>
-            <p class="section-kicker">shared community guide</p>
-            <h3 id="community-guide-title">turn one lead into three sharper questions.</h3>
-            <p>This optional one-shot organizer is not the matcher and not a chat. It receives only the answer and profile IDs shown in this brief.</p>
+        <details class="community-guide" id="community-guide" hidden>
+          <summary id="community-guide-title">need help preparing for a provider conversation?</summary>
+          <div class="community-guide__inside">
+            <p>The shared AI chooses three questions from urpet’s reviewed list. It cannot write care advice, accept a prompt, change your matches, or spend past the daily prepaid cap.</p>
+            <label for="guide-profile">research lead</label>
+            <select id="guide-profile"></select>
+            <div id="guide-turnstile"></div>
+            <button class="button button--secondary" id="run-community-guide" type="button" disabled>choose three reviewed questions</button>
+            <p class="community-guide__status" id="community-guide-status" role="status"></p>
+            <ol id="community-guide-questions" hidden></ol>
           </div>
-          <label for="guide-profile">research lead</label>
-          <select id="guide-profile"></select>
-          <div id="guide-turnstile"></div>
-          <button class="button button--secondary" id="run-community-guide" type="button" disabled>build three questions</button>
-          <p class="community-guide__status" id="community-guide-status" role="status"></p>
-          <ol id="community-guide-questions" hidden></ol>
-        </section>
+        </details>
 
-        <aside class="support-card pet-support" id="pet-support" aria-labelledby="pet-support-title">
-          <div class="support-card__coin" aria-hidden="true">tip</div>
-          <div>
-            <p class="section-kicker">after the useful part</p>
-            <h3 id="pet-support-title">help keep the notes reviewed.</h3>
-            <p>Did this research brief help? You can support continued review with Buy Me a Coffee. The matcher remains free and anonymous.</p>
-            <a class="button button--coffee" href="https://buymeacoffee.com/baneydonovan" target="_blank" rel="noopener noreferrer external">buy the matchmaker a coffee <span aria-hidden="true">↗</span></a>
-            <details class="support-policy">
-              <summary>how “urpet” support is used</summary>
-              <p>If your support note contains “urpet” or the legacy name “urdog” (spacing, punctuation, and capitalization do not matter), 75% is earmarked for actual Cerebras credits used by the one-shot community guide; 25% covers payment fees and site upkeep. Support increases one shared pool for everyone—it does not buy personal access.</p>
-              <p>Buy Me a Coffee cannot purchase Cerebras credits automatically. Signed payment and refund events update an urpet ledger; shared usage opens only after those amounts are reconciled to credits actually funded in Cerebras.</p>
-            </details>
-          </div>
+        <aside class="pet-support" id="pet-support" aria-labelledby="pet-support-title">
+          <p id="pet-support-title"><strong>This brief helped?</strong> Buy the matchmaker a coffee. The matcher stays free and anonymous.</p>
+          <a class="button button--coffee" href="https://buymeacoffee.com/baneydonovan" target="_blank" rel="noopener noreferrer external">buy me a coffee <span aria-hidden="true">↗</span></a>
+          <details class="support-policy">
+            <summary>how support is used</summary>
+            <p>If your note contains “urpet” or legacy “urdog,” 75% is earmarked for verified Cerebras credits shared by everyone; 25% covers payment fees and upkeep. Buy Me a Coffee records the donation, but Cerebras credit is verified separately before the guide can spend it.</p>
+          </details>
         </aside>
       </section>
 
@@ -344,18 +340,18 @@
           <h2 id="coverage-title">ten lanes. specific profiles.</h2>
           <p><strong>urpet</strong> starts with ten reviewed lanes and grows only after a species-level welfare review.</p>
         </div>
-        <div class="coverage-grid">
-          <article><strong>Dogs</strong><span>205 breed profiles in the dedicated module</span></article>
-          <article><strong>Cats</strong><span>adult domestic cat</span></article>
-          <article><strong>Freshwater aquariums</strong><span>mature goldfish aquarium</span></article>
-          <article><strong>Companion birds</strong><span>budgerigar pair · cockatiel pair</span></article>
-          <article><strong>Rabbits</strong><span>bonded domestic pair</span></article>
-          <article><strong>Guinea pigs</strong><span>compatible pair</span></article>
-          <article><strong>Hamsters</strong><span>solo Syrian hamster</span></article>
-          <article><strong>Turtles & tortoises</strong><span>captive-bred Hermann’s tortoise</span></article>
-          <article><strong>Geckos</strong><span>captive-bred leopard gecko</span></article>
-          <article><strong>Snakes</strong><span>captive-bred corn snake</span></article>
-        </div>
+        <ul class="coverage-grid">
+          <li><strong>Dogs</strong><span>205 breed profiles</span></li>
+          <li><strong>Cats</strong><span>adult domestic cat</span></li>
+          <li><strong>Aquariums</strong><span>mature goldfish setup</span></li>
+          <li><strong>Birds</strong><span>budgie and cockatiel pairs</span></li>
+          <li><strong>Rabbits</strong><span>bonded domestic pair</span></li>
+          <li><strong>Guinea pigs</strong><span>compatible pair</span></li>
+          <li><strong>Hamsters</strong><span>solo Syrian hamster</span></li>
+          <li><strong>Tortoises</strong><span>Hermann’s tortoise</span></li>
+          <li><strong>Geckos</strong><span>leopard gecko</span></li>
+          <li><strong>Snakes</strong><span>corn snake</span></li>
+        </ul>
         <p class="coverage-suggestion">Want another pet reviewed? Email <a href="mailto:team@neorome.dev?subject=urpet%20pet%20suggestion">team@neorome.dev</a>. Suggestions enter a research queue; they do not become instant recommendations.</p>
       </section>
 

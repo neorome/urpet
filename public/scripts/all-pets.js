@@ -3,6 +3,7 @@ import {
   normalizePetAnswers,
   rankPetProfiles
 } from "./all-pets-engine.js?v=20260812b";
+import { PROFILE_PHOTOS } from "../data/profile-photos.js?v=20260813a";
 
 const form = document.querySelector("#pet-conversation");
 const steps = [...document.querySelectorAll(".pet-step")];
@@ -35,6 +36,7 @@ let currentReport = null;
 let turnstileWidgetId = null;
 let turnstileToken = "";
 let guideConfiguration = null;
+let guidePreparationSequence = 0;
 
 document.documentElement.classList.add("js");
 
@@ -170,45 +172,57 @@ function renderLead(profile, index) {
   const reasons = profile.reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("");
   const evidence = profile.evidence.map((point) => `<li>${escapeHtml(point)}</li>`).join("");
   const questions = profile.questions.map((question) => `<li>${escapeHtml(question)}</li>`).join("");
-  return `<article class="pet-profile-card" data-profile-id="${escapeHtml(profile.id)}">
-    <header>
-      <p class="pet-profile-card__rank">0${index + 1} · ${escapeHtml(profile.eyebrow)}</p>
+  const photo = PROFILE_PHOTOS[profile.id];
+  const photoMarkup = photo ? `<figure class="pet-lead__photo">
+    <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="1200" height="800" loading="lazy" decoding="async">
+    <figcaption><a href="${escapeHtml(photo.source)}" target="_blank" rel="noopener noreferrer external">${escapeHtml(photo.creator)}</a> · <a href="${escapeHtml(photo.licenseUrl)}" target="_blank" rel="noopener noreferrer external">${escapeHtml(photo.license)}</a> · cropped</figcaption>
+  </figure>` : "";
+  return `<li class="pet-lead" data-profile-id="${escapeHtml(profile.id)}">
+    ${photoMarkup}
+    <div class="pet-lead__main">
+      <p class="pet-lead__rank">0${index + 1} · ${escapeHtml(profile.eyebrow)}</p>
       <h3>${escapeHtml(profile.label)}</h3>
-      <p>${escapeHtml(profile.summary)}</p>
-    </header>
-    <div class="pet-profile-card__body">
-      <section>
-        <h4>why it stayed in</h4>
-        <ul>${reasons}</ul>
-      </section>
-      <section>
-        <h4>what the source makes clear</h4>
-        <ul>${evidence}</ul>
-      </section>
-      <section class="pet-profile-card__questions">
-        <h4>ask before choosing</h4>
-        <ol>${questions}</ol>
-      </section>
+      <p class="pet-lead__summary">${escapeHtml(profile.summary)}</p>
+      <p class="pet-lead__fit"><strong>why it fits</strong> ${escapeHtml(profile.reasons[0] || "It clears the hard limits in this brief.")}</p>
+      <p class="pet-lead__caution"><strong>check first</strong> ${escapeHtml(profile.questions[0] || profile.summary)}</p>
+      <div class="pet-lead__actions">${sourceLinks(profile)}</div>
+      <details class="pet-lead__notes">
+        <summary>see research notes</summary>
+        <div>
+          <section><h4>fit notes</h4><ul>${reasons}</ul></section>
+          <section><h4>source notes</h4><ul>${evidence}</ul></section>
+          <section><h4>questions to ask</h4><ol>${questions}</ol></section>
+        </div>
+      </details>
     </div>
-    <footer>${sourceLinks(profile)}</footer>
-  </article>`;
+  </li>`;
 }
 
 function renderBlocked(profile) {
   const conflicts = profile.conflicts.map((conflict) => `<li>${escapeHtml(conflict)}</li>`).join("");
-  const sources = profile.sources?.length ? `<p class="blocked-profile__sources">${sourceLinks(profile)}</p>` : "";
-  return `<article class="blocked-profile">
-    <p class="blocked-profile__status">prepare first</p>
-    <h4>${escapeHtml(profile.label)}</h4>
-    <ul>${conflicts}</ul>
-    ${sources}
-  </article>`;
+  const sources = profile.sources?.length ? `<div class="blocked-profile__sources">${sourceLinks(profile)}</div>` : "";
+  return `<li class="blocked-profile">
+    <div>
+      <p class="blocked-profile__status">prepare first</p>
+      <h4>${escapeHtml(profile.label)}</h4>
+      <p class="blocked-profile__first">${escapeHtml(profile.conflicts[0])}</p>
+    </div>
+    <details>
+      <summary>see every conflict and source</summary>
+      <ul>${conflicts}</ul>
+      ${sources}
+    </details>
+  </li>`;
 }
 
 function renderReport(report) {
   currentReport = report;
-  leadsRoot.innerHTML = report.leads.map(renderLead).join("");
-  blockedRoot.innerHTML = report.blocked.map(renderBlocked).join("");
+  leadsRoot.innerHTML = report.leads.length
+    ? `<ol class="pet-lead-list">${report.leads.map(renderLead).join("")}</ol>`
+    : "";
+  blockedRoot.innerHTML = report.blocked.length
+    ? `<ol class="blocked-profile-list">${report.blocked.map(renderBlocked).join("")}</ol>`
+    : "";
   prepareFirst.hidden = report.blocked.length === 0;
   reptileGate.hidden = !report.hasReptileGate;
 
@@ -281,6 +295,8 @@ function loadTurnstileScript() {
 }
 
 async function prepareCommunityGuide(report) {
+  const preparationSequence = ++guidePreparationSequence;
+  hideCommunityGuide();
   const eligible = report.leads.filter(({ id }) => id !== "dog-breed-module");
   if (!eligible.length) return;
 
@@ -291,7 +307,8 @@ async function prepareCommunityGuide(report) {
     });
     if (!response.ok) return;
     const status = await response.json();
-    if (!status.guideEnabled || typeof status.turnstileSiteKey !== "string") return;
+    if (preparationSequence !== guidePreparationSequence) return;
+    if (!status.guideEnabled || typeof status.turnstileSiteKey !== "string" || !status.turnstileSiteKey) return;
     guideConfiguration = status;
     guideProfile.replaceChildren(...eligible.map((profile) => {
       const option = document.createElement("option");
@@ -299,12 +316,38 @@ async function prepareCommunityGuide(report) {
       option.textContent = profile.label;
       return option;
     }));
-    await loadTurnstileScript();
-    if (!window.turnstile) return;
     guide.hidden = false;
+  } catch {
+    if (preparationSequence === guidePreparationSequence) hideCommunityGuide();
+  }
+}
+
+function hideCommunityGuide() {
+  guide.hidden = true;
+  guide.open = false;
+  guideConfiguration = null;
+  turnstileToken = "";
+  guideButton.disabled = true;
+  guideStatus.textContent = "";
+  guideQuestions.hidden = true;
+  guideQuestions.replaceChildren();
+  if (window.turnstile && turnstileWidgetId !== null) {
+    window.turnstile.remove(turnstileWidgetId);
+  }
+  turnstileWidgetId = null;
+  guideWidget.replaceChildren();
+}
+
+async function renderTurnstile() {
+  const configuration = guideConfiguration;
+  if (!guide.open || !configuration || turnstileWidgetId !== null) return;
+  guideStatus.textContent = "Loading private verification…";
+  try {
+    await loadTurnstileScript();
+    if (!guide.open || guideConfiguration !== configuration || !window.turnstile || turnstileWidgetId !== null) return;
     turnstileWidgetId = window.turnstile.render(guideWidget, {
-      sitekey: status.turnstileSiteKey,
-      action: status.turnstileAction || "community_guide",
+      sitekey: configuration.turnstileSiteKey,
+      action: configuration.turnstileAction || "community_guide",
       theme: "auto",
       callback(token) {
         turnstileToken = token;
@@ -323,7 +366,7 @@ async function prepareCommunityGuide(report) {
       }
     });
   } catch {
-    guide.hidden = true;
+    guideStatus.textContent = "Verification is unavailable. Your deterministic brief still works.";
   }
 }
 
@@ -399,10 +442,13 @@ restartButton.addEventListener("click", () => {
   form.reset();
   currentReport = null;
   result.hidden = true;
-  guide.hidden = true;
-  resetTurnstile();
+  guidePreparationSequence += 1;
+  hideCommunityGuide();
   showStep(0, { focus: false });
   focusAndReveal(steps[0].querySelector("legend"));
+});
+guide.addEventListener("toggle", () => {
+  if (guide.open) void renderTurnstile();
 });
 guideButton.addEventListener("click", runCommunityGuide);
 

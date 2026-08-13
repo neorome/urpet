@@ -419,3 +419,21 @@ export function encodeGuideAnswerIds(answers) {
 }
 
 export const GUIDE_PROFILE_IDS = Object.freeze(PET_PROFILES.filter(({ id }) => id !== "dog-breed-module").map(({ id }) => id));
+
+const GUIDE_COMMON_QUESTIONS = Object.freeze([
+  "What does a realistic seven-day care routine look like, including feeding, cleaning, observation, exercise, and enrichment where relevant?",
+  "What current veterinary records, health history, and species-appropriate professional support are available for this individual or group?",
+  "What is the plan for housing rules, full costs, emergencies, holidays, equipment or power failures, and backup care?"
+]);
+
+export const GUIDE_QUESTION_BANKS = Object.freeze(Object.fromEntries(
+  PET_PROFILES
+    .filter(({ id }) => GUIDE_PROFILE_IDS.includes(id))
+    .map((profile) => [
+      profile.id,
+      Object.freeze([...profile.questions, ...GUIDE_COMMON_QUESTIONS].map((text, index) => Object.freeze({
+        id: `${profile.id}:q${index + 1}`,
+        text
+      })))
+    ])
+));

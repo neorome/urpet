@@ -4,8 +4,8 @@
   "account_id": "f28b2a55054cbc8d998c5963ed34a0a7",
   "main": "./worker.js",
   "compatibility_date": "2026-08-08",
-  "workers_dev": true,
-  "preview_urls": true,
+  "workers_dev": false,
+  "preview_urls": false,
   "routes": [
     {
       "pattern": "urdog.dev",
@@ -26,11 +26,15 @@
     { "binding": "COMMUNITY_DB", "database_name": "urdog-community", "database_id": "4646d0d8-f3e9-43e8-851e-dc81bd90b7e4", "migrations_dir": "migrations" }
   ],
   "ratelimits": [
-    { "name": "GUIDE_RATE_LIMIT", "namespace_id": "847364", "simple": { "limit": 6, "period": 60 } }
+    { "name": "GUIDE_RATE_LIMIT", "namespace_id": "847364", "simple": { "limit": 3, "period": 60 } }
   ],
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  },
   "vars": {
     "TURNSTILE_ACTION": "community_guide",
-    "TURNSTILE_HOSTNAMES": "urdog.dev"
+    "TURNSTILE_HOSTNAMES": "urdog.dev",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEOn7-ButIyp4jnW"
   },
   "observability": {
     "enabled": true,

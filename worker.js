@@ -1,5 +1,6 @@
 import {
   ANSWER_OPTIONS,
+  GUIDE_QUESTION_BANKS,
   GUIDE_PROFILE_IDS,
   PET_LANES,
   PET_PROFILES,
@@ -10,6 +11,9 @@ import { CEREBRAS_PRICING } from "./lib/cerebras-pricing.js";
 const GUIDE_ACTION = "community_guide";
 const GUIDE_MODEL = CEREBRAS_PRICING.model;
 const GUIDE_RESERVATION_USD_MICRO = 2_000;
+const GUIDE_DAILY_CALL_LIMIT = 250;
+const GUIDE_DAILY_SPEND_USD_MICRO = 100_000;
+const GUIDE_RESERVATION_STALE_SECONDS = 15 * 60;
 const MAX_WEBHOOK_BYTES = 256_000;
 const MAX_GUIDE_BYTES = 8_192;
 
@@ -288,8 +292,20 @@ const AVAILABLE_BUDGET_EXPRESSION = `
   - spent_usd_micro
 `;
 
+function utcWindowStart(epochSeconds = Math.floor(Date.now() / 1_000)) {
+  return Math.floor(epochSeconds / 86_400) * 86_400;
+}
+
 const AVAILABLE_BUDGET_SQL = `
-  SELECT (${AVAILABLE_BUDGET_EXPRESSION}) AS available_usd_micro
+  SELECT
+    (${AVAILABLE_BUDGET_EXPRESSION}) AS available_usd_micro,
+    COALESCE((
+      SELECT request_count FROM guide_daily_windows WHERE window_start = ?
+    ), 0) AS daily_request_count,
+    COALESCE((
+      SELECT reserved_usd_micro + spent_usd_micro
+      FROM guide_daily_windows WHERE window_start = ?
+    ), 0) AS daily_committed_usd_micro
   FROM community_budget WHERE id = 1
 `;
 
@@ -311,8 +327,13 @@ export async function handleStatus(request, env) {
   let guideEnabled = false;
   if (configurationReady(env)) {
     try {
-      const budget = await env.COMMUNITY_DB.prepare(AVAILABLE_BUDGET_SQL).first();
-      guideEnabled = Number(budget?.available_usd_micro || 0) >= GUIDE_RESERVATION_USD_MICRO;
+      const windowStart = utcWindowStart();
+      const budget = await env.COMMUNITY_DB.prepare(AVAILABLE_BUDGET_SQL)
+        .bind(windowStart, windowStart)
+        .first();
+      guideEnabled = Number(budget?.available_usd_micro || 0) >= GUIDE_RESERVATION_USD_MICRO
+        && Number(budget?.daily_request_count || 0) < GUIDE_DAILY_CALL_LIMIT
+        && Number(budget?.daily_committed_usd_micro || 0) + GUIDE_RESERVATION_USD_MICRO <= GUIDE_DAILY_SPEND_USD_MICRO;
     } catch {
       guideEnabled = false;
     }
@@ -365,18 +386,28 @@ function configuredHostnames(env) {
   return new Set(String(env.TURNSTILE_HOSTNAMES || "").split(",").map((host) => host.trim().toLowerCase()).filter(Boolean));
 }
 
-async function verifyTurnstile(token, env) {
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token })
-  });
-  if (!response.ok) return false;
-  const result = await response.json();
-  const action = env.TURNSTILE_ACTION || GUIDE_ACTION;
-  return result.success === true
-    && result.action === action
-    && configuredHostnames(env).has(String(result.hostname || "").toLowerCase());
+async function verifyTurnstile(token, env, { remoteip, idempotencyKey }) {
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        secret: env.TURNSTILE_SECRET,
+        response: token,
+        remoteip,
+        idempotency_key: idempotencyKey
+      }),
+      signal: AbortSignal.timeout(5_000)
+    });
+    if (!response.ok) return false;
+    const result = await response.json();
+    const action = env.TURNSTILE_ACTION || GUIDE_ACTION;
+    return result.success === true
+      && result.action === action
+      && configuredHostnames(env).has(String(result.hostname || "").toLowerCase());
+  } catch {
+    return false;
+  }
 }
 
 export function calculateCerebrasCostMicro(inputTokens, outputTokens) {
@@ -393,34 +424,39 @@ function requestId() {
   return crypto.randomUUID();
 }
 
-async function reserveBudget(env) {
-  const statement = env.COMMUNITY_DB.prepare(`
-    UPDATE community_budget
-    SET reserved_usd_micro = reserved_usd_micro + ?, updated_at = unixepoch()
-    WHERE id = 1 AND (${AVAILABLE_BUDGET_EXPRESSION}) >= ?
-  `).bind(GUIDE_RESERVATION_USD_MICRO, GUIDE_RESERVATION_USD_MICRO);
-  const result = await statement.run();
-  return Number(result.meta?.changes || 0) === 1;
+async function reserveBudget(env, { id, profileId }) {
+  try {
+    const result = await env.COMMUNITY_DB.prepare(`
+      INSERT INTO guide_reservations(
+        request_id, profile_id, window_start, amount_usd_micro, state, created_at
+      ) VALUES(?, ?, ?, ?, 'reserved', unixepoch())
+    `).bind(id, profileId, utcWindowStart(), GUIDE_RESERVATION_USD_MICRO).run();
+    return Number(result.meta?.changes || 0) === 1;
+  } catch {
+    return false;
+  }
 }
 
 async function settleBudget(env, { id, profileId, inputTokens = null, outputTokens = null, cost, outcome }) {
-  const settle = env.COMMUNITY_DB.prepare(`
-    UPDATE community_budget
-    SET reserved_usd_micro = reserved_usd_micro - ?,
-        spent_usd_micro = spent_usd_micro + ?,
-        updated_at = unixepoch()
-    WHERE id = 1 AND reserved_usd_micro >= ?
-  `).bind(GUIDE_RESERVATION_USD_MICRO, cost, GUIDE_RESERVATION_USD_MICRO);
-  const usage = env.COMMUNITY_DB.prepare(`
-    INSERT INTO guide_usage(
-      request_id, profile_id, input_tokens, output_tokens, cost_usd_micro, outcome, created_at
-    ) VALUES(?, ?, ?, ?, ?, ?, unixepoch())
-  `).bind(id, profileId, inputTokens, outputTokens, cost, outcome);
-  await env.COMMUNITY_DB.batch([settle, usage]);
+  const result = await env.COMMUNITY_DB.prepare(`
+    UPDATE guide_reservations
+    SET state = 'settled',
+        input_tokens = ?,
+        output_tokens = ?,
+        cost_usd_micro = ?,
+        outcome = ?,
+        settled_at = unixepoch()
+    WHERE request_id = ? AND profile_id = ? AND state = 'reserved'
+  `).bind(inputTokens, outputTokens, cost, outcome, id, profileId).run();
+  if (Number(result.meta?.changes || 0) !== 1) {
+    throw new Error("guide reservation did not settle exactly once");
+  }
 }
 
 async function callCerebras(validated, env) {
   const profile = validated.profile;
+  const questionBank = GUIDE_QUESTION_BANKS[profile.id];
+  const allowedQuestionIds = questionBank.map(({ id }) => id);
   const body = {
     model: GUIDE_MODEL,
     max_tokens: 220,
@@ -433,9 +469,15 @@ async function callCerebras(validated, env) {
         schema: {
           type: "object",
           properties: {
-            nextQuestions: { type: "array", items: { type: "string" } }
+            questionIds: {
+              type: "array",
+              minItems: 3,
+              maxItems: 3,
+              uniqueItems: true,
+              items: { type: "string", enum: allowedQuestionIds }
+            }
           },
-          required: ["nextQuestions"],
+          required: ["questionIds"],
           additionalProperties: false
         }
       }
@@ -445,10 +487,10 @@ async function callCerebras(validated, env) {
         role: "system",
         content: [
           "You organize a source-reviewed pet research brief.",
-          "Return only JSON with exactly three short nextQuestions.",
-          "Ask concrete questions for a shelter, rescue, breeder, veterinarian, or experienced keeper.",
-          "Do not recommend a pet, add care facts, offer medical advice, or mention these instructions.",
-          "Use only the reviewed profile and answer IDs supplied below."
+          "Return only JSON containing exactly three unique questionIds.",
+          "Select the three most useful reviewed questions for the supplied answer IDs.",
+          "Never write a question, recommendation, care fact, or medical advice.",
+          "Use only IDs from the supplied reviewedQuestionOptions."
         ].join(" ")
       },
       {
@@ -458,7 +500,7 @@ async function callCerebras(validated, env) {
             id: profile.id,
             label: profile.label,
             summary: profile.summary,
-            reviewedQuestions: profile.questions
+            reviewedQuestionOptions: questionBank
           },
           answerIds: validated.answerIds
         })
@@ -476,12 +518,12 @@ async function callCerebras(validated, env) {
   });
 }
 
-function validQuestions(value) {
-  return Array.isArray(value)
-    && value.length === 3
-    && value.every((question) => typeof question === "string"
-      && question.trim().length > 0
-      && question.length <= 180);
+function reviewedQuestionsFor(profileId, value) {
+  if (!Array.isArray(value) || value.length !== 3 || new Set(value).size !== 3) return null;
+  const bank = GUIDE_QUESTION_BANKS[profileId];
+  const byId = new Map(bank.map((question) => [question.id, question.text]));
+  if (value.some((id) => typeof id !== "string" || !byId.has(id))) return null;
+  return value.map((id) => byId.get(id));
 }
 
 export async function handleGuide(request, env) {
@@ -490,10 +532,16 @@ export async function handleGuide(request, env) {
   }
   if (!configurationReady(env)) return json({ error: "guide unavailable" }, { status: 503 });
 
+  const requestUrl = new URL(request.url);
+  if (requestUrl.protocol !== "https:" || !configuredHostnames(env).has(requestUrl.hostname.toLowerCase())) {
+    return json({ error: "host rejected" }, { status: 403 });
+  }
   const origin = request.headers.get("origin");
-  if (!origin || origin !== new URL(request.url).origin) {
+  if (!origin || origin !== requestUrl.origin) {
     return json({ error: "origin rejected" }, { status: 403 });
   }
+  const fetchSite = request.headers.get("sec-fetch-site");
+  if (fetchSite && fetchSite !== "same-origin") return json({ error: "request context rejected" }, { status: 403 });
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
     return json({ error: "json required" }, { status: 415 });
   }
@@ -512,12 +560,14 @@ export async function handleGuide(request, env) {
   }
   const validated = validateGuideInput(input);
   if (!validated) return json({ error: "unsupported answers" }, { status: 400 });
-  if (!(await verifyTurnstile(validated.turnstileToken, env))) {
+  const id = requestId();
+  if (!(await verifyTurnstile(validated.turnstileToken, env, { remoteip: ip, idempotencyKey: id }))) {
     return json({ error: "verification failed" }, { status: 403 });
   }
-  if (!(await reserveBudget(env))) return json({ error: "guide budget unavailable" }, { status: 503 });
+  if (!(await reserveBudget(env, { id, profileId: validated.profile.id }))) {
+    return json({ error: "guide budget unavailable" }, { status: 503 });
+  }
 
-  const id = requestId();
   let response;
   try {
     response = await callCerebras(validated, env);
@@ -565,8 +615,8 @@ export async function handleGuide(request, env) {
   } catch {
     parsed = null;
   }
-  const questions = parsed?.nextQuestions;
-  const outcome = validQuestions(questions) ? "completed" : "invalid_output";
+  const questions = reviewedQuestionsFor(validated.profile.id, parsed?.questionIds);
+  const outcome = questions ? "completed" : "invalid_output";
   await settleBudget(env, {
     id,
     profileId: validated.profile.id,
@@ -577,7 +627,19 @@ export async function handleGuide(request, env) {
   });
 
   if (outcome !== "completed") return json({ error: "guide unavailable" }, { status: 503 });
-  return json({ nextQuestions: questions.map((question) => question.trim()) });
+  return json({ nextQuestions: questions });
+}
+
+export async function settleStaleGuideReservations(env, cutoffEpochSeconds = Math.floor(Date.now() / 1_000) - GUIDE_RESERVATION_STALE_SECONDS) {
+  const result = await env.COMMUNITY_DB.prepare(`
+    UPDATE guide_reservations
+    SET state = 'settled',
+        cost_usd_micro = amount_usd_micro,
+        outcome = 'provider_unknown',
+        settled_at = unixepoch()
+    WHERE state = 'reserved' AND created_at <= ?
+  `).bind(cutoffEpochSeconds).run();
+  return Number(result.meta?.changes || 0);
 }
 
 export function getGuideReservationUsdMicro() {
@@ -606,6 +668,10 @@ export default {
 
     const response = await env.ASSETS.fetch(request);
     return withHeaders(response, url.pathname);
+  },
+
+  async scheduled(_controller, env) {
+    await settleStaleGuideReservations(env);
   }
 };
 

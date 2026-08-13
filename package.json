@@ -9,12 +9,13 @@
     "build:credits": "node scripts/build-photo-credits.mjs",
     "build:static": "npm run build:catalog && npm run build:credits",
     "check:generated": "node scripts/build-catalog.mjs --check && node scripts/build-photo-credits.mjs --check",
+    "check:migration-split": "node scripts/verify-migration-split.mjs",
     "check:guide-pricing": "node scripts/verify-cerebras-pricing.mjs",
     "dev": "wrangler dev",
     "community:reconcile": "node scripts/reconcile-community.mjs",
     "test": "node --test",
     "verify": "node scripts/verify.mjs && node scripts/verify-photos.mjs",
-    "check": "npm run test && npm run check:generated && npm run verify && wrangler deploy --dry-run",
+    "check": "npm run test && npm run check:generated && npm run check:migration-split && npm run verify && wrangler deploy --dry-run",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {

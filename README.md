@@ -13,9 +13,9 @@ The product covers ten launch lanes: dogs, cats, freshwater aquariums, companion
 - Buy Me a Coffee is the only support link and appears after useful results.
 - A support note containing `urpet` or the legacy name `urdog` earmarks 75% for Cerebras credits and 25% for payment fees and site upkeep.
 - Buy Me a Coffee cannot purchase Cerebras credit automatically. A signed webhook records the earmark; a separate operator receipt records credit actually funded at Cerebras. Shared guide usage is allowed only up to the lesser of those two amounts.
-- The optional one-shot community guide produces three sharper research questions. If it is unconfigured, unfunded, rate-limited, or unavailable, the complete deterministic brief continues to work.
+- The optional one-shot community guide lets the model choose three IDs from a repository-reviewed question bank; model prose never reaches the page. If it is unconfigured, unfunded, rate-limited, or unavailable, the complete deterministic brief continues to work.
 
-The project owner may seed at most $10 total. That ceiling is enforced by the D1 schema, not just documentation.
+The project owner may seed at most $10 total. D1 enforces the lifetime ceiling, append-only receipts, a 250-call UTC-day limit, and a $0.10 daily committed-spend ceiling.
 
 ## Local development
 
@@ -50,6 +50,6 @@ Reconciliation is a dry run unless `--apply` is supplied. Record a receipt only 
 
 The all-pets profiles link to reviewed RSPCA welfare guidance and a CDC reptile-health gate. The dog registry boundary comes from official AKC recognition and group rosters. Dog fit bands are conservative urpet editorial signals, not copied AKC prose or clinical measurements.
 
-The checked-in `public/data/breed-photos.json` manifest is the production authority for dog photos. Each of the 205 local WebPs has a Commons source, license, creator credit, visual decision, modification note, and verified SHA-256. The build fails instead of showing an unreviewed placeholder.
+The checked-in `public/data/breed-photos.json` manifest is the production authority for dog photos. Each of the 205 local WebPs has a Commons source, license, creator credit, visual decision, modification note, and verified SHA-256. The ten reviewed non-dog profiles likewise use exact local Commons photos with visible creator and license links, shown only after matching so appearance cannot steer the intake. The build fails instead of showing an unreviewed placeholder.
 
 See [DESIGN.md](./DESIGN.md) for the accepted product and evidence contract, [RUNBOOK.md](./RUNBOOK.md) for operations and rollback, and [docs/urpet-prd.html](./docs/urpet-prd.html) for the implementation-ready PRD and responsive mockups.

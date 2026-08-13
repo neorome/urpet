@@ -15,7 +15,7 @@ The complete result is up to three source-linked profiles plus their difficult r
 - A dedicated `/dogs/` module preserving the original nine-question, 205-breed matcher, local briefs, print/share/reset workflow, shelter map, Honduras fallbacks, and photo evidence.
 - A no-JavaScript method/source fallback and a labeled suggestion email to `team@neorome.dev`.
 - Buy Me a Coffee support only after a completed result.
-- An optional one-shot shared organizer, hidden unless every configuration and funded-budget gate is ready. It receives closed profile and answer IDs—not a free-form user prompt—and may only return three bounded research questions.
+- An optional one-shot shared organizer, hidden unless every configuration and funded-budget gate is ready. It receives closed profile and answer IDs—not a free-form user prompt—and may choose only three IDs from repository-reviewed questions; provider prose never reaches the page.
 
 ## Launch profiles
 
@@ -67,7 +67,7 @@ owner credit actually funded
 - settled usage
 ```
 
-Owner receipts are capped at $10 cumulatively by a database trigger. Each guide call is protected by same-origin checks, closed input validation, Cloudflare rate limiting, Turnstile action and hostname verification, atomic budget reservation, a short timeout, strict output validation, and actual token-cost settlement. Unknown provider outcomes consume the conservative reservation rather than risking double spend.
+Owner receipts are append-only and capped at $10 cumulatively by database triggers, including SQLite replacement paths. Each guide call is protected by exact production-host and same-origin checks, closed input validation, a three-per-minute edge-IP limiter, Turnstile action/hostname verification, exact D1 ceilings of 250 reservations and $0.10 committed spend per UTC day, a durable atomic reservation, a short timeout, reviewed question-ID validation, and actual token-cost settlement. Stale or unknown provider outcomes consume the conservative reservation rather than risking double spend.
 
 Guide settlement uses the pinned public `gpt-oss-120b` rates in `lib/cerebras-pricing.js`. Before the guide is enabled, `npm run check:guide-pricing` must match that pin against Cerebras's public model endpoint; any mismatch leaves the guide off until the rates, cost tests, and budget review are updated together.
 
@@ -78,18 +78,20 @@ The ledger stores payment and event IDs, amounts, status, receipt IDs, aggregate
 - Brand: lowercase `urpet`; public domain remains `urdog.dev`.
 - Cream, ink, tomato, acid, sky, and purple; thick outlines; tactile paper and desk motifs.
 - One literal question per screen with visible progress and stable back/next controls.
+- Lane selection is a compact grouped list with no animal photos; appearance must not steer the answers.
+- Results are one ordered editorial list, not repeated cards. Exact licensed profile photos appear only beside matched leads, with visible creator and license links.
 - Tone: calm and direct around the living animal, lightly playful around paperwork.
 - Copy must help someone answer, act, verify a source, or understand a boundary. No destiny language, fake percentages, shame, urgency, or buzzword claims.
 
 ## Accessibility and responsive behavior
 
-The experience must work from 320 px through desktop without horizontal overflow. Every control has a programmatic label; errors are announced; focus moves to each question and result; keyboard operation is complete; reduced motion disables smooth transitions; print removes navigation and support. The optional Turnstile script loads only after a funded guide is reported ready.
+The experience must work from 320 px through desktop without horizontal overflow. Every control has a programmatic label; errors are announced; focus moves to each question and result; keyboard operation is complete; reduced motion disables smooth transitions; print removes navigation and support. The optional Turnstile script loads only after a funded guide is reported ready and its disclosure is opened.
 
 ## Evidence boundaries
 
 The all-pets first release uses reviewed RSPCA care sources and CDC reptile guidance. It is educational screening, not veterinary, medical, legal, behavioral, or financial advice. Profile copy must stay narrower than its cited source.
 
-The dog module preserves 205 unique AKC-recognized breed rows, conservative editorial fit bands, complete broad-fit fields, and 205 locally served, licensed, visually approved Wikimedia Commons photos. Breed category signals never predict an individual animal.
+The dog module preserves 205 unique AKC-recognized breed rows, conservative editorial fit bands, complete broad-fit fields, and 205 locally served, licensed, visually approved Wikimedia Commons photos. The ten reviewed non-dog profiles each have one exact local Commons photo, creator, source, license, and modification notice. Breed category signals never predict an individual animal.
 
 ## Non-goals
 
@@ -102,8 +104,8 @@ The dog module preserves 205 unique AKC-recognized breed rows, conservative edit
 
 ## Acceptance proof
 
-- Automated tests cover all ten lanes, exact profile counts, normalization, hard conflicts, zero-lead results, dog-module routing, support keywords, exact raw-body HMAC, donation idempotency, refunds and out-of-order delivery, privacy-minimized schema, owner cap, dual-ledger budget, same-origin, rate limiting, Turnstile hostname/action, closed guide input, token-cost settlement, unknown outcomes, and dry-run reconciliation.
-- Static verification covers the nine-step root, preserved nine-step dog module, `/dogs/` deep links, 205 catalog rows/photos, metadata, sitemap, no hotlinks, 320 px CSS, reduced motion, print, headers, and asset budgets.
+- Automated tests cover all ten lanes, exact profile counts, normalization, hard conflicts, zero-lead results, dog-module routing, support keywords, exact raw-body HMAC, donation idempotency, refunds and out-of-order delivery, privacy-minimized schema, immutable owner cap, dual-ledger budget, exact host/origin, distributed daily limits, concurrent reservations, Turnstile hostname/action/IP/idempotency, closed guide input, allowlisted output, token-cost settlement, stale/unknown outcomes, and dry-run reconciliation.
+- Static verification covers the nine-step root, flat intake/results, preserved nine-step dog module, `/dogs/` deep links, 205 dog photos, ten exact profile photos, metadata, sitemap, no hotlinks, 320 px CSS, reduced motion, print, headers, and asset budgets.
 - Browser proof covers desktop and mobile completion, hard-conflict output, keyboard focus, hidden unfunded guide, dog module, outbound support confirmation, and overflow.
 - Deployment proof distinguishes local checks, committed and pushed code, applied D1 migration, configured secrets, deployed Worker version, and cache-busted live checks.
 
