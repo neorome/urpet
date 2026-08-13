@@ -1,118 +1,122 @@
-# ur dog — accepted product brief
+# urpet — accepted product brief
 
-## Outcome
+## Outcome and audience
 
-Help a prospective dog owner narrow a consequential search before adopting or buying. The site turns ordinary-life limits into three breeds worth researching, shows the catches before the flattering reasons, and produces a Dog Fit Brief that can be taken into a real conversation with a rescue, shelter, foster, breed club, responsible breeder, or veterinarian.
+Help a prospective pet owner identify the routine, environment, specialist care, and commitment they can genuinely provide before choosing an animal. The primary audience is a first-time or uncertain owner who wants a small, defensible research list instead of an entertainment quiz or an open-ended chatbot.
 
-The product may earn voluntary tips only after it delivers the complete brief. Deployment, visits, and tip potential are separate facts; revenue is unproven until a completed payment is independently observed.
+The complete result is up to three source-linked profiles plus their difficult requirements and questions to take to a shelter, rescue, responsible breeder, veterinarian, or experienced keeper. When no reviewed profile clears the person’s hard limits, the honest result is a prepare-first brief.
 
-## Audience
+## Shipped product
 
-People asking “what dog breed is right for me?” who need more than an entertainment quiz: first-time owners, households comparing options, and people deciding whether a puppy, adult rescue, or more preparation fits their actual life.
+- One-question-at-a-time, nine-question all-pets intake at `/`.
+- Exactly ten launch lanes: dogs, cats, freshwater aquariums, companion birds, rabbits, guinea pigs, hamsters, turtles and tortoises, geckos, and snakes.
+- Eleven specific profiles across those lanes; the bird lane contains both a compatible budgerigar pair and a compatible cockatiel pair.
+- Zero to three ranked research leads. A preference score can order compatible profiles but can never erase a hard conflict.
+- A dedicated `/dogs/` module preserving the original nine-question, 205-breed matcher, local briefs, print/share/reset workflow, shelter map, Honduras fallbacks, and photo evidence.
+- A no-JavaScript method/source fallback and a labeled suggestion email to `team@neorome.dev`.
+- Buy Me a Coffee support only after a completed result.
+- An optional one-shot shared organizer, hidden unless every configuration and funded-budget gate is ready. It receives closed profile and answer IDs—not a free-form user prompt—and may only return three bounded research questions.
 
-## Complete deliverable
+## Launch profiles
 
-The public site contains:
+| Lane | Reviewed profile(s) |
+| --- | --- |
+| Dogs | 205-breed dog research module |
+| Cats | Adult domestic cat |
+| Freshwater aquariums | Mature goldfish aquarium |
+| Companion birds | Compatible budgerigar pair; compatible cockatiel pair |
+| Rabbits | Bonded domestic rabbit pair |
+| Guinea pigs | Compatible guinea pig pair |
+| Hamsters | Solo Syrian hamster |
+| Turtles and tortoises | Captive-bred Hermann’s tortoise |
+| Geckos | Captive-bred leopard gecko |
+| Snakes | Captive-bred corn snake |
 
-- a nine-question lifestyle matcher;
-- a 205-row, searchable and crawlable catalog covering every AKC-recognized breed in the registry effective January 1, 2026;
-- one explicit broad-fit record per breed for adult size, activity, training involvement, coat care, shedding, historical purpose, and material research flags;
-- three ranked research leads with every coded mismatch shown and a compact limit-versus-goal comparison;
-- a care-plan readiness call that no breed can outvote;
-- a household- and search-path-specific meeting checklist;
-- an answer recap, local-only saving, explicit reset controls, a durable deep link, and print / save PDF;
-- an opt-in, in-site nearby-shelter map with a synchronized accessible list using OpenStreetMap data, plus a direct Petfinder dog-search link;
-- an adult-rescue path treated as equal to a puppy path;
-- an optional Buy Me a Coffee request only after the full result;
-- one reviewed, locally served photo and per-file credit for every catalog breed;
-- a branded confirmation before standard navigation to any external website.
+Aquatic turtles, other tortoise species, tropical community tanks, bettas, large parrots, other hamster species, other geckos, and other snakes remain explicitly researching. A visitor can suggest the next review by email; a suggestion never becomes an instant profile.
 
-## Matcher inputs
+## Match contract
 
-1. regular time alone and the care plan;
-2. sustainable daily activity;
-3. appetite for training work;
-4. grooming commitment;
-5. shedding tolerance;
-6. adult-size logistics;
-7. the relationship or activities wanted;
-8. every applicable household condition (adults only, children, a resident dog, cats or small pets);
-9. puppy, adult rescue, either, or research-only intent.
+Inputs cover search mode, priority lanes, protected daily care rhythm, dedicated space, desired relationship rhythm, specialist food or maintenance, a reptile household-health gate, actual veterinary access, and whole-life commitment.
 
-## Evidence boundary
+Hard conflicts include:
 
-- Registry completeness is checked against the official AKC recognition roster and current group list.
-- Poodle and Manchester Terrier each occupy one registry row; their size or group varieties remain attached to that row. This preserves the real 205-breed boundary instead of counting 207 group appearances.
-- Fit bands are ur dog’s conservative editorial synthesis. They are not copied AKC scores, clinical measurements, temperament predictions, or exercise-minute prescriptions.
-- User-stated capacity for size, activity, training, grooming, and shedding is treated as a hard constraint. If fewer than three breeds clear every constraint, a near match is labeled and every conflict is shown.
-- Historical purpose supplies questions about work, chase, voice, containment, visitors, coat care, or routine. It is never used as a personality verdict.
-- The individual dog, age, health, history, provider evidence, and current environment outrank the breed row.
+- aquarium cycling, filtration, water-quality work, and appropriate habitat;
+- live invertebrate feeding for the leopard gecko;
+- frozen-thawed rodent feeding for the corn snake;
+- specialist enclosure and veterinary access for reviewed reptiles;
+- the CDC reptile caution for a child under five, adult 65+, or immunocompromised person in the household;
+- bird social needs and safe flight space;
+- rabbit movement space;
+- nocturnal and solitary Syrian hamster behavior;
+- ten-plus or multidecade commitment where the reviewed lifespan requires it.
 
-## Photo and license policy
+A research lead means only that the profile did not conflict with the selected boundaries. The individual animal, source, local law, housing rules, full cost, veterinary access, and backup care remain verification jobs.
 
-- Wikidata is candidate discovery only.
-- Production photos come from a checked Wikimedia Commons file, not AKC, Dog CEO, Stanford Dogs, TheDogAPI, a mystery CDN, or an upstream dataset with unclear photo rights.
-- Every production photo has a specific Commons source-file URL, creator or attribution text, commercial-use Creative Commons license, license link, source SHA-1, local derivative SHA-256, change note, and visual breed check.
-- Local WebP derivatives are served from the same Cloudflare site. No third-party image request is required at runtime.
-- The production build fails if any breed lacks a reviewed photo. A disputed image is replaced through the same provenance and visual-review gate before release.
-- The checked-in manifest approves 205 photos and zero fallbacks. Runtime pages never request an image CDN.
+## Support and shared-guide contract
+
+The deterministic matcher is always free and does not consume a shared budget. There are no accounts, purchases, entitlements, or personal credit balances.
+
+Buy Me a Coffee is the only support provider. Notes containing `urpet` or legacy `urdog` qualify after punctuation, spacing, and capitalization normalization. For successful live USD donations, 75% of the gross amount is entered as an earmark; 25% is retained for payment fees and site upkeep. Signed refunds reverse the original earmark exactly once.
+
+The site never claims that Buy Me a Coffee transfers funds to Cerebras. A funding receipt is recorded only after an operator verifies actual provider credit. Authorized shared spend is:
+
+```text
+owner credit actually funded
++ min(active 75% support earmarks, support credit actually funded)
+- reserved usage
+- settled usage
+```
+
+Owner receipts are capped at $10 cumulatively by a database trigger. Each guide call is protected by same-origin checks, closed input validation, Cloudflare rate limiting, Turnstile action and hostname verification, atomic budget reservation, a short timeout, strict output validation, and actual token-cost settlement. Unknown provider outcomes consume the conservative reservation rather than risking double spend.
+
+Guide settlement uses the pinned public `gpt-oss-120b` rates in `lib/cerebras-pricing.js`. Before the guide is enabled, `npm run check:guide-pricing` must match that pin against Cerebras's public model endpoint; any mismatch leaves the guide off until the rates, cost tests, and budget review are updated together.
+
+The ledger stores payment and event IDs, amounts, status, receipt IDs, aggregate budget, profile ID, token counts, cost, and outcome. It does not store supporter name, email, raw note, browser IP, Turnstile token, prompt, or model output.
 
 ## Voice and visual system
 
-- Brand: lowercase ur dog; cream, ink, tomato, acid, sky, and purple; thick outlines; crooked paper cards; original match-desk dogs.
-- Tone: funny around the paperwork, sober around the living animal.
-- Match-desk dogs belong only to the matcher, not breed cards.
-- Visible copy must help someone answer, choose, act, verify a risk or source, or understand photo rights. Do not explain decorative art, advertise absent features, label the product “honest,” or add disclaimers to an optional tip.
-- Copy is literal and useful. No destiny language, shame, urgency, invented measurements, fake science, or fake certainty.
+- Brand: lowercase `urpet`; public domain remains `urdog.dev`.
+- Cream, ink, tomato, acid, sky, and purple; thick outlines; tactile paper and desk motifs.
+- One literal question per screen with visible progress and stable back/next controls.
+- Tone: calm and direct around the living animal, lightly playful around paperwork.
+- Copy must help someone answer, act, verify a source, or understand a boundary. No destiny language, fake percentages, shame, urgency, or buzzword claims.
+
+## Accessibility and responsive behavior
+
+The experience must work from 320 px through desktop without horizontal overflow. Every control has a programmatic label; errors are announced; focus moves to each question and result; keyboard operation is complete; reduced motion disables smooth transitions; print removes navigation and support. The optional Turnstile script loads only after a funded guide is reported ready.
+
+## Evidence boundaries
+
+The all-pets first release uses reviewed RSPCA care sources and CDC reptile guidance. It is educational screening, not veterinary, medical, legal, behavioral, or financial advice. Profile copy must stay narrower than its cited source.
+
+The dog module preserves 205 unique AKC-recognized breed rows, conservative editorial fit bands, complete broad-fit fields, and 205 locally served, licensed, visually approved Wikimedia Commons photos. Breed category signals never predict an individual animal.
 
 ## Non-goals
 
-- No claim to identify one perfect breed or predict an individual dog’s behavior, health, allergies, safety, or compatibility.
-- No veterinary, allergy, insurance, legal, service-dog, or behavior diagnosis.
-- No breeder, rescue, shelter, dog, or listing endorsement.
-- No personality typing, appearance-first ranking, or made-up compatibility percentage.
-- No account, upload, hidden profile, affiliate marketplace, adoption feed, paywall, or AI label.
-- No claim that a breed is universally safe with children, cats, other dogs, apartments, or time alone.
-- No thin breed-by-lifestyle doorway pages, fake reviews, or fabricated FAQ markup.
+- No “perfect pet” or individual-behavior prediction.
+- No visible chatbot, unlimited free-form model prompt, or model-created care facts.
+- No account, Stripe, checkout, subscription, personal token balance, gift, adoption feed, affiliate marketplace, or user upload.
+- No automatic provider purchase claim, secret in source control, raw payment note retention, or supporter identity profile.
+- No unsupported species borrowing another animal’s profile.
+- No guarantee that abuse is impossible or that the optional shared guide is always available.
 
-## Safety and stewardship
+## Acceptance proof
 
-- Long regular absences without a reliable care break produce a visible plan-first warning grounded in current welfare guidance.
-- Puppy reports ask the user to verify breed-specific health screening and the actual results. OFA/CHIC participation is not represented as a guarantee or a clean result.
-- Flat-faced or other body-shape concerns appear as health due-diligence prompts, never as diagnoses or cosmetic notes.
-- Chase, guardian, independent, giant-logistics, professional-coat, high-engagement, vocal, and heavy-coat flags stay visible before the match reasons.
-- Housing, landlord, insurance, local-rule, strength, transport, cost, and care logistics remain user verification jobs.
+- Automated tests cover all ten lanes, exact profile counts, normalization, hard conflicts, zero-lead results, dog-module routing, support keywords, exact raw-body HMAC, donation idempotency, refunds and out-of-order delivery, privacy-minimized schema, owner cap, dual-ledger budget, same-origin, rate limiting, Turnstile hostname/action, closed guide input, token-cost settlement, unknown outcomes, and dry-run reconciliation.
+- Static verification covers the nine-step root, preserved nine-step dog module, `/dogs/` deep links, 205 catalog rows/photos, metadata, sitemap, no hotlinks, 320 px CSS, reduced motion, print, headers, and asset budgets.
+- Browser proof covers desktop and mobile completion, hard-conflict output, keyboard focus, hidden unfunded guide, dog module, outbound support confirmation, and overflow.
+- Deployment proof distinguishes local checks, committed and pushed code, applied D1 migration, configured secrets, deployed Worker version, and cache-busted live checks.
 
-## SEO boundary
+## Authority and stable infrastructure
 
-The home page targets searches such as “dog breed matcher,” “what dog breed is right for me,” and “best dog breed for my lifestyle.” The catalog targets the complete breed-list intent on one substantial page. Visible methodology, source links, static catalog content, canonical URLs, metadata, sitemap entries, and useful internal links support those terms.
+The product, package, local repository, and GitHub repository are `urpet`. The current public domain stays `urdog.dev`. The established Cloudflare Worker name `urdog`, D1 database name `urdog-community`, and database ID remain legacy infrastructure identifiers to preserve routing and rollback.
 
-SEO must never outrun product truth. There are no generated thin breed pages, rankings disguised as evidence, keyword blocks, scraped breed prose, or structured-data claims the visible page does not support.
-
-## Proofs
-
-- Tests prove 205 unique breeds and official group counts of 33 / 33 / 32 / 32 / 22 / 20 / 33.
-- Tests prove every breed has complete fit fields, a caution, a direct research link, and a review date.
-- The static catalog contains 205 crawlable rows and is reproducibly generated from the matcher source.
-- Photo verification requires 205 reviewed records, 205 local files, zero fallbacks, the license allowlist, plain-text credit, local file type, and every derivative SHA-256.
-- Representative low-key, active, sport, giant-ready, mixed-household, puppy, adult, and care-gap scenarios return three explainable leads.
-- Deep links reproduce all nine answers; invalid inputs fail closed.
-- Save is local-only, share has a copy fallback, and print removes navigation and the tip request.
-- Reset answers does not erase saved briefs; clearing every saved brief requires a separate confirmation.
-- Result generation moves focus and the viewport to the report title without a timer, and shared links reproduce multi-condition households.
-- Local rescue search makes no map, geocoder, data, or geolocation request before an explicit user action. A browser-location search rounds coordinates; a typed search runs only on submit. Both render the map and semantic shelter list inside ur dog, and ur dog stores neither value.
-- Public OpenStreetMap tile and Nominatim services are best-effort launch infrastructure. The UI preserves attribution, limits searches to explicit user actions, spaces provider requests, and exposes retry or change-location paths. Sustained traffic requires a reviewed hosted or self-operated provider plan.
-- Standard outbound HTTP(S) links use one native modal dialog with initial cancel focus, Escape/backdrop cancellation, focus return, a readable destination, and `noopener noreferrer` continuation.
-- Keyboard labels, reduced motion, 320 px layout, desktop, iPhone, iPad, metadata, structured data, sitemap, robots, 404, redirects, headers, and deployment build have automated or browser proof.
-
-## Authority and changed surface
-
-Authorized surface: this repository, a new public neorome/urdog GitHub repository, the urdog Cloudflare Worker, and the urdog.dev / www.urdog.dev custom domains. No database, account system, payment transaction, credential rotation, paid API, permission change, or unrelated DNS mutation is part of the product.
+Secret installation, BMC webhook configuration, Turnstile widget creation, any Cerebras credit purchase, and other financial actions require their own current authorization. A deterministic release can ship with the shared guide resting.
 
 ## Revision and stop conditions
 
-- Correct or remove a recommendation signal immediately if its source or classification cannot be defended.
-- Remove a disputed photo from the next release and keep the current production version live until a reviewed replacement is ready; production cannot ship a breed placeholder.
-- Revise the matcher if users report that it entertains but does not narrow a real search or improve real provider conversations.
-- Expand photo coverage only through per-file provenance and visual review.
-- If attributable tips do not support maintenance after a fair traffic and usage test, revise or retire the product. Never substitute guilt, dark patterns, scraped content, or unsupported claims.
+- Remove or narrow a profile immediately when its care claim cannot be defended.
+- Keep a lane marked researching until its own profile and hard conflicts pass review.
+- Disable the shared guide on ledger mismatch, provider uncertainty, missing controls, unverified credits, or budget exhaustion; the deterministic matcher remains available.
+- If users say the product entertains but does not improve a real provider conversation, revise the intake and questions before adding coverage.
+- Never compensate for low support with guilt, dark patterns, hidden paywalls, or unsupported recommendations.

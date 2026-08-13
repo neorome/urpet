@@ -22,6 +22,16 @@
     "run_worker_first": true,
     "not_found_handling": "404-page"
   },
+  "d1_databases": [
+    { "binding": "COMMUNITY_DB", "database_name": "urdog-community", "database_id": "4646d0d8-f3e9-43e8-851e-dc81bd90b7e4", "migrations_dir": "migrations" }
+  ],
+  "ratelimits": [
+    { "name": "GUIDE_RATE_LIMIT", "namespace_id": "847364", "simple": { "limit": 6, "period": 60 } }
+  ],
+  "vars": {
+    "TURNSTILE_ACTION": "community_guide",
+    "TURNSTILE_HOSTNAMES": "urdog.dev"
+  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 0.1

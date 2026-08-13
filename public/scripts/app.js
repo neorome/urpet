@@ -320,7 +320,7 @@ function createBrief(answers, { updateUrl = true, scroll = true, instant = false
 
   if (updateUrl) {
     const query = encodeAnswers(answers);
-    history.replaceState({ urdog: true }, "", `/?${query}#result`);
+    history.replaceState({ urdog: true }, "", `/dogs/?${query}#result`);
   }
 
   syncSaveButton();
@@ -422,7 +422,7 @@ function renderSavedDialog() {
       ? ""
       : `saved ${new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(savedDate)} · `;
     detail.textContent = `${savedLabel}${LABELS[answers.activity]} · ${LABELS[answers.size]} · ${LABELS[answers.goal]}`;
-    openLink.href = `/?${entry.query}#result`;
+    openLink.href = `/dogs/?${entry.query}#result`;
     openLink.textContent = "open brief";
     removeButton.type = "button";
     removeButton.textContent = "remove";
@@ -447,7 +447,7 @@ function resetAnswers() {
   meetingQuestions.replaceChildren();
   meetingCopyStatus.textContent = "";
   rescueFinder?.reset();
-  history.replaceState({ urdog: true }, "", "/");
+  history.replaceState({ urdog: true }, "", "/dogs/");
   showStep(0, { focus: false });
   focusAndReveal(steps[0].querySelector("legend"));
 }
@@ -472,14 +472,14 @@ async function copyText(text) {
 
 async function shareBrief() {
   if (!currentAnswers || !currentReport) return;
-  const url = new URL(window.location.origin || "https://urdog.dev");
+  const url = new URL("/dogs/", window.location.origin || "https://urdog.dev");
   url.search = encodeAnswers(currentAnswers);
   url.hash = "result";
   const text = shareText(currentReport);
 
   if (navigator.share) {
     try {
-      await navigator.share({ title: "my ur dog fit brief", text, url: url.toString() });
+      await navigator.share({ title: "my urpet fit brief", text, url: url.toString() });
       actionStatus.textContent = "Brief shared.";
       return;
     } catch (error) {

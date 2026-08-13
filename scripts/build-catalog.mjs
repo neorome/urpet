@@ -55,7 +55,7 @@ ${media}
 }
 
 function renderPage() {
-  const title = "All 205 Dog Breeds: Browse the Complete List | ur dog";
+  const title = "All 205 Dog Breeds: Browse the Complete List | urpet";
   const description = "Browse all 205 AKC-recognized dog breeds by group, size, activity, training, grooming, and shedding, then build a shortlist for your lifestyle.";
   const list = BREEDS.map(breedItem).join("\n");
   return `<!doctype html>
@@ -75,12 +75,12 @@ function renderPage() {
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/styles.css?v=20260811a">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="ur dog">
+    <meta property="og:site_name" content="urpet">
     <meta property="og:url" content="https://urdog.dev/breeds/">
-    <meta property="og:title" content="all 205 dog breeds — ur dog">
+    <meta property="og:title" content="all 205 dog breeds — urpet">
     <meta property="og:description" content="Browse the complete breed desk, then build a shortlist around your actual life.">
     <meta property="og:image" content="https://urdog.dev/social-card.png">
-    <meta property="og:image:alt" content="ur dog breed matcher with a playful illustrated dog at the match desk">
+    <meta property="og:image:alt" content="urpet breed matcher with a playful illustrated dog at the match desk">
     <meta name="twitter:card" content="summary_large_image">
     <script type="application/ld+json">
       {
@@ -102,11 +102,11 @@ function renderPage() {
   <body class="catalog-page">
     <a class="skip-link" href="#catalog">skip to all breeds</a>
     <header class="site-header" aria-label="Primary">
-      <a class="brand" href="/" aria-label="ur dog home">
+      <a class="brand" href="/" aria-label="urpet home">
         <span class="brand__tag" aria-hidden="true"><span>u</span></span>
-        <span class="brand__words">ur dog</span>
+        <span class="brand__words">urpet</span>
       </a>
-      <a class="header-link" href="/#match-desk">build my fit brief <span aria-hidden="true">→</span></a>
+      <a class="header-link" href="/dogs/">build my dog fit brief <span aria-hidden="true">→</span></a>
     </header>
 
     <main id="catalog">
@@ -151,7 +151,7 @@ ${list}
         </div>
         <div>
           <p><strong>Activity</strong> describes a sustainable routine. <strong>Training</strong> describes ongoing household involvement. <strong>Coat</strong> and <strong>shedding</strong> are separate jobs; shedding level is not an allergy guarantee.</p>
-          <p>The breed roster and groups come from the <a href="${REGISTRY_SOURCE}" target="_blank" rel="noopener noreferrer external">official AKC recognition roster</a> and <a href="${GROUP_SOURCE}" target="_blank" rel="noopener noreferrer external">current group list</a>. Fit bands are ur dog editorial guidance; each card links to the AKC breed profile.</p>
+          <p>The breed roster and groups come from the <a href="${REGISTRY_SOURCE}" target="_blank" rel="noopener noreferrer external">official AKC recognition roster</a> and <a href="${GROUP_SOURCE}" target="_blank" rel="noopener noreferrer external">current group list</a>. Fit bands are urpet editorial guidance; each card links to the AKC breed profile.</p>
         </div>
       </section>
 
@@ -159,7 +159,7 @@ ${list}
         <p class="section-kicker">need a shortlist?</p>
         <h2 id="catalog-next-title">match the list to ur Tuesday.</h2>
         <p>Answer nine questions to find three breeds to research.</p>
-        <a class="button button--primary" href="/#match-desk">build my dog fit brief <span aria-hidden="true">→</span></a>
+        <a class="button button--primary" href="/dogs/">build my dog fit brief <span aria-hidden="true">→</span></a>
       </section>
 
       <aside class="catalog-support">
@@ -169,14 +169,14 @@ ${list}
     </main>
 
     <footer class="site-footer">
-      <a class="brand brand--footer" href="/" aria-label="ur dog home">
+      <a class="brand brand--footer" href="/" aria-label="urpet home">
         <span class="brand__tag" aria-hidden="true"><span>u</span></span>
-        <span class="brand__words">ur dog</span>
+        <span class="brand__words">urpet</span>
       </a>
       <p>research first. meet the dog. keep the promise.</p>
-      <nav class="footer-contact" aria-label="Support and sponsorship">
-        <a href="mailto:team@neorome.dev?subject=ur%20dog%20support">support: team@neorome.dev</a>
-        <a href="mailto:team@neorome.dev?subject=Sponsor%20ur%20dog">sponsor ur dog</a>
+      <nav class="footer-contact" aria-label="Research links">
+        <a href="/">all-pets matcher</a>
+        <a href="mailto:team@neorome.dev?subject=urpet%20pet%20suggestion">suggest a pet</a>
       </nav>
       <p>Educational breed research, not professional advice.</p>
     </footer>

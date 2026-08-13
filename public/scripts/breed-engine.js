@@ -300,7 +300,7 @@ function parseAnswers(input) {
 
 function shareText(report) {
   const names = report?.recommendations?.map(({ breed }) => breed.name).join(", ");
-  return names ? `My ur dog shortlist: ${names}. Three starting points, the tradeoffs, and questions to ask before choosing.` : "";
+  return names ? `My urpet shortlist: ${names}. Three starting points, the tradeoffs, and questions to ask before choosing.` : "";
 }
 
 export {

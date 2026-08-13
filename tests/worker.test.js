@@ -1,7 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import worker, { SECURITY_HEADERS } from "../worker.js";
+import worker, { getSecurityHeaders } from "../worker.js";
+
+const SECURITY_HEADERS = getSecurityHeaders();
 
 function environment(response) {
   return {
@@ -50,7 +52,7 @@ test("nested index pages and directory aliases redirect to one canonical URL", a
 });
 
 test("apex assets receive security and fresh-HTML cache headers", async () => {
-  const asset = new Response("<!doctype html><title>ur dog</title>", {
+  const asset = new Response("<!doctype html><title>urpet</title>", {
     headers: { "content-type": "text/html; charset=utf-8" }
   });
   const response = await worker.fetch(new Request("https://urdog.dev/"), environment(asset));

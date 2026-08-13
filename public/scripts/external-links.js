@@ -13,9 +13,9 @@ const SITE_NAMES = Object.freeze({
 const SITE_REASONS = Object.freeze({
   "akc.org": "The American Kennel Club hosts the breed profile and sets its own privacy practices.",
   "bluecross.org.uk": "Blue Cross hosts independent pet-care guidance on its own website.",
-  "buymeacoffee.com": "Buy Me a Coffee processes tips on its own website; ur dog never sees payment details.",
+  "buymeacoffee.com": "Buy Me a Coffee processes tips on its own website; urpet never sees payment details.",
   "creativecommons.org": "Creative Commons hosts the license terms for this photo.",
-  "github.com": "GitHub hosts ur dog’s public correction form on its own website.",
+  "github.com": "GitHub hosts urpet’s public correction form on its own website.",
   "openstreetmap.org": "OpenStreetMap hosts the map source and community editing tools.",
   "petfinder.com": "Petfinder hosts individual dog listings; its privacy practices are its own.",
   "rspca.org.uk": "RSPCA hosts independent animal-welfare guidance on its own website.",
@@ -51,7 +51,7 @@ function destinationLabel(destination) {
 
 function destinationReason(destination) {
   const key = registrableLabel(destination?.hostname);
-  return SITE_REASONS[key] || `This next page is run by ${key || "another website"}, not ur dog.`;
+  return SITE_REASONS[key] || `This next page is run by ${key || "another website"}, not urpet.`;
 }
 
 function createDialog() {
@@ -61,7 +61,7 @@ function createDialog() {
   dialog.setAttribute("aria-describedby", "exit-dialog-reason");
   dialog.innerHTML = `<div class="exit-dialog__accent" aria-hidden="true"></div>
     <div class="exit-dialog__body">
-      <p class="section-kicker">leaving ur dog</p>
+      <p class="section-kicker">leaving urpet</p>
       <h2 id="exit-dialog-title">open another website?</h2>
       <p id="exit-dialog-reason"></p>
       <p class="exit-dialog__host" id="exit-dialog-host"></p>
@@ -95,7 +95,7 @@ function installExternalLinkDialog() {
   dialog.addEventListener("close", () => {
     const target = opener;
     opener = null;
-    target?.focus({ preventScroll: true });
+    window.setTimeout(() => target?.focus({ preventScroll: true }), 0);
   });
   proceed.addEventListener("click", () => {
     opener = null;

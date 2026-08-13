@@ -1,7 +1,7 @@
 {
-  "name": "ur dog — dog breed matcher",
-  "short_name": "ur dog",
-  "description": "A 205-breed lifestyle matcher with visible tradeoffs and a practical Dog Fit Brief.",
+  "name": "urpet — pet research matcher",
+  "short_name": "urpet",
+  "description": "Source-linked research leads across ten reviewed pet lanes, with hard tradeoffs shown first.",
   "id": "/",
   "start_url": "/",
   "scope": "/",

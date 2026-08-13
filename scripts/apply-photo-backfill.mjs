@@ -56,7 +56,7 @@ const records = manifest.breeds.map((record) => ({
     candidateFingerprint: createHash("sha256")
       .update(`${record.id}|${record.source.originalSha1}|${record.rights.licenseUrl}`)
       .digest("hex"),
-    reviewer: record.review.reviewer || "ur dog visual review"
+    reviewer: record.review.reviewer || "urpet visual review"
   }
 }));
 
@@ -119,7 +119,7 @@ for (const breed of manifest.missing) {
     review: {
       status: "approved",
       reviewedAt: REVIEWED_AT,
-      reviewer: "ur dog adversarial visual review",
+      reviewer: "urpet adversarial visual review",
       candidateFingerprint: candidate.candidateFingerprint,
       reviewReason: decision.reason
     },

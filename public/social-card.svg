@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">ur dog — find breeds that fit ur actual life</title>
-  <desc id="desc">A playful match-desk dog beside the ur dog lifestyle breed matcher branding.</desc>
+  <title id="title">urpet — find a pet for the life you can actually keep</title>
+  <desc id="desc">A playful match-desk dog beside the urpet all-pets research matcher branding.</desc>
   <rect width="1200" height="630" fill="#FFF8E8"/>
   <rect x="32" y="32" width="1136" height="566" rx="34" fill="#A9DDFF" stroke="#171514" stroke-width="8"/>
   <path d="M67 80h633" stroke="#171514" stroke-width="5" stroke-dasharray="12 12"/>
@@ -10,13 +10,13 @@
     <path d="M0 9h68v55q-34 24-68 0Z" fill="#FF5A45" stroke="#171514" stroke-width="7" stroke-linejoin="round"/>
     <text x="34" y="51" text-anchor="middle" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="38" font-weight="900" fill="#171514">u</text>
   </g>
-  <text x="174" y="143" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-3" fill="#171514">ur dog</text>
+  <text x="174" y="143" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-3" fill="#171514">urpet</text>
 
-  <text x="82" y="252" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="90" font-weight="900" letter-spacing="-7" fill="#171514">find a dog</text>
-  <text x="82" y="348" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="84" font-weight="900" letter-spacing="-7" fill="#171514">for ur actual</text>
-  <text x="82" y="449" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="112" font-weight="900" letter-spacing="-9" fill="#FF5A45">life.</text>
+  <text x="82" y="252" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="90" font-weight="900" letter-spacing="-7" fill="#171514">find a pet</text>
+  <text x="82" y="348" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="72" font-weight="900" letter-spacing="-6" fill="#171514">for the life you</text>
+  <text x="82" y="449" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="102" font-weight="900" letter-spacing="-8" fill="#FF5A45">can keep.</text>
   <path d="M100 467q150 18 306-3" fill="none" stroke="#DFFF35" stroke-width="19" stroke-linecap="round"/>
-  <text x="84" y="514" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#171514">205 breeds · 9 questions · 3 research leads</text>
+  <text x="84" y="514" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#171514">10 lanes · 9 questions · hard conflicts first</text>
   <g transform="translate(82 535)">
     <rect width="220" height="48" rx="24" fill="#FFF8E8" stroke="#171514" stroke-width="5"/>
     <text x="110" y="33" text-anchor="middle" font-family="Arial Rounded MT Bold, Trebuchet MS, Arial, sans-serif" font-size="23" font-weight="900" fill="#171514">urdog.dev →</text>

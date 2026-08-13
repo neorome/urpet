@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dog Breed Matcher for Your Lifestyle | urpet</title>
+    <meta name="description" content="Compare dog breeds with your routine, household, activity, grooming, and training time. Get three research leads before adopting or buying.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#FFF8E8">
+    <meta name="color-scheme" content="light">
+    <meta name="application-name" content="urpet">
+
+    <link rel="canonical" href="https://urdog.dev/dogs/">
+    <link rel="alternate" hreflang="en" href="https://urdog.dev/dogs/">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/styles.css?v=20260811a">
+    <link rel="modulepreload" href="/scripts/breed-engine.js?v=20260811a">
+    <link rel="modulepreload" href="/scripts/dog-engine.js?v=20260811a">
+    <link rel="modulepreload" href="/scripts/breed-photos.js?v=20260811a">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="urpet">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://urdog.dev/dogs/">
+    <meta property="og:title" content="urpet — find breeds that fit ur actual life">
+    <meta property="og:description" content="Compare 205 dog breeds with your routine, see the tradeoffs, and leave with better questions to ask before choosing.">
+    <meta property="og:image" content="https://urdog.dev/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="urpet breed matcher with a playful illustrated dog at the match desk">
+    <meta property="og:image:type" content="image/png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="urpet — find breeds that fit ur actual life">
+    <meta name="twitter:description" content="Compare 205 dog breeds with your routine, tradeoffs, and plans.">
+    <meta name="twitter:image" content="https://urdog.dev/social-card.png">
+    <meta name="twitter:image:alt" content="urpet breed matcher with a playful illustrated dog at the match desk">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://urdog.dev/dogs/#website",
+            "url": "https://urdog.dev/dogs/",
+            "name": "urpet",
+            "description": "A dog breed matcher for routines, households, and care constraints.",
+            "inLanguage": "en-US"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://urdog.dev/dogs/#app",
+            "url": "https://urdog.dev/dogs/",
+            "name": "urpet breed matcher",
+            "description": "Compare source-reviewed dog breed care bands with your routine, training, grooming, size, and household needs.",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+            "isAccessibleForFree": true,
+            "image": "https://urdog.dev/social-card.png",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">skip to the matcher</a>
+
+    <header class="site-header" aria-label="Primary">
+      <a class="brand" href="/" aria-label="urpet home">
+        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
+        <span class="brand__words">urpet</span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="/breeds/">all 205 breeds</a>
+        <button class="saved-trigger" id="open-saved" type="button" aria-haspopup="dialog">
+          saved briefs <span id="saved-count" aria-label="0 saved briefs">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow"><span aria-hidden="true">✦</span> before the ears win</p>
+          <h1 id="hero-title">find a dog who fits ur <em>actual life.</em></h1>
+          <p class="hero__lede">Answer nine questions about your routine, home, and plans. Get three breeds to research, with tradeoffs upfront.</p>
+          <div class="hero__actions">
+            <a class="button button--primary hero__button" href="#match-desk">build my dog shortlist <span aria-hidden="true">→</span></a>
+            <a class="hero__catalog-link" href="/breeds/">or browse every breed <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <figure class="match-desk-dog">
+          <div class="match-desk-dog__tape" aria-hidden="true"></div>
+          <figcaption><span>match desk</span><strong id="desk-note">clipboard ready. judgment gentle.</strong></figcaption>
+          <div class="match-desk-dog__art" id="hero-dog" aria-hidden="true"></div>
+        </figure>
+      </section>
+
+      <section class="matcher" id="match-desk" aria-labelledby="matcher-title">
+        <div class="matcher__heading">
+          <p class="section-kicker">your dog shortlist</p>
+          <h2 id="matcher-title">who are u when the dog needs u?</h2>
+          <p>Choose for a normal week, not your best weekend.</p>
+        </div>
+
+        <div class="matcher-card">
+          <div class="matcher-progress">
+            <p id="step-status">step <strong>1</strong> of 9</p>
+            <div class="progress-track" role="progressbar" aria-labelledby="step-status" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1">
+              <span id="progress-fill"></span>
+            </div>
+          </div>
+
+          <form id="breed-form">
+            <fieldset class="match-step" data-step="0">
+              <legend>on a normal weekday, what is the longest a dog would be without a person or care break?</legend>
+              <p class="question-note">Regular long absences need a care plan.</p>
+              <div class="choice-grid choice-grid--two">
+                <input class="choice-input" type="radio" name="company" id="company-under-four" value="under-four">
+                <label class="choice" for="company-under-four"><span aria-hidden="true">01</span><strong>usually under 4 hours</strong><small>someone is back before then</small></label>
+
+                <input class="choice-input" type="radio" name="company" id="company-reliable-break" value="reliable-break">
+                <label class="choice" for="company-reliable-break"><span aria-hidden="true">02</span><strong>longer, with a reliable break</strong><small>person, walker, or daycare</small></label>
+
+                <input class="choice-input" type="radio" name="company" id="company-no-break" value="no-break-yet">
+                <label class="choice" for="company-no-break"><span aria-hidden="true">03</span><strong>longer, no reliable break yet</strong><small>tell me plainly if that is a problem</small></label>
+
+                <input class="choice-input" type="radio" name="company" id="company-variable" value="variable">
+                <label class="choice" for="company-variable"><span aria-hidden="true">04</span><strong>it changes a lot</strong><small>the schedule needs a closer look</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="1" hidden>
+              <legend>what movement can u provide most days?</legend>
+              <p class="question-note">Pick a wet Tuesday in February, not vacation-you.</p>
+              <div class="choice-grid choice-grid--three">
+                <input class="choice-input" type="radio" name="activity" id="activity-steady" value="steady">
+                <label class="choice" for="activity-steady"><span aria-hidden="true">01</span><strong>short walks + home play</strong><small>a steady, lower-key routine</small></label>
+
+                <input class="choice-input" type="radio" name="activity" id="activity-active" value="active">
+                <label class="choice" for="activity-active"><span aria-hidden="true">02</span><strong>about an hour</strong><small>walks, play, and brain work</small></label>
+
+                <input class="choice-input" type="radio" name="activity" id="activity-very" value="very-active">
+                <label class="choice" for="activity-very"><span aria-hidden="true">03</span><strong>long outings or dog sports</strong><small>this is already how I live</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="2" hidden>
+              <legend>how much training work sounds sustainable?</legend>
+              <p class="question-note">How much training do u want to keep doing?</p>
+              <div class="choice-grid choice-grid--three">
+                <input class="choice-input" type="radio" name="training" id="training-routine" value="routine">
+                <label class="choice" for="training-routine"><span aria-hidden="true">01</span><strong>starter level</strong><small>classes + short daily practice</small></label>
+
+                <input class="choice-input" type="radio" name="training" id="training-ongoing" value="ongoing">
+                <label class="choice" for="training-ongoing"><span aria-hidden="true">02</span><strong>regular focused sessions</strong><small>I want to keep teaching</small></label>
+
+                <input class="choice-input" type="radio" name="training" id="training-skilled" value="skilled">
+                <label class="choice" for="training-skilled"><span aria-hidden="true">03</span><strong>a serious project</strong><small>complex work sounds fun</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="3" hidden>
+              <legend>what coat upkeep can u keep doing for years?</legend>
+              <p class="question-note">Low shedding can still mean regular grooming.</p>
+              <div class="choice-grid choice-grid--three">
+                <input class="choice-input" type="radio" name="grooming" id="grooming-simple" value="simple">
+                <label class="choice" for="grooming-simple"><span aria-hidden="true">01</span><strong>keep it simple</strong><small>basic brushing and baths</small></label>
+
+                <input class="choice-input" type="radio" name="grooming" id="grooming-regular" value="regular">
+                <label class="choice" for="grooming-regular"><span aria-hidden="true">02</span><strong>regular upkeep is fine</strong><small>weekly brushing has a calendar slot</small></label>
+
+                <input class="choice-input" type="radio" name="grooming" id="grooming-professional" value="professional">
+                <label class="choice" for="grooming-professional"><span aria-hidden="true">03</span><strong>professional grooming is fine</strong><small>time and budget are planned</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="4" hidden>
+              <legend>how much dog hair can move into the house?</legend>
+              <p class="question-note">Shedding level is not an allergy guarantee.</p>
+              <div class="choice-grid choice-grid--three">
+                <input class="choice-input" type="radio" name="shedding" id="shedding-low" value="low">
+                <label class="choice" for="shedding-low"><span aria-hidden="true">01</span><strong>low shedding matters</strong><small>I accept the grooming tradeoff</small></label>
+
+                <input class="choice-input" type="radio" name="shedding" id="shedding-moderate" value="moderate">
+                <label class="choice" for="shedding-moderate"><span aria-hidden="true">02</span><strong>some shedding is okay</strong><small>the vacuum already knows</small></label>
+
+                <input class="choice-input" type="radio" name="shedding" id="shedding-high" value="high">
+                <label class="choice" for="shedding-high"><span aria-hidden="true">03</span><strong>hair is not a deal-breaker</strong><small>lint roller: promoted</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="5" hidden>
+              <legend>what adult size works in ur real logistics?</legend>
+              <p class="question-note">Think transport, strength, food, health care, landlord, insurance, and local rules—not just floor space.</p>
+              <div class="choice-grid choice-grid--size">
+                <input class="choice-input" type="radio" name="size" id="size-small" value="small">
+                <label class="choice" for="size-small"><span aria-hidden="true">S</span><strong>small</strong><small>portable matters</small></label>
+
+                <input class="choice-input" type="radio" name="size" id="size-medium" value="medium">
+                <label class="choice" for="size-medium"><span aria-hidden="true">M</span><strong>medium</strong><small>middle logistics</small></label>
+
+                <input class="choice-input" type="radio" name="size" id="size-large" value="large">
+                <label class="choice" for="size-large"><span aria-hidden="true">L</span><strong>large</strong><small>strength is planned</small></label>
+
+                <input class="choice-input" type="radio" name="size" id="size-giant" value="giant">
+                <label class="choice" for="size-giant"><span aria-hidden="true">XL</span><strong>giant-ready</strong><small>budget + transport too</small></label>
+
+                <input class="choice-input" type="radio" name="size" id="size-flexible" value="flexible">
+                <label class="choice" for="size-flexible"><span aria-hidden="true">↔</span><strong>flexible</strong><small>fit matters more</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="6" hidden>
+              <legend>what kind of dog life are u hoping for?</legend>
+              <div class="choice-grid choice-grid--two">
+                <input class="choice-input" type="radio" name="goal" id="goal-companion" value="companion">
+                <label class="choice" for="goal-companion"><span aria-hidden="true">01</span><strong>close companion</strong><small>household life comes first</small></label>
+
+                <input class="choice-input" type="radio" name="goal" id="goal-walks" value="walks">
+                <label class="choice" for="goal-walks"><span aria-hidden="true">02</span><strong>walking partner</strong><small>neighborhoods and weekends</small></label>
+
+                <input class="choice-input" type="radio" name="goal" id="goal-adventure" value="adventure">
+                <label class="choice" for="goal-adventure"><span aria-hidden="true">03</span><strong>adventure partner</strong><small>hikes, travel, long outings</small></label>
+
+                <input class="choice-input" type="radio" name="goal" id="goal-sport" value="sport">
+                <label class="choice" for="goal-sport"><span aria-hidden="true">04</span><strong>training + dog sports</strong><small>the hobby is the point</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="7" hidden>
+              <legend>who must the individual dog fit with?</legend>
+              <p class="question-note">Choose every condition that applies. “Adults only” clears the others.</p>
+              <div class="choice-grid choice-grid--two">
+                <input class="choice-input" type="checkbox" name="household" id="household-adults" value="adults">
+                <label class="choice" for="household-adults"><span aria-hidden="true">01</span><strong>adults only</strong><small>no resident pets or children</small></label>
+
+                <input class="choice-input" type="checkbox" name="household" id="household-children" value="children">
+                <label class="choice" for="household-children"><span aria-hidden="true">02</span><strong>children</strong><small>live here or visit often</small></label>
+
+                <input class="choice-input" type="checkbox" name="household" id="household-dog" value="dog">
+                <label class="choice" for="household-dog"><span aria-hidden="true">03</span><strong>a resident dog</strong><small>introductions matter</small></label>
+
+                <input class="choice-input" type="checkbox" name="household" id="household-cats" value="cats">
+                <label class="choice" for="household-cats"><span aria-hidden="true">04</span><strong>cats / small pets</strong><small>history matters</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="match-step" data-step="8" hidden>
+              <legend>where are u in the search?</legend>
+              <p class="question-note">A foster history can make an adult dog easier to assess.</p>
+              <div class="choice-grid choice-grid--two">
+                <input class="choice-input" type="radio" name="stage" id="stage-adult" value="adult">
+                <label class="choice" for="stage-adult"><span aria-hidden="true">01</span><strong>open to an adult rescue</strong><small>individual history is useful</small></label>
+
+                <input class="choice-input" type="radio" name="stage" id="stage-puppy" value="puppy">
+                <label class="choice" for="stage-puppy"><span aria-hidden="true">02</span><strong>looking for a puppy</strong><small>health testing is part of the work</small></label>
+
+                <input class="choice-input" type="radio" name="stage" id="stage-either" value="either">
+                <label class="choice" for="stage-either"><span aria-hidden="true">03</span><strong>open to either</strong><small>compare the real options</small></label>
+
+                <input class="choice-input" type="radio" name="stage" id="stage-learning" value="learning">
+                <label class="choice" for="stage-learning"><span aria-hidden="true">04</span><strong>just learning</strong><small>no dog search yet</small></label>
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <button class="button button--secondary" type="button" id="back-step" hidden><span aria-hidden="true">←</span> back</button>
+              <button class="button button--primary" type="button" id="next-step" disabled>next question <span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <noscript>
+        <section class="no-script" aria-labelledby="no-script-title">
+          <h2 id="no-script-title">the matcher needs JavaScript.</h2>
+          <p><a href="/breeds/">Browse all 205 breeds instead.</a></p>
+        </section>
+      </noscript>
+
+      <section class="result" id="result" aria-labelledby="result-title" hidden>
+        <div class="result__heading">
+          <p class="section-kicker">urpet fit brief</p>
+          <h2 id="result-title" tabindex="-1">three breeds to research.</h2>
+          <p id="result-summary">See why each one fits—and what to verify.</p>
+        </div>
+
+        <aside class="readiness" id="readiness" data-level="research" aria-labelledby="readiness-title">
+          <span class="readiness__stamp" aria-hidden="true">first</span>
+          <div>
+            <h3 id="readiness-title">check the plan.</h3>
+            <p id="readiness-text"></p>
+            <a id="readiness-source" href="https://www.rspca.org.uk/adviceandwelfare/pets/dogs/training/leftalone" target="_blank" rel="noopener noreferrer external">why the care break matters <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
+
+        <div class="result-tools">
+          <div class="result-actions" aria-label="Brief actions">
+            <button class="button button--primary" type="button" id="save-brief">save on this device</button>
+            <button class="button button--secondary" type="button" id="share-brief">share brief <span aria-hidden="true">↗</span></button>
+            <button class="button button--secondary" type="button" id="change-answers">change answers</button>
+            <button class="button button--secondary" type="button" id="print-brief">print / save PDF</button>
+            <button class="button button--secondary" type="button" id="jump-to-rescue">find local dogs</button>
+            <button class="button button--text" type="button" id="reset-answers">reset answers</button>
+          </div>
+          <p class="action-status" id="action-status" aria-live="polite"></p>
+          <p class="action-privacy">Saved briefs stay in this browser. A shared link contains your nine answers.</p>
+        </div>
+
+        <section class="answer-recap" aria-labelledby="answer-recap-title">
+          <div>
+            <p class="section-kicker">what u told us</p>
+            <h3 id="answer-recap-title">the real week behind this list.</h3>
+          </div>
+          <dl id="answer-summary"></dl>
+        </section>
+
+        <section class="quick-compare" aria-labelledby="quick-compare-title">
+          <header>
+            <div>
+              <p class="section-kicker">three at a glance</p>
+              <h3 id="quick-compare-title">compare before u scroll.</h3>
+            </div>
+            <p>Meeting your limits and matching your wish are shown separately.</p>
+          </header>
+          <div class="quick-compare__grid" id="quick-compare-cards"></div>
+        </section>
+
+        <div class="full-notes-heading">
+          <p class="section-kicker">full research notes</p>
+          <h3>the fit, the catches, and what to verify.</h3>
+        </div>
+
+        <div class="breed-cards" id="breed-cards"></div>
+
+        <p class="review-note">All 205 AKC-recognized breeds · reviewed <time datetime="2026-08-10">August 10, 2026</time> · <a href="/breeds/">browse the catalog</a></p>
+
+        <section class="meeting-list" aria-labelledby="meeting-title">
+          <div class="meeting-list__heading">
+            <p class="section-kicker">take this into the real conversation</p>
+            <h3 id="meeting-title">questions before anyone comes home</h3>
+            <p class="meeting-intro">Ask the people who know the dog. Specific answers matter.</p>
+            <button class="button button--secondary meeting-copy" type="button" id="copy-questions">copy these questions</button>
+            <p class="meeting-copy-status" id="meeting-copy-status" aria-live="polite"></p>
+          </div>
+          <ol id="meeting-questions"></ol>
+          <div class="health-note">
+            <strong>looking at a puppy?</strong>
+            <p>Ask which breed-specific health screens were completed on both parents and verify the actual public results. An OFA/CHIC number means required screens were recorded—not that every result was normal.</p>
+            <a href="https://ofa.org/diseases/" target="_blank" rel="noopener noreferrer external">find breed-specific OFA screens <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+
+        <section class="rescue-finder" id="rescue-finder" aria-labelledby="rescue-finder-title">
+          <div class="rescue-finder__intro">
+            <p class="section-kicker">turn research into real meetings</p>
+            <h3 id="rescue-finder-title">find local dogs to meet.</h3>
+            <p>See shelters and rescue groups within 50 km (31 mi), then use your checklist with the people who know each dog. Honduras is covered with verified local contacts.</p>
+          </div>
+          <div class="rescue-controls">
+            <button class="button button--primary rescue-location-button" id="rescue-use-location" type="button">use my location <span aria-hidden="true">◎</span></button>
+            <p class="rescue-divider"><span>or search a place</span></p>
+            <form class="rescue-search" id="rescue-search">
+              <label for="rescue-location">town, region, or postal code</label>
+              <div>
+                <input id="rescue-location" name="location" type="search" maxlength="120" autocomplete="postal-code" enterkeyhint="search" placeholder="e.g. Tegucigalpa, Honduras" aria-describedby="rescue-search-status rescue-privacy" required>
+                <button class="button button--secondary" type="submit">find rescues <span aria-hidden="true">→</span></button>
+              </div>
+            </form>
+            <p class="rescue-status" id="rescue-search-status" aria-live="polite">Choose a location method when u are ready. No map service is contacted before u do.</p>
+            <p class="rescue-privacy" id="rescue-privacy"><strong>used for this search only.</strong> urpet does not save it. After u choose, OpenStreetMap services receive the place or a rounded location.</p>
+          </div>
+          <div class="rescue-place-choices" id="rescue-place-choices" hidden></div>
+          <div class="rescue-results" id="rescue-results" hidden>
+            <header class="rescue-results__head">
+              <div>
+                <p class="section-kicker" id="rescue-result-count">rescue contacts</p>
+                <h4 id="rescue-result-area">your selected area</h4>
+              </div>
+              <button class="button button--text" id="rescue-change-location" type="button">change location</button>
+            </header>
+            <div class="rescue-map-layout">
+              <div class="rescue-map" id="rescue-map" role="region" aria-label="Map of nearby animal shelters and rescue groups"></div>
+              <div class="rescue-result-list" aria-label="Nearby shelters and rescue groups">
+                <ol id="rescue-list"></ol>
+              </div>
+            </div>
+            <p class="rescue-coverage">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer external">OpenStreetMap contributors <span aria-hidden="true">↗</span></a>. Honduras contacts are checked against local and organization directories. City-level pins are not street addresses—always contact a rescue before visiting.</p>
+          </div>
+          <p class="dog-listing-link">Want individual dogs, not just places? <a href="https://www.petfinder.com/search/dogs-for-adoption/" target="_blank" rel="noopener noreferrer external">search adoptable dogs on Petfinder <span aria-hidden="true">↗</span></a></p>
+        </section>
+
+        <aside class="support-card">
+          <div class="support-card__coin" aria-hidden="true">tip</div>
+          <div>
+            <p class="section-kicker">did this make the dog search less chaotic?</p>
+            <h3>keep the match desk open.</h3>
+            <p>If this brief helped, a coffee keeps the breed notes reviewed.</p>
+            <a class="button button--coffee" href="https://buymeacoffee.com/baneydonovan" target="_blank" rel="noopener noreferrer external">buy the matchmaker a coffee <span aria-hidden="true">↗</span></a>
+            <details class="support-policy">
+              <summary>how “urpet” support is used</summary>
+              <p>A note containing “urpet” or the legacy name “urdog” earmarks 75% for verified Cerebras credits in the shared optional guide; 25% covers payment fees and site upkeep. It never buys personal access.</p>
+            </details>
+          </div>
+        </aside>
+      </section>
+
+      <section class="method" aria-labelledby="method-title">
+        <div>
+          <p class="eyebrow"><span aria-hidden="true">✦</span> how the shortlist works</p>
+          <h2 id="method-title">your limits set the shortlist.</h2>
+          <p>urpet compares all 205 current AKC-recognized breeds with your activity, training, coat care, shedding, size, household, and plans. Each result shows the fit, the conflict, and what to verify.</p>
+        </div>
+        <div class="method__cards">
+          <article>
+            <span aria-hidden="true">01</span>
+            <h3>limits before wish lists</h3>
+            <p>A breed that needs more daily work than you can keep providing is marked as a mismatch, even when it fits the fun answer.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">02</span>
+            <h3>the individual dog wins</h3>
+            <p>Breed tendencies guide research; meet the individual dog.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">03</span>
+            <h3>leave with questions</h3>
+            <p>The report turns your household and search path into a checklist for the people who actually know the dog.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-title">
+        <div>
+          <p class="section-kicker">what to do next</p>
+          <h2 id="sources-title">meet dogs. ask better questions.</h2>
+        </div>
+        <div class="sources__copy">
+          <p>Use each breed card’s direct profile and the <a href="/breeds/">complete 205-breed catalog</a> as starting points. Then meet adult examples where possible, discuss your real week with the provider, check housing and insurance rules, and verify health records. An adult foster dog’s known routine may be more useful than a puppy prediction.</p>
+          <p>The matching approach follows current guidance to consider lifestyle, activity, training, grooming, time, and the individual animal. Read the underlying guidance from <a href="https://www.akc.org/expert-advice/puppy-information/what-dog-is-right-for-me/" target="_blank" rel="noopener noreferrer external">American Kennel Club</a>, <a href="https://www.rspca.org.uk/findapet/advice/getting-a-pet" target="_blank" rel="noopener noreferrer external">RSPCA</a>, <a href="https://www.bluecross.org.uk/advice/pets/wellbeing-and-care/finding-the-right-pet" target="_blank" rel="noopener noreferrer external">Blue Cross</a>, and <a href="https://ofa.org/chic-programs/" target="_blank" rel="noopener noreferrer external">OFA/CHIC</a>.</p>
+          <details>
+            <summary>can I use it when adopting a rescue?</summary>
+            <p>Yes. Use the breeds as background research, but give more weight to the rescue or foster team’s evidence about that dog’s home behavior, needs, and history.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
+      <div class="saved-dialog__head">
+        <div>
+          <p class="section-kicker">stored only in this browser</p>
+          <h2 id="saved-title">saved dog fit briefs</h2>
+        </div>
+        <button class="dialog-close" id="close-saved" type="button" aria-label="Close saved briefs">×</button>
+      </div>
+      <div id="saved-empty">
+        <p>No saved briefs yet. Finish the matcher, then save the report you want to revisit.</p>
+      </div>
+      <ul class="saved-list" id="saved-list"></ul>
+      <div class="saved-dialog__footer">
+        <button class="button button--text" id="clear-saved" type="button">clear every saved brief</button>
+      </div>
+    </dialog>
+
+    <dialog class="reset-dialog" id="reset-dialog" aria-labelledby="reset-dialog-title" aria-describedby="reset-dialog-copy">
+      <div class="reset-dialog__accent" aria-hidden="true"></div>
+      <div class="reset-dialog__body">
+        <p class="section-kicker">one quick check</p>
+        <h2 id="reset-dialog-title">start a new brief?</h2>
+        <p id="reset-dialog-copy">Your nine current answers will be cleared. Saved briefs stay on this device.</p>
+        <div class="reset-dialog__actions">
+          <button class="button button--secondary" id="cancel-reset" type="button">keep this brief</button>
+          <button class="button button--primary" id="confirm-reset" type="button">start over</button>
+        </div>
+      </div>
+    </dialog>
+
+    <footer class="site-footer">
+      <a class="brand brand--footer" href="/" aria-label="urpet home">
+        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
+        <span class="brand__words">urpet</span>
+      </a>
+      <p>research first. meet the dog. keep the promise.</p>
+      <nav class="footer-contact" aria-label="Research links">
+        <a href="/">all-pets matcher</a>
+        <a href="mailto:team@neorome.dev?subject=urpet%20pet%20suggestion">suggest a pet</a>
+      </nav>
+      <p>205-breed catalog reviewed August 10, 2026. Educational breed research, not professional advice.</p>
+    </footer>
+
+    <script type="module" src="/scripts/app.js?v=20260811a"></script>
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>urpet product requirements · all-pets remake</title>
+    <meta name="description" content="Implementation-ready product requirements and responsive mockups for remaking urdog.dev as urpet, a source-linked all-pets research matcher.">
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #fff8e8;
+        --paper-2: #fffdf7;
+        --ink: #171514;
+        --muted: #625e58;
+        --tomato: #ff5a45;
+        --acid: #dfff35;
+        --sky: #a9ddff;
+        --purple: #b99aff;
+        --green: #a8e6b1;
+        --line: 3px solid var(--ink);
+        --shadow: 5px 6px 0 var(--ink);
+        --radius: 18px;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font: 17px/1.55 ui-rounded, "Avenir Next", system-ui, sans-serif;
+      }
+      a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+      a:focus-visible, summary:focus-visible { outline: 4px solid var(--purple); outline-offset: 4px; }
+      code { padding: .1em .35em; background: #efe8d8; border-radius: 5px; font-size: .9em; overflow-wrap: anywhere; }
+      h1, h2, h3, h4 { line-height: 1.03; letter-spacing: -.04em; }
+      h1 { max-width: 900px; margin: .25em 0; font-size: clamp(3rem, 9vw, 7rem); }
+      h2 { margin: 0 0 .55em; font-size: clamp(2rem, 5vw, 4rem); }
+      h3 { font-size: 1.35rem; }
+      p, li { max-width: 78ch; }
+      table { width: 100%; border-collapse: collapse; background: var(--paper-2); }
+      th, td { padding: .8rem; border: 2px solid var(--ink); text-align: left; vertical-align: top; }
+      th { background: var(--sky); }
+      .skip { position: absolute; left: 1rem; top: -6rem; padding: .7rem 1rem; background: var(--acid); border: var(--line); z-index: 9; }
+      .skip:focus { top: 1rem; }
+      .wrap { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+      .hero { padding: 4.5rem 0 2rem; border-bottom: var(--line); background: linear-gradient(135deg, var(--sky), var(--paper) 62%); }
+      .brand { display: inline-flex; align-items: center; gap: .5rem; font-weight: 900; font-size: 1.5rem; }
+      .tag { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; background: var(--tomato); border: var(--line); border-radius: 8px 8px 16px 16px; transform: rotate(-4deg); }
+      .eyebrow { margin: 1.5rem 0 .25rem; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; }
+      .dek { max-width: 760px; font-size: 1.22rem; }
+      .decision { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2rem; border: var(--line); background: var(--paper-2); box-shadow: var(--shadow); }
+      .decision div { padding: 1rem; border-right: 2px solid var(--ink); }
+      .decision div:last-child { border-right: 0; }
+      .decision span { display: block; color: var(--muted); font-size: .78rem; text-transform: uppercase; font-weight: 800; }
+      .decision strong { display: block; margin-top: .2rem; }
+      .toc { position: sticky; top: 0; z-index: 4; padding: .7rem 0; background: rgba(255,248,232,.96); border-bottom: 2px solid var(--ink); overflow: auto; }
+      .toc .wrap { display: flex; gap: 1rem; white-space: nowrap; }
+      main section { padding: 4.5rem 0; border-bottom: 2px solid var(--ink); }
+      .grid-2, .grid-3 { display: grid; gap: 1.2rem; }
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card { padding: 1.25rem; background: var(--paper-2); border: var(--line); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink); }
+      .card h3 { margin-top: 0; }
+      .selected { background: var(--acid); }
+      .warning { background: #ffe0db; }
+      .good { background: #e2f9e6; }
+      .callout { margin: 1.4rem 0; padding: 1.2rem; border-left: 10px solid var(--tomato); background: var(--paper-2); }
+      .mockup-set { margin-top: 2rem; }
+      .mockup-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+      .badge { display: inline-block; padding: .25rem .6rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper-2); font-weight: 900; font-size: .78rem; text-transform: uppercase; }
+      .mockup-pair { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, .72fr); gap: 1.25rem; align-items: start; }
+      .device { min-width: 0; padding: .65rem; background: var(--ink); border-radius: 22px; box-shadow: 7px 8px 0 #777268; }
+      .device.mobile { border-radius: 34px; }
+      .screen { min-width: 0; min-height: 430px; overflow: hidden; background: var(--paper); border-radius: 13px; }
+      .mobile .screen { min-height: 550px; border-radius: 27px; }
+      .browser { display: flex; align-items: center; gap: .3rem; height: 30px; padding: 0 .7rem; background: #ebe3d3; border-bottom: 2px solid var(--ink); }
+      .browser i { width: .55rem; height: .55rem; border-radius: 50%; background: var(--tomato); }
+      .browser i:nth-child(2) { background: #f7cc54; }
+      .browser i:nth-child(3) { background: var(--green); }
+      .ui-nav { display: flex; justify-content: space-between; padding: .7rem 1rem; border-bottom: 2px solid var(--ink); font-weight: 900; }
+      .ui-body { padding: 1rem; }
+      .ui-body h4 { margin: .3rem 0 .7rem; font-size: clamp(1.25rem, 3vw, 2.4rem); }
+      .ui-body p { margin: .3rem 0 .8rem; font-size: .78rem; }
+      .tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; }
+      .tile { min-height: 72px; padding: .5rem; background: var(--paper-2); border: 2px solid var(--ink); border-radius: 10px; font-size: .7rem; font-weight: 800; }
+      .tile:nth-child(3n) { background: var(--sky); }
+      .mobile .tiles { grid-template-columns: repeat(2, 1fr); }
+      .mobile .tile { min-height: 58px; }
+      .compare { display: grid; grid-template-columns: 150px repeat(3, 1fr); border: 2px solid var(--ink); }
+      .compare div { min-height: 55px; padding: .5rem; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); font-size: .7rem; }
+      .compare div:nth-child(4n) { border-right: 0; }
+      .mobile .compare { display: block; border: 0; }
+      .mobile .compare div { margin-bottom: .35rem; border: 2px solid var(--ink); border-radius: 8px; }
+      .question-box { max-width: 680px; margin: 1.5rem auto; padding: 1.2rem; border: 3px solid var(--ink); border-radius: 18px; background: var(--paper-2); box-shadow: 5px 6px 0 var(--ink); }
+      .progress { height: 9px; margin-bottom: 1rem; background: #ded6c6; border: 1px solid var(--ink); }
+      .progress b { display: block; width: 44%; height: 100%; background: var(--tomato); }
+      .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+      .choice { padding: .7rem; border: 2px solid var(--ink); border-radius: 9px; background: var(--paper); font-size: .7rem; font-weight: 800; }
+      .choice.on { background: var(--acid); }
+      .mobile .choices { grid-template-columns: 1fr; }
+      .ui-button { display: inline-block; margin-top: .8rem; padding: .5rem .9rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--tomato); font-size: .72rem; font-weight: 900; }
+      .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: .6rem; align-items: stretch; margin: 1.5rem 0; }
+      .flow div { position: relative; padding: 1rem; border: 2px solid var(--ink); background: var(--paper-2); }
+      .flow div:not(:last-child)::after { content: "→"; position: absolute; right: -.72rem; top: 42%; z-index: 2; padding: .1rem; background: var(--paper); font-weight: 900; }
+      .contract { font-size: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .checklist li { margin: .45rem 0; }
+      footer { padding: 3rem 0; background: var(--ink); color: var(--paper); }
+      @media (max-width: 820px) {
+        .decision, .grid-3, .flow { grid-template-columns: 1fr 1fr; }
+        .decision div:nth-child(2) { border-right: 0; }
+        .decision div:nth-child(-n+2) { border-bottom: 2px solid var(--ink); }
+        .mockup-pair, .grid-2 { grid-template-columns: minmax(0, 1fr); }
+        .device.mobile { width: min(360px, 100%); }
+        .flow div::after { display: none; }
+      }
+      @media (max-width: 480px) {
+        body { font-size: 16px; }
+        .wrap { width: min(100% - 1rem, 1180px); }
+        .hero, main section { padding: 2.8rem 0; }
+        .decision, .grid-3, .flow { grid-template-columns: 1fr; }
+        .decision div { border-right: 0; border-bottom: 2px solid var(--ink); }
+        .decision div:last-child { border-bottom: 0; }
+        .screen { min-height: 390px; }
+        table { display: block; overflow-x: auto; }
+      }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">skip to requirements</a>
+    <header class="hero">
+      <div class="wrap">
+        <div class="brand"><span class="tag">u</span> urpet</div>
+        <p class="eyebrow">accepted product requirements · 12 August 2026</p>
+        <h1>match the care first. then research the pet.</h1>
+        <p class="dek">Remake <strong>urdog.dev</strong> as <strong>urpet</strong>: a calm, anonymous all-pets research tool that turns an ordinary week into specific profiles, shows hard welfare conflicts first, and preserves the full dog matcher.</p>
+        <div class="decision" aria-label="Key decisions">
+          <div><span>product</span><strong>urpet</strong></div>
+          <div><span>public domain</span><strong>urdog.dev</strong></div>
+          <div><span>selected design</span><strong>C · structured conversation</strong></div>
+          <div><span>support model</span><strong>Buy Me a Coffee only</strong></div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="toc" aria-label="Document sections">
+      <div class="wrap">
+        <a href="#brief">brief</a>
+        <a href="#coverage">coverage</a>
+        <a href="#mockups">three mockups</a>
+        <a href="#experience">experience</a>
+        <a href="#support">support</a>
+        <a href="#architecture">architecture</a>
+        <a href="#acceptance">acceptance</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section id="brief">
+        <div class="wrap">
+          <p class="eyebrow">01 · accepted brief</p>
+          <h2>one narrow job, done carefully.</h2>
+          <div class="grid-2">
+            <article class="card good">
+              <h3>Outcome</h3>
+              <p>A visitor states what care, environment, specialist support, and lifetime commitment are real. urpet returns zero to three profiles worth researching and a short provider checklist. If a non-negotiable need is missing, the result says “prepare first.”</p>
+            </article>
+            <article class="card">
+              <h3>Audience</h3>
+              <p>First-time and uncertain prospective owners who need more than a personality quiz, especially people drawn to an animal by appearance, media, or a vague idea of ease.</p>
+            </article>
+            <article class="card">
+              <h3>Delivered value</h3>
+              <p>A complete deterministic brief before any support request: matching reasons, difficult requirements, primary welfare sources, and three questions for a shelter, rescue, breeder, veterinarian, or experienced keeper.</p>
+            </article>
+            <article class="card warning">
+              <h3>Not promised</h3>
+              <p>No perfect-pet verdict, behavior prediction, veterinary diagnosis, provider endorsement, automatic donation-to-AI transfer, permanent guide availability, or claim that abuse can be made impossible.</p>
+            </article>
+          </div>
+          <div class="callout"><strong>Core rule:</strong> a preference score may order compatible profiles. It may never outweigh a hard care, household-health, habitat, veterinary, or whole-life conflict.</div>
+        </div>
+      </section>
+
+      <section id="coverage">
+        <div class="wrap">
+          <p class="eyebrow">02 · launch coverage</p>
+          <h2>ten lanes; exact profiles.</h2>
+          <table>
+            <thead><tr><th>Lane</th><th>Reviewed at launch</th><th>Hard checks that must stay visible</th></tr></thead>
+            <tbody>
+              <tr><td>Dogs</td><td>Existing 205-breed module</td><td>Time alone, activity, training, coat, shedding, size, household, sourcing, health due diligence.</td></tr>
+              <tr><td>Cats</td><td>Adult domestic cat</td><td>Litter routine, refuge, vertical space, enrichment, animal-led handling.</td></tr>
+              <tr><td>Freshwater aquariums</td><td>Mature goldfish aquarium</td><td>Cycling, filtration, water testing, adult habitat, long lifespan; never a bowl.</td></tr>
+              <tr><td>Companion birds</td><td>Compatible budgerigar pair; compatible cockatiel pair</td><td>Compatible company, vocal behavior, large environment, substantial safe daily flight.</td></tr>
+              <tr><td>Rabbits</td><td>Bonded domestic pair</td><td>Bond, movement space, enrichment, cleaning, adult care owner.</td></tr>
+              <tr><td>Guinea pigs</td><td>Compatible pair</td><td>Company, refuge, forage, exercise, daily and deep cleaning.</td></tr>
+              <tr><td>Hamsters</td><td>Solo Syrian hamster</td><td>Solitary housing, nocturnal activity, protected sleep, secure enriched environment.</td></tr>
+              <tr><td>Turtles &amp; tortoises</td><td>Captive-bred Hermann’s tortoise only</td><td>Specialist habitat and vet, reptile household gate, lawful origin, multidecade plan.</td></tr>
+              <tr><td>Geckos</td><td>Captive-bred leopard gecko only</td><td>Heat/light/hides, live invertebrates, supplementation, specialist vet.</td></tr>
+              <tr><td>Snakes</td><td>Captive-bred corn snake only</td><td>Secure managed vivarium, frozen-thawed rodents, specialist vet, 10+ years.</td></tr>
+            </tbody>
+          </table>
+          <p>Unsupported species remain visibly “researching.” Suggestions open the visitor’s email client to <a href="mailto:team@neorome.dev?subject=urpet%20pet%20suggestion">team@neorome.dev</a>; urpet does not collect suggestion addresses in a form.</p>
+        </div>
+      </section>
+
+      <section id="mockups">
+        <div class="wrap">
+          <p class="eyebrow">03 · three responsive directions</p>
+          <h2>three ways in; C is selected.</h2>
+          <p>Each concept below shows a desktop and mobile view. These are product mockups, not alternate features to ship together.</p>
+
+          <article class="mockup-set card">
+            <div class="mockup-head"><div><span class="badge">Option A</span><h3>Browse-first pet shelf</h3></div><strong>Not selected</strong></div>
+            <p>Strong for exploration, weak at making the visitor confront their own care limits before attractive animals.</p>
+            <div class="mockup-pair">
+              <div class="device"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>browse · compare</span></div><div class="ui-body"><p>ten reviewed starting points</p><h4>what animal are you curious about?</h4><div class="tiles"><div class="tile">Dogs<br>205 breeds</div><div class="tile">Cats<br>adult profile</div><div class="tile">Aquariums<br>goldfish</div><div class="tile">Birds<br>two pairs</div><div class="tile">Rabbits<br>bonded pair</div><div class="tile">Guinea pigs<br>pair</div><div class="tile">Hamsters<br>Syrian</div><div class="tile">Tortoises<br>Hermann’s</div><div class="tile">Geckos<br>leopard</div><div class="tile">Snakes<br>corn snake</div></div></div></div></div>
+              <div class="device mobile"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>menu</span></div><div class="ui-body"><h4>choose a lane</h4><div class="tiles"><div class="tile">Dogs</div><div class="tile">Cats</div><div class="tile">Aquariums</div><div class="tile">Birds</div><div class="tile">Rabbits</div><div class="tile">Guinea pigs</div><div class="tile">Hamsters</div><div class="tile">Tortoises</div><div class="tile">Geckos</div><div class="tile">Snakes</div></div></div></div></div>
+            </div>
+          </article>
+
+          <article class="mockup-set card">
+            <div class="mockup-head"><div><span class="badge">Option B</span><h3>Comparison workbench</h3></div><strong>Not selected</strong></div>
+            <p>Good for someone who already knows three candidates. Too dense for a visitor who does not yet know what their real constraints eliminate.</p>
+            <div class="mockup-pair">
+              <div class="device"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>new comparison</span></div><div class="ui-body"><h4>compare the jobs, not the photos.</h4><div class="compare"><div><strong>ordinary week</strong></div><div><strong>Adult cat</strong></div><div><strong>Budgie pair</strong></div><div><strong>Leopard gecko</strong></div><div>daily work</div><div>litter · play</div><div>flight · social</div><div>heat · insects</div><div>space</div><div>vertical refuge</div><div>flight-capable</div><div>vivarium</div><div>conflict</div><div>none stated</div><div>quiet brief</div><div>no reptile vet</div></div></div></div></div>
+              <div class="device mobile"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>compare</span></div><div class="ui-body"><h4>three candidates</h4><div class="compare"><div><strong>Adult cat</strong><br>possible with review</div><div><strong>Budgie pair</strong><br>prepare flight space</div><div><strong>Leopard gecko</strong><br>find reptile vet</div></div><span class="ui-button">change candidates</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="mockup-set card selected">
+            <div class="mockup-head"><div><span class="badge">Option C · selected</span><h3>Structured conversation</h3></div><strong>Ship this</strong></div>
+            <p>One literal decision at a time. The visitor defines their ordinary week before the product reveals research leads. This best supports a calm, non-BuzzFeed experience on phone and desktop.</p>
+            <div class="mockup-pair">
+              <div class="device"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>dog matcher · 205 breeds</span></div><div class="ui-body"><p>question 4 of 9</p><div class="question-box"><div class="progress"><b></b></div><h4>what space can stay dedicated to the animal?</h4><p>Floor space is only one part; transport, power, ventilation, and rules still matter.</p><div class="choices"><div class="choice">compact enriched zone</div><div class="choice on">room-scale movement</div><div class="choice">specialist setup</div></div><span class="ui-button">next question →</span></div></div></div></div>
+              <div class="device mobile"><div class="screen"><div class="browser"><i></i><i></i><i></i></div><div class="ui-nav"><span>urpet</span><span>4 / 9</span></div><div class="ui-body"><div class="question-box"><div class="progress"><b></b></div><h4>what space can stay dedicated?</h4><div class="choices"><div class="choice">compact enriched zone</div><div class="choice on">room-scale movement</div><div class="choice">specialist setup</div></div><span class="ui-button">next →</span></div></div></div></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="wrap">
+          <p class="eyebrow">04 · selected experience</p>
+          <h2>nine answers to a bounded brief.</h2>
+          <div class="flow" aria-label="Experience flow">
+            <div><strong>1. Frame</strong><br>open, known kind, or compare</div>
+            <div><strong>2. Boundaries</strong><br>time, space, interaction, food</div>
+            <div><strong>3. Gates</strong><br>household, vet, lifetime</div>
+            <div><strong>4. Result</strong><br>0–3 leads + prepare-first</div>
+            <div><strong>5. Act</strong><br>sources, provider questions, print</div>
+          </div>
+          <div class="grid-3">
+            <article class="card"><h3>Conversation behavior</h3><ul><li>One fieldset visible at a time.</li><li>Visible “question n of 9” progress.</li><li>Back never erases later answers.</li><li>Invalid lane counts explain the exact correction.</li><li>Focus moves to each legend and the result title.</li></ul></article>
+            <article class="card"><h3>Result anatomy</h3><ul><li>Plain “research leads, not a verdict” heading.</li><li>Profile summary and why it stayed in.</li><li>Source-linked care facts.</li><li>Three real-world questions.</li><li>Hard conflicts in a separate prepare-first block.</li></ul></article>
+            <article class="card"><h3>Fallbacks</h3><ul><li>No reviewed fit may be the correct result.</li><li>No JavaScript still shows method, sources, dog module, and email.</li><li>Guide failures never alter the deterministic brief.</li><li>Unsupported animals stay researching.</li></ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="support">
+        <div class="wrap">
+          <p class="eyebrow">05 · support without accounts</p>
+          <h2>one shared pool, never personal access.</h2>
+          <div class="grid-2">
+            <article class="card">
+              <h3>Visitor promise</h3>
+              <ul>
+                <li>The matcher is free, anonymous, and unlimited.</li>
+                <li>Buy Me a Coffee appears only after a complete result.</li>
+                <li>A note containing <code>urpet</code> or legacy <code>urdog</code> assigns 75% to a Cerebras-credit earmark and 25% to fees/upkeep.</li>
+                <li>Support benefits the shared optional guide; it does not buy the supporter priority or extra personal use.</li>
+              </ul>
+            </article>
+            <article class="card warning">
+              <h3>Provider truth</h3>
+              <p>Buy Me a Coffee supplies signed event notifications; it does not automatically buy Cerebras credit. Cerebras credit is added in its Cloud Console. Therefore shared use opens only after both a qualifying support earmark and a separately verified provider-funding receipt exist.</p>
+              <p>Owner-funded receipts are separately capped at <strong>$10 total</strong>.</p>
+            </article>
+          </div>
+          <h3>Usage authorization</h3>
+          <pre class="card contract"><code>available = verified owner credit
+          + min(active 75% support earmarks, verified support credit)
+          - reserved model calls
+          - settled model cost</code></pre>
+          <p>The optional guide is one request, not a conversation: select a compatible profile, pass Turnstile, receive exactly three short provider questions. It is hidden when configuration or budget is unavailable.</p>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <div class="wrap">
+          <p class="eyebrow">06 · implementation contract</p>
+          <h2>deterministic core; gated optional organizer.</h2>
+          <div class="grid-3">
+            <article class="card"><h3>Browser</h3><p>Static HTML/CSS/JavaScript. Closed answer vocabulary. Deterministic ranking. No account, cookie profile, user upload, or free-form prompt. The Turnstile script loads only after the status endpoint reports a funded guide ready.</p></article>
+            <article class="card"><h3>Cloudflare Worker</h3><p>Canonical redirects and security headers; BMC webhook; non-sensitive guide status; same-origin guide endpoint; Cloudflare rate limiter; Turnstile Siteverify; timeout and output validation.</p></article>
+            <article class="card"><h3>D1</h3><p>Privacy-minimized support payments/events, immutable provider-funding receipts, one aggregate budget, and per-call profile/token/cost/outcome audit. No identity, IP, raw note, prompt, or output.</p></article>
+          </div>
+          <h3>Abuse and accounting controls</h3>
+          <ol class="checklist">
+            <li>Verify the exact raw BMC body with HMAC-SHA256 and constant-time comparison before parsing.</li>
+            <li>Accept only live <code>donation.created</code> and <code>donation.refunded</code> events; make event and payment handling idempotent.</li>
+            <li>Normalize only for the keyword decision; never persist the support note.</li>
+            <li>Validate guide origin, content type, body size, exact keys, profile ID, and every answer ID.</li>
+            <li>Rate limit before costly provider work. Send the IP only to the Cloudflare rate-limit binding; do not store it.</li>
+            <li>Require server-side Turnstile success plus the exact action and production hostname.</li>
+            <li>Reserve shared budget atomically before Cerebras. Settle actual input/output token cost; charge the conservative reservation when the provider outcome is unknown.</li>
+            <li>Return only three nonempty strings of at most 180 characters. The model may organize reviewed information but cannot add care claims or change matches.</li>
+          </ol>
+          <h3>Stable names</h3>
+          <table>
+            <tbody>
+              <tr><th>Product, package, repo</th><td><code>urpet</code> / <code>neorome/urpet</code></td></tr>
+              <tr><th>Public domain</th><td><code>urdog.dev</code> and canonical apex URLs remain unchanged.</td></tr>
+              <tr><th>Legacy Cloudflare resources</th><td>Worker <code>urdog</code> and D1 <code>urdog-community</code> remain stable for routing and rollback.</td></tr>
+              <tr><th>Compatibility</th><td>Dog saved-brief key and legacy <code>urdog</code> donation keyword continue to work.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="acceptance">
+        <div class="wrap">
+          <p class="eyebrow">07 · release proof</p>
+          <h2>done means observable.</h2>
+          <div class="grid-2">
+            <article class="card good">
+              <h3>Automated</h3>
+              <ul>
+                <li>Exactly ten lanes and eleven specific launch profiles.</li>
+                <li>Hard-conflict scenarios across aquarium, bird, rabbit, hamster, tortoise, gecko, and snake profiles.</li>
+                <li>Dog module remains nine questions, 205 breeds, 205 licensed local photos, and `/dogs/` deep links.</li>
+                <li>Signed create/refund idempotency, out-of-order refund, 75%, privacy schema, $10 owner cap, dual funding ledger.</li>
+                <li>Closed guide input, origin/rate/Turnstile checks, token settlement, unknown-provider accounting.</li>
+                <li>Metadata, sitemap, headers, generated pages, CSS balance, 320 px rules, reduced motion, print, and deployment dry run.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Browser and production</h3>
+              <ul>
+                <li>Complete a normal brief and a no-lead hard-conflict brief at desktop and phone widths.</li>
+                <li>Keyboard focus follows the conversation; no horizontal overflow at 320 px.</li>
+                <li>Unfunded guide remains hidden; deterministic result remains complete.</li>
+                <li>Buy Me a Coffee opens through the outbound confirmation.</li>
+                <li>Cache-busted live checks confirm the exact commit and Worker version after deployment.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="callout"><strong>Protected release gates:</strong> adding or rotating secrets, creating a Turnstile widget, configuring the BMC webhook, applying remote D1 state, or buying Cerebras credit requires current authorization. The deterministic urpet release may deploy with the shared guide resting.</div>
+        </div>
+      </section>
+
+      <section id="sources">
+        <div class="wrap">
+          <p class="eyebrow">08 · primary provider evidence</p>
+          <h2>claims that shape the architecture.</h2>
+          <ul>
+            <li><a href="https://help.buymeacoffee.com/en/articles/15743173-how-to-setup-and-use-buy-me-a-coffee-webhooks">Buy Me a Coffee webhook setup and signature verification</a>.</li>
+            <li><a href="https://inference-docs.cerebras.ai/console/account-billing">Cerebras Account &amp; Billing</a>: balance and credit addition live in the Cloud Console.</li>
+            <li><a href="https://inference-docs.cerebras.ai/api-reference/models/public-models">Cerebras public-model price reference</a>: <code>gpt-oss-120b</code> was $0.35/M input and $0.75/M output tokens on 2026-08-12. A live public-endpoint gate must match the pin before the optional guide is enabled.</li>
+            <li><a href="https://developers.cloudflare.com/turnstile/get-started/server-side-validation/">Cloudflare Turnstile server-side validation</a>: tokens require Siteverify and are single-use.</li>
+            <li>Pet welfare links are attached directly to each shipped profile in the product source and result UI.</li>
+          </ul>
+          <p><strong>Reviewed:</strong> 12 August 2026. Provider prices and product interfaces can change; verify them before changing the cost formula or release configuration.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <strong>urpet</strong>
+        <p>Product and repository name: urpet. Public domain: urdog.dev. Selected direction: structured conversation.</p>
+      </div>
+    </footer>
+  </body>
+</html>

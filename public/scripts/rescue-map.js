@@ -344,7 +344,7 @@ function initRescueFinder() {
       if (places.length === 1) {
         await searchCoordinates(places[0], places[0].label);
       } else {
-        status.textContent = "Choose the matching place, then ur dog will look for shelters.";
+        status.textContent = "Choose the matching place, then urpet will look for shelters.";
         showChoices(places);
       }
     } catch (error) {
@@ -364,7 +364,7 @@ function initRescueFinder() {
     form.reset();
     choices.replaceChildren();
     choices.hidden = true;
-    status.textContent = "Choose a location method when u are ready. ur dog does not save searches.";
+    status.textContent = "Choose a location method when u are ready. urpet does not save searches.";
     setBusy(false);
     if (focus) locationInput.focus();
   }
