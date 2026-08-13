@@ -101,6 +101,16 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Live proof: all four public pages and the new profile image returned 200; `www` returned 308 to the apex; an unknown route returned 404 with `X-Robots-Tag: noindex`; the exact community status was `{"guideEnabled":false,"state":"resting"}`
 - Browser proof: completed a 320 px cat lead and a prepare-first tortoise path, verified a 3:2 local image with visible attribution, source-linked conflict disclosure, and no horizontal scrolling; the 1280 px lane screen exposed ten grouped text rows with no pre-match photography and no horizontal scrolling
 
+### AI activation and support-policy correction — 2026-08-13 UTC
+
+- Product/source commit: `dff9be1` (following support-separation commit `f280bb7`)
+- Worker version: `e95537c5-41e4-47d6-9fac-628561fcc80a` at 100% traffic
+- D1 migration: `0003_owner_only_guide_budget.sql`; no pending migrations
+- AI authorization: immutable owner-only $10 maximum allowance; no purchase was initiated by this release
+- Buy Me a Coffee: general research, hosting, and upkeep support only; no percentage, token, access, or feature promise; webhook secret remains absent and support records cannot authorize AI usage
+- Live provider proof: the installed KeepKeys credential authenticated, ordinary inference returned HTTP 200 with token accounting, and the corrected strict JSON-schema probe returned exactly three allowlisted enum IDs
+- Live UI proof: guide status `ready`; support-policy scan found no percentage, earmark, or token-message language; the reported method-section overlap was absent at 2048 px, 900 px, and 320 px with no horizontal scrolling
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
