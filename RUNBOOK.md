@@ -89,6 +89,17 @@ npm run deploy
 
 Record the deployed Worker version, exact Git commit, previous known-good Worker version, D1 migration number, and whether the community guide is `ready` or `resting`.
 
+### Production release — 2026-08-13 UTC
+
+- Git source: `1c701a15641d9ec41704e733ada18fdb7c467b88`
+- Worker version: `aa96623f-ead5-40fb-8412-16e1a0e26afa` at 100% traffic
+- Immediate predecessor: `626e27e2-f676-4da3-85d4-45582785a73e`
+- Last commit-labelled rollback: `ab4e67ff-040f-4b8d-8e16-087d028d07c1` (`59427c8`)
+- D1 migrations: `0001_community_budget.sql`, `0002_guide_reservations.sql`; no pending migrations
+- Community guide: `resting` by design; Turnstile is installed, while provider funding, `CEREBRAS_API_KEY`, and the Buy Me a Coffee webhook secret remain absent
+- Live proof: all four public pages and the new profile image returned 200; `www` returned 308 to the apex; an unknown route returned 404 with `X-Robots-Tag: noindex`; the exact community status was `{"guideEnabled":false,"state":"resting"}`
+- Browser proof: completed a 320 px cat lead and a prepare-first tortoise path, verified a 3:2 local image with visible attribution, source-linked conflict disclosure, and no horizontal scrolling; the 1280 px lane screen exposed ten grouped text rows with no pre-match photography and no horizontal scrolling
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
