@@ -6,8 +6,11 @@ import {
   PET_LANES,
   PET_PROFILES,
   encodeGuideAnswerIds,
+  encodePetAnswers,
   normalizePetAnswers,
-  rankPetProfiles
+  parsePetAnswers,
+  rankPetProfiles,
+  sharePetText
 } from "../public/scripts/all-pets-engine.js";
 import {
   normalizeSupportNote,
@@ -180,6 +183,26 @@ test("guide IDs contain only the normalized closed answer vocabulary", () => {
     "vet-general",
     "horizon-ten-plus"
   ]);
+});
+
+test("pet briefs round-trip through a shareable query and keep prepare-first language honest", () => {
+  const query = encodePetAnswers({
+    ...baseline,
+    mode: "compare",
+    lanes: ["cats", "birds"]
+  });
+  assert.match(query, /m=compare/);
+  assert.match(query, /l=cats\.birds/);
+  assert.deepEqual(parsePetAnswers(`https://urdog.dev/?${query}#pet-result`), {
+    ...baseline,
+    mode: "compare",
+    lanes: ["cats", "birds"]
+  });
+  assert.equal(parsePetAnswers("?m=kind"), null);
+  const leads = rankPetProfiles(baseline);
+  assert.match(sharePetText(leads), /Adult domestic cat/);
+  const blocked = rankPetProfiles(answers({ lanes: ["geckos"], space: "specialist", rhythm: "observe" }));
+  assert.match(sharePetText(blocked), /no reviewed fit yet/i);
 });
 
 test("support keywords accept urpet and the legacy urdog spelling", () => {

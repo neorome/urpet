@@ -97,7 +97,11 @@ function withHeaders(response, pathname) {
   }
 
   const contentType = headers.get("content-type") || "";
-  if (contentType.includes("text/html")) {
+  if (pathname === "/sw.js") {
+    headers.set("Content-Type", "application/javascript; charset=utf-8");
+    headers.set("Service-Worker-Allowed", "/");
+    headers.set("Cache-Control", "no-cache");
+  } else if (contentType.includes("text/html")) {
     headers.set("Cache-Control", "public, max-age=0, must-revalidate");
   } else if (/\.(?:css|js|json|svg|png|webp|webmanifest)$/.test(pathname)) {
     headers.set("Cache-Control", "public, max-age=0, must-revalidate");

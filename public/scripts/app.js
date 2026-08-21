@@ -10,6 +10,7 @@ import { DOGS, renderDogSvg } from "./dog-engine.js?v=20260811a";
 import { BREED_PHOTOS } from "./breed-photos.js?v=20260811a";
 import { initRescueFinder } from "./rescue-map.js?v=20260811a";
 import "./external-links.js?v=20260811a";
+import { showInstallHint } from "./pwa.js?v=20260821a";
 
 const STORAGE_KEY = "urdog-fit-briefs-v1";
 const MAX_SAVED = 8;
@@ -326,6 +327,7 @@ function createBrief(answers, { updateUrl = true, scroll = true, instant = false
   syncSaveButton();
   window.requestAnimationFrame(() => result.classList.add("is-entering"));
   if (scroll) focusAndReveal(resultTitle, { instant });
+  showInstallHint();
   return true;
 }
 

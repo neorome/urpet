@@ -17,6 +17,7 @@ const requiredAssets = [
   "styles.css",
   "scripts/all-pets.js",
   "scripts/all-pets-engine.js",
+  "scripts/pwa.js",
   "scripts/app.js",
   "scripts/breed-engine.js",
   "scripts/breed-catalog.js",
@@ -37,6 +38,11 @@ const requiredAssets = [
   "robots.txt",
   "sitemap.xml",
   "site.webmanifest",
+  "sw.js",
+  "icons/icon-192.png",
+  "icons/icon-512.png",
+  "icons/icon-maskable-192.png",
+  "icons/icon-maskable-512.png",
   "vendor/leaflet/leaflet.css",
   "vendor/leaflet/leaflet.js",
   "vendor/leaflet/LICENSE",
@@ -56,6 +62,7 @@ const [
   css,
   allPetsApp,
   allPetsEngine,
+  pwaApp,
   dogApp,
   dogEngine,
   rescueSearch,
@@ -80,6 +87,7 @@ const [
   readPublic("styles.css"),
   readPublic("scripts/all-pets.js"),
   readPublic("scripts/all-pets-engine.js"),
+  readPublic("scripts/pwa.js"),
   readPublic("scripts/app.js"),
   readPublic("scripts/breed-engine.js"),
   readPublic("scripts/rescue-search.js"),
@@ -152,6 +160,11 @@ assert.equal((home.match(/<legend>/g) || []).length, 8);
 assert.match(home, /id="lane-followup"[^>]*hidden/);
 assert.match(home, /id="pet-form-hint"/);
 assert.match(home, /class="result-tools"/);
+assert.match(home, /id="next-steps"/);
+assert.match(home, /id="save-pet-brief"/);
+assert.match(home, /id="share-pet-brief"/);
+assert.match(home, /viewport-fit=cover/);
+assert.match(home, /apple-mobile-web-app-capable/);
 for (const id of [...home.matchAll(/type="(?:radio|checkbox)"[^>]+id="([^"]+)"/g)].map((match) => match[1])) {
   assert.match(home, new RegExp(`<label[^>]+for="${id}"`), `All-pets choice ${id} needs a label`);
 }
@@ -168,7 +181,14 @@ assert.match(home, /href="https:\/\/buymeacoffee\.com\/baneydonovan"/);
 assert.ok(home.indexOf("buymeacoffee.com/baneydonovan") > home.indexOf('id="pet-result"'), "support must follow the complete result");
 assert.match(allPetsApp, /fetch\("\/api\/community\/status"/);
 assert.match(allPetsApp, /encodeGuideAnswerIds/);
+assert.match(allPetsApp, /encodePetAnswers/);
+assert.match(allPetsApp, /navigator\.share/);
+assert.match(allPetsApp, /urpet-fit-briefs-v1/);
 assert.match(allPetsApp, /prefers-reduced-motion/);
+assert.match(pwaApp, /serviceWorker\.register\("\/sw\.js"/);
+assert.match(pwaApp, /beforeinstallprompt/);
+assert.match(await readPublic("sw.js"), /pathname\.startsWith\("\/api\/"\)/);
+assert.match(worker, /Service-Worker-Allowed/);
 assert.match(allPetsApp, /PROFILE_PHOTOS/);
 assert.match(allPetsApp, /loading="lazy" decoding="async"/);
 assert.match(allPetsApp, /class="blocked-profile-list"/);
@@ -237,6 +257,11 @@ for (const location of [
 assert.equal((sitemap.match(/<url>/g) || []).length, 4);
 assert.equal(manifest.start_url, "/");
 assert.equal(manifest.scope, "/");
+assert.equal(manifest.display, "standalone");
+assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));
+assert.ok(manifest.icons.some((icon) => icon.sizes === "512x512" && icon.purpose === "any"));
+assert.ok(manifest.icons.some((icon) => icon.purpose === "maskable" && icon.sizes === "512x512"));
+assert.ok(manifest.shortcuts?.some((shortcut) => shortcut.url === "/dogs/"));
 for (const icon of manifest.icons) await access(resolve(publicDir, icon.src.replace(/^\//, "")));
 
 assert.match(worker, /www\.urdog\.dev/);
@@ -279,7 +304,7 @@ assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 assert.match(css, /@media print/);
 assert.match(css, /@media \(max-width: 390px\)/);
 const printCss = css.match(/@media print \{([\s\S]*)\}\s*$/)?.[1] || "";
-for (const selector of [".all-pets-hero", ".pet-result-actions", ".community-guide", ".pet-support", ".coverage"]) {
+for (const selector of [".all-pets-hero", ".pet-result-actions", ".community-guide", ".pet-support", ".coverage", ".pwa-hint", ".offline-banner"]) {
   assert.match(printCss, new RegExp(selector.replace(".", "\\.")), `Print must hide ${selector}`);
 }
 assert.match(printCss, /\.pet-result \{/);
@@ -311,9 +336,11 @@ const budgets = {
   "breeds/index.html": 300_000,
   "photo-credits/index.html": 300_000,
   "styles.css": 120_000,
-  "scripts/all-pets.js": 24_000,
-  "scripts/all-pets-engine.js": 30_000,
-  "scripts/app.js": 28_000,
+  "scripts/all-pets.js": 36_000,
+  "scripts/all-pets-engine.js": 34_000,
+  "scripts/pwa.js": 8_000,
+  "scripts/app.js": 30_000,
+  "sw.js": 6_000,
   "scripts/breed-engine.js": 22_000,
   "scripts/rescue-search.js": 9_000,
   "scripts/rescue-map.js": 20_000,

@@ -137,7 +137,7 @@ curl --fail --silent --show-error --max-time 20 \
 
 Expected: apex pages return 200; `/dogs` permanently redirects to `/dogs/`; `www` returns 308 with an apex location; sitemap contains `/`, `/dogs/`, `/breeds/`, and `/photo-credits/`; bad routes return 404 with `X-Robots-Tag: noindex`; CSP permits only the reviewed OSM, Cloudflare Analytics, and Turnstile surfaces.
 
-Browser smoke at 1440 px and 320 px:
+Browser smoke at 1440 px and 320 px, plus one installed desktop or mobile PWA session:
 
 1. Complete an open all-pets brief and confirm zero to three source-linked leads.
 2. Complete a reptile brief with a high-risk household and confirm the CDC conflict appears before benefits.
@@ -146,6 +146,7 @@ Browser smoke at 1440 px and 320 px:
 5. Confirm no map request occurs before a location action; test typed place, denied geolocation, semantic result list, and attribution.
 6. Open the Buy Me a Coffee link, confirm the leaving-site dialog, then cancel and continue separately.
 7. Use keyboard-only navigation, inspect focus, honor reduced motion, print without support, and verify no horizontal overflow.
+8. Confirm the matcher still completes offline after the first visit, that a shared brief URL reopens the same result, and that an installed PWA keeps the notch and home-indicator clear.
 
 If the guide is intentionally enabled, add one managed Turnstile + one successful guide smoke and verify that D1 records only profile ID, token counts, cost, and outcome. Never use an unbounded production loop for this check.
 
