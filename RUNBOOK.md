@@ -111,6 +111,16 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Live provider proof: the installed KeepKeys credential authenticated, ordinary inference returned HTTP 200 with token accounting, and the corrected strict JSON-schema probe returned exactly three allowlisted enum IDs
 - Live UI proof: guide status `ready`; support-policy scan found no percentage, earmark, or token-message language; the reported method-section overlap was absent at 2048 px, 900 px, and 320 px with no horizontal scrolling
 
+### PWA and all-pets brief parity — 2026-08-22 UTC
+
+- Git source: `6454cb6cacbe57ec66dd73ab49bbc1ab1e6bc883` (`cursor/pwa-cross-surface-help-2dda`)
+- Worker version: `0c0d8c89-7659-4bb6-916b-e9e1ea3bc8f2` at 100% traffic
+- Immediate predecessor: `e5cd3ae3-6672-4980-b092-880696c0843d` (`9a7cfef`)
+- Last commit-labelled rollback still: `ab4e67ff-040f-4b8d-8e16-087d028d07c1` (`59427c8`)
+- D1 migrations: `0001_community.sql`, `0002_guide_reservations.sql`, `0003_owner_only_guide_budget.sql`; no pending migrations
+- Community guide at this release: `ready` (`{"guideEnabled":true,"state":"ready"}`); no BMC webhook or Cerebras purchase
+- Live proof: `/`, `/dogs/`, `/breeds/`, and `/photo-credits/` returned 200 with the `20260821a` assets; `/sw.js` returned 200 with `Service-Worker-Allowed: /` and `Cache-Control: no-cache`; `/site.webmanifest` and `/icons/icon-192.png` returned 200; `www` returned 308 to the apex; `/dogs` returned 308 to `/dogs/`; an unknown route returned 404 with `X-Robots-Tag: noindex`; sitemap still lists `/`, `/dogs/`, `/breeds/`, and `/photo-credits/`
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
