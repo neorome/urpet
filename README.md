@@ -6,7 +6,7 @@ The product covers ten launch lanes: dogs, cats, freshwater aquariums, companion
 
 ## Product boundaries
 
-- The deterministic matcher is anonymous, unlimited, and runs in the browser.
+- The deterministic matcher is anonymous, unlimited, and runs in the browser. It can also be installed as a home-screen or desktop PWA; after the first visit the matcher stays usable offline.
 - Results are research leads, not predictions, diagnoses, or endorsements.
 - Hard habitat, food, household-health, veterinary, space, and lifetime conflicts appear before benefits.
 - There is no account, Stripe checkout, paywall, or visible chatbot.

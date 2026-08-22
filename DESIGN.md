@@ -84,7 +84,7 @@ The active guide ledger stores the owner allowance, aggregate budget, profile ID
 
 ## Accessibility and responsive behavior
 
-The experience must work from 320 px through desktop without horizontal overflow. Every control has a programmatic label; errors are announced; focus moves to each question and result; keyboard operation is complete; reduced motion disables smooth transitions; print removes navigation and support. The optional Turnstile script loads only after a funded guide is reported ready and its disclosure is opened.
+The experience must work from 320 px through desktop, and as a browser or installed PWA, without horizontal overflow. Safe-area insets keep controls clear of notches and home indicators. The deterministic matcher remains usable offline after the app shell is cached; maps, welfare sources, and the optional guide still need a network. Every control has a programmatic label; errors are announced; focus moves to each question and result; keyboard operation is complete; reduced motion disables smooth transitions; print removes navigation, install hints, and support. The optional Turnstile script loads only after a funded guide is reported ready and its disclosure is opened.
 
 ## Evidence boundaries
 

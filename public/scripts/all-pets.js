@@ -1,13 +1,20 @@
 import {
   encodeGuideAnswerIds,
+  encodePetAnswers,
   normalizePetAnswers,
-  rankPetProfiles
-} from "./all-pets-engine.js?v=20260813a";
+  parsePetAnswers,
+  rankPetProfiles,
+  sharePetText
+} from "./all-pets-engine.js?v=20260821a";
 import {
   activePetStepIds,
   answersWithSafeSkippedDefaults
-} from "./all-pets-flow.js?v=20260813a";
+} from "./all-pets-flow.js?v=20260821a";
 import { PROFILE_PHOTOS } from "../data/profile-photos.js?v=20260813a";
+import { showInstallHint } from "./pwa.js?v=20260821a";
+
+const STORAGE_KEY = "urpet-fit-briefs-v1";
+const MAX_SAVED = 8;
 
 const form = document.querySelector("#pet-conversation");
 const steps = [...document.querySelectorAll(".pet-step")];
@@ -29,8 +36,19 @@ const prepareFirst = document.querySelector("#prepare-first");
 const blockedRoot = document.querySelector("#blocked-profiles");
 const reptileGate = document.querySelector("#reptile-gate");
 const printButton = document.querySelector("#print-pet-brief");
+const shareButton = document.querySelector("#share-pet-brief");
+const copyQuestionsButton = document.querySelector("#copy-pet-questions");
+const saveButton = document.querySelector("#save-pet-brief");
 const changeButton = document.querySelector("#change-pet-answers");
 const restartButton = document.querySelector("#restart-pet-brief");
+const actionStatus = document.querySelector("#pet-action-status");
+const openSavedButton = document.querySelector("#open-pet-saved");
+const closeSavedButton = document.querySelector("#close-pet-saved");
+const savedDialog = document.querySelector("#pet-saved-dialog");
+const savedCount = document.querySelector("#pet-saved-count");
+const savedList = document.querySelector("#pet-saved-list");
+const savedEmpty = document.querySelector("#pet-saved-empty");
+const clearSavedButton = document.querySelector("#clear-pet-saved");
 const guide = document.querySelector("#community-guide");
 const guideProfile = document.querySelector("#guide-profile");
 const guideWidget = document.querySelector("#guide-turnstile");
@@ -40,6 +58,7 @@ const guideQuestions = document.querySelector("#community-guide-questions");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let currentStep = 0;
+let currentAnswers = null;
 let currentReport = null;
 let turnstileWidgetId = null;
 let turnstileToken = "";
@@ -197,6 +216,96 @@ function gatherAnswers() {
   }));
 }
 
+function fillForm(answers) {
+  form.reset();
+  const values = {
+    mode: [answers.mode],
+    lanes: answers.lanes,
+    time: [answers.time],
+    space: [answers.space],
+    rhythm: [answers.rhythm],
+    care: answers.care,
+    household: [answers.household],
+    vet: [answers.vet],
+    horizon: [answers.horizon]
+  };
+  for (const [name, entries] of Object.entries(values)) {
+    entries.forEach((entry) => {
+      const input = form.querySelector(`input[name="${name}"][value="${entry}"]`);
+      if (input) input.checked = true;
+    });
+  }
+  updateLaneFollowup();
+}
+
+function currentQuery() {
+  return currentAnswers ? encodePetAnswers(currentAnswers) : "";
+}
+
+function readSaved() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    const seen = new Set();
+    return parsed.flatMap((entry) => {
+      if (!entry || typeof entry.query !== "string") return [];
+      const answers = parsePetAnswers(entry.query);
+      if (!answers) return [];
+      const query = encodePetAnswers(answers);
+      if (!query || seen.has(query)) return [];
+      seen.add(query);
+      return [{ ...entry, query }];
+    }).slice(0, MAX_SAVED);
+  } catch {
+    return [];
+  }
+}
+
+function writeSaved(entries) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(0, MAX_SAVED)));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function syncSavedCount() {
+  if (!savedCount) return;
+  const count = readSaved().length;
+  savedCount.textContent = String(count);
+  savedCount.setAttribute("aria-label", `${count} saved brief${count === 1 ? "" : "s"}`);
+}
+
+function syncSaveButton() {
+  if (!saveButton) return;
+  const query = currentQuery();
+  const isSaved = Boolean(query) && readSaved().some((entry) => entry.query === query);
+  saveButton.setAttribute("aria-pressed", String(isSaved));
+  saveButton.textContent = isSaved ? "saved on this device ✓" : "save on this device";
+}
+
+function setActionStatus(message) {
+  if (actionStatus) actionStatus.textContent = message;
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.append(field);
+  field.select();
+  const copied = document.execCommand("copy");
+  field.remove();
+  if (!copied) throw new Error("Copy unavailable");
+}
+
 function sourceLinks(profile) {
   if (profile.href) {
     return `<a class="button button--secondary" href="${escapeHtml(profile.href)}">open the dog matcher <span aria-hidden="true">→</span></a>`;
@@ -276,8 +385,9 @@ function renderBlocked(profile) {
   </li>`;
 }
 
-function renderReport(report) {
+function renderReport(report, { scroll = true } = {}) {
   currentReport = report;
+  currentAnswers = report.answers;
   leadsRoot.innerHTML = report.leads.length
     ? `<ol class="pet-lead-list">${report.leads.map(renderLead).join("")}</ol>`
     : "";
@@ -302,18 +412,147 @@ function renderReport(report) {
   guideQuestions.hidden = true;
   guideQuestions.replaceChildren();
   guideStatus.textContent = "";
-  focusAndReveal(resultTitle);
+  setActionStatus("");
+  syncSaveButton();
+  if (scroll) focusAndReveal(resultTitle);
+  showInstallHint();
   void prepareCommunityGuide(report);
 }
 
-function buildReport() {
-  const answers = gatherAnswers();
+function createBrief(answers, { updateUrl = true, scroll = true } = {}) {
   const report = answers ? rankPetProfiles(answers) : null;
   if (!report) {
     showError("This answer set could not be checked. Review the current question and try again.");
+    return false;
+  }
+  renderReport(report, { scroll });
+  if (updateUrl) {
+    const query = encodePetAnswers(report.answers);
+    history.replaceState({ urpet: true }, "", query ? `/?${query}#pet-result` : "/");
+  }
+  return true;
+}
+
+function buildReport() {
+  createBrief(gatherAnswers());
+}
+
+function toggleSave() {
+  if (!currentAnswers || !currentReport) return;
+  const query = currentQuery();
+  const entries = readSaved();
+  const existingIndex = entries.findIndex((entry) => entry.query === query);
+  if (existingIndex >= 0) {
+    entries.splice(existingIndex, 1);
+    if (writeSaved(entries)) setActionStatus("Removed this brief from this device.");
+  } else {
+    entries.unshift({
+      query,
+      names: currentReport.leads.map(({ label }) => label),
+      savedAt: new Date().toISOString()
+    });
+    if (writeSaved(entries)) setActionStatus("Saved in this browser.");
+    else setActionStatus("This browser did not allow local saving. The share link still works.");
+  }
+  syncSavedCount();
+  syncSaveButton();
+}
+
+function renderSavedDialog() {
+  const entries = readSaved();
+  savedList.replaceChildren();
+  savedEmpty.hidden = entries.length > 0;
+  clearSavedButton.hidden = entries.length === 0;
+  entries.forEach((entry) => {
+    const answers = parsePetAnswers(entry.query);
+    const report = answers ? rankPetProfiles(answers) : null;
+    if (!report) return;
+    const item = document.createElement("li");
+    const copy = document.createElement("div");
+    const title = document.createElement("strong");
+    const detail = document.createElement("span");
+    const actions = document.createElement("div");
+    const openLink = document.createElement("a");
+    const removeButton = document.createElement("button");
+    title.textContent = report.leads.length
+      ? report.leads.map(({ label }) => label).join(" · ")
+      : "Prepare-first brief";
+    const savedDate = new Date(entry.savedAt || "");
+    const savedLabel = Number.isNaN(savedDate.getTime())
+      ? ""
+      : `saved ${new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(savedDate)} · `;
+    detail.textContent = `${savedLabel}${report.leads.length} lead${report.leads.length === 1 ? "" : "s"}`;
+    openLink.href = `/?${entry.query}#pet-result`;
+    openLink.textContent = "open brief";
+    removeButton.type = "button";
+    removeButton.textContent = "remove";
+    removeButton.dataset.removeQuery = entry.query;
+    copy.append(title, detail);
+    actions.append(openLink, removeButton);
+    item.append(copy, actions);
+    savedList.append(item);
+  });
+}
+
+function openSaved() {
+  renderSavedDialog();
+  if (typeof savedDialog.showModal === "function") savedDialog.showModal();
+  else savedDialog.setAttribute("open", "");
+}
+
+async function shareBrief() {
+  if (!currentAnswers || !currentReport) return;
+  const url = new URL("/", window.location.origin || "https://urdog.dev");
+  url.search = encodePetAnswers(currentAnswers);
+  url.hash = "pet-result";
+  const text = sharePetText(currentReport);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "my urpet research brief", text, url: url.toString() });
+      setActionStatus("Brief shared.");
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+    }
+  }
+  try {
+    await copyText(`${text} ${url}`);
+    setActionStatus("Share link copied.");
+  } catch {
+    setActionStatus(`Copy was blocked. Use this link: ${url}`);
+  }
+}
+
+async function copyProviderQuestions() {
+  if (!currentReport) return;
+  const questions = currentReport.leads.flatMap((profile, index) => (
+    profile.questions.map((question, questionIndex) => `${index + 1}.${questionIndex + 1} ${profile.label}: ${question}`)
+  ));
+  if (!questions.length) {
+    setActionStatus("This brief has no provider questions yet because no reviewed lead cleared the limits.");
     return;
   }
-  renderReport(report);
+  try {
+    await copyText(`Questions to take to a shelter, rescue, breeder, veterinarian, or experienced keeper\n\n${questions.join("\n")}`);
+    setActionStatus("Provider questions copied.");
+  } catch {
+    setActionStatus("Copy was blocked. Print or save the full brief instead.");
+  }
+}
+
+function resetBrief() {
+  form.reset();
+  updateLaneFollowup();
+  currentAnswers = null;
+  currentReport = null;
+  result.hidden = true;
+  guidePreparationSequence += 1;
+  hideCommunityGuide();
+  setActionStatus("");
+  history.replaceState({ urpet: true }, "", "/");
+  showStep(0, { focus: false });
+  focusAndReveal(steps[0].querySelector("legend"));
+  syncSaveButton();
 }
 
 function enforceLaneLimit(changed) {
@@ -499,24 +738,64 @@ nextButton.addEventListener("click", () => {
 
 backButton.addEventListener("click", () => showStep(currentStep - 1));
 printButton.addEventListener("click", () => window.print());
+shareButton.addEventListener("click", shareBrief);
+copyQuestionsButton.addEventListener("click", copyProviderQuestions);
+saveButton.addEventListener("click", toggleSave);
 changeButton.addEventListener("click", () => {
   showStep(0, { focus: false });
   focusAndReveal(steps[0].querySelector("legend"));
 });
-restartButton.addEventListener("click", () => {
-  form.reset();
-  updateLaneFollowup();
-  currentReport = null;
-  result.hidden = true;
-  guidePreparationSequence += 1;
-  hideCommunityGuide();
-  showStep(0, { focus: false });
-  focusAndReveal(steps[0].querySelector("legend"));
+restartButton.addEventListener("click", resetBrief);
+openSavedButton.addEventListener("click", openSaved);
+closeSavedButton.addEventListener("click", () => savedDialog.close());
+savedDialog.addEventListener("click", (event) => {
+  if (event.target === savedDialog) savedDialog.close();
+});
+savedList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-remove-query]");
+  if (!button) return;
+  const entries = readSaved().filter((entry) => entry.query !== button.dataset.removeQuery);
+  if (writeSaved(entries)) setActionStatus("Removed a saved brief from this browser.");
+  else setActionStatus("This browser did not allow the saved brief to be removed.");
+  renderSavedDialog();
+  syncSavedCount();
+  syncSaveButton();
+});
+clearSavedButton.addEventListener("click", () => {
+  if (!readSaved().length) return;
+  if (!window.confirm("Clear every saved pet brief from this browser?")) return;
+  if (!writeSaved([])) {
+    setActionStatus("This browser did not allow saved briefs to be cleared.");
+    return;
+  }
+  setActionStatus("Saved briefs cleared from this browser.");
+  renderSavedDialog();
+  syncSavedCount();
+  syncSaveButton();
 });
 guide.addEventListener("toggle", () => {
   if (guide.open) void renderTurnstile();
 });
 guideButton.addEventListener("click", runCommunityGuide);
+window.addEventListener("popstate", () => {
+  const answers = parsePetAnswers(window.location.href);
+  if (answers) {
+    fillForm(answers);
+    createBrief(answers, { updateUrl: false, scroll: location.hash === "#pet-result" });
+  } else {
+    result.hidden = true;
+    currentAnswers = null;
+    currentReport = null;
+  }
+});
 
 updateLaneFollowup();
 showStep(0, { focus: false });
+syncSavedCount();
+
+const linkedAnswers = parsePetAnswers(window.location.href);
+if (linkedAnswers) {
+  fillForm(linkedAnswers);
+  showStep(activeSteps().length - 1, { focus: false });
+  createBrief(linkedAnswers, { updateUrl: false, scroll: location.hash === "#pet-result" });
+}

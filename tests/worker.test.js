@@ -93,6 +93,18 @@ test("missing pages tell crawlers not to index the error response", async () => 
   assert.equal(response.headers.get("x-robots-tag"), "noindex");
 });
 
+test("the service worker is allowed for the whole origin and is not cached as a long-lived asset", async () => {
+  const asset = new Response("/* sw */", {
+    headers: { "content-type": "text/javascript" }
+  });
+  const response = await worker.fetch(new Request("https://urdog.dev/sw.js"), environment(asset));
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("service-worker-allowed"), "/");
+  assert.equal(response.headers.get("cache-control"), "no-cache");
+  assert.match(response.headers.get("content-type"), /javascript/);
+});
+
 test("local breed photos revalidate because release filenames are stable", async () => {
   const asset = new Response("RIFF", {
     headers: { "content-type": "image/webp" }

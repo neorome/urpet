@@ -122,7 +122,7 @@
   border-radius: 28px;
   background: var(--paper);
   box-shadow: 11px 11px 0 var(--ink);
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 .pet-matcher-shell::before {
@@ -379,6 +379,40 @@
 .result-primary-action {
   width: fit-content;
   justify-self: start;
+}
+
+.next-steps {
+  max-width: 760px;
+  margin: 0 0 36px;
+  padding: 22px 24px;
+  border: 2px solid rgb(255 248 232 / 55%);
+  border-radius: 18px;
+  background: rgb(255 248 232 / 7%);
+}
+
+.next-steps .section-kicker {
+  color: var(--acid);
+}
+
+.next-steps h3 {
+  max-width: 18ch;
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  font-weight: 950;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.next-steps ol {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.next-steps li {
+  margin: 0.45em 0;
+  color: #e5dfd5;
+  font-weight: 650;
 }
 
 .lane-followup {
@@ -805,6 +839,17 @@
   color: var(--cream);
 }
 
+.all-pets-page .action-privacy,
+.all-pets-page .action-status {
+  color: #e5dfd5;
+}
+
+.all-pets-page .action-privacy {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
 .community-guide {
   display: block;
   margin-top: 55px;
@@ -1045,6 +1090,10 @@
 }
 
 @media (max-width: 720px) {
+  .next-steps {
+    padding: 18px 16px;
+  }
+
   .all-pets-hero {
     width: min(100% - 28px, 1240px);
     min-height: 0;
@@ -1130,8 +1179,15 @@
   }
 
   .pet-form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    margin: 18px -15px 0;
+    padding: 12px 15px calc(12px + env(safe-area-inset-bottom, 0px));
     align-items: stretch;
     flex-direction: column-reverse;
+    border-top: 2px solid var(--ink);
+    background: var(--paper);
   }
 
   .pet-form-actions .button {
@@ -1140,6 +1196,21 @@
 
   .pet-form-actions #pet-back {
     margin-right: 0;
+  }
+
+  #pet-conversation {
+    padding-bottom: 0;
+  }
+
+  .offline-banner,
+  .pwa-hint {
+    width: min(100% - 28px, 1240px);
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pwa-hint__actions {
+    justify-content: flex-end;
   }
 
   .pet-result {
@@ -1239,7 +1310,7 @@
 @media (max-width: 390px) {
   .all-pets-page .site-header {
     width: calc(100% - 24px);
-    min-height: 76px;
+    min-height: calc(76px + env(safe-area-inset-top, 0px));
   }
 
   .all-pets-page .header-actions {
@@ -1253,6 +1324,11 @@
 
   .all-pets-page .header-link--quiet {
     display: none;
+  }
+
+  .all-pets-page .saved-trigger {
+    padding-left: 8px;
+    font-size: 0.62rem;
   }
 
   .coverage-grid {
@@ -1287,6 +1363,64 @@ body {
   font-size: 16px;
   line-height: 1.55;
   overflow-x: hidden;
+}
+
+.offline-banner,
+.pwa-hint {
+  display: flex;
+  width: min(1240px, calc(100% - 40px));
+  margin: 10px auto 0;
+  padding: 12px 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: var(--line);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.offline-banner {
+  background: var(--yellow);
+  font-weight: 750;
+}
+
+.pwa-hint {
+  background: var(--sky);
+}
+
+.pwa-hint strong,
+.offline-banner {
+  font-family: var(--body);
+}
+
+.pwa-hint strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 950;
+}
+
+.pwa-hint p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.pwa-hint__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+html.is-standalone body {
+  min-height: 100dvh;
+}
+
+html.is-standalone .site-footer {
+  padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
 }
 
 body::before {
@@ -1356,8 +1490,9 @@ summary:focus-visible,
 .site-header {
   display: flex;
   width: min(1240px, calc(100% - 40px));
-  min-height: 88px;
+  min-height: calc(88px + env(safe-area-inset-top, 0px));
   margin: 0 auto;
+  padding-top: env(safe-area-inset-top, 0px);
   align-items: center;
   justify-content: space-between;
   gap: 24px;
@@ -4188,7 +4323,7 @@ details p {
   }
 
   .site-header {
-    min-height: 76px;
+    min-height: calc(76px + env(safe-area-inset-top, 0px));
   }
 
   .brand__tag {
@@ -4601,6 +4736,12 @@ details p {
   margin-top: 0;
 }
 
+@media (display-mode: standalone), (display-mode: minimal-ui) {
+  .skip-link {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -4633,6 +4774,8 @@ details p {
   .hero,
   .matcher,
   .no-script,
+  .offline-banner,
+  .pwa-hint,
   .pet-result-actions,
   .community-guide,
   .pet-support,
@@ -4690,6 +4833,19 @@ details p {
   .pet-result__heading h2 {
     margin-bottom: 3mm;
     font-size: 28pt;
+  }
+
+  .next-steps {
+    margin-bottom: 6mm;
+    border: 2px solid #000;
+    color: #000;
+    background: #fff;
+  }
+
+  .next-steps .section-kicker,
+  .next-steps h3,
+  .next-steps li {
+    color: #000;
   }
 
   .pet-leads {

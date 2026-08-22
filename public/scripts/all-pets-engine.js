@@ -439,6 +439,72 @@ export function encodeGuideAnswerIds(answers) {
   ];
 }
 
+const QUERY_KEYS = Object.freeze({
+  mode: "m",
+  lanes: "l",
+  time: "t",
+  space: "s",
+  rhythm: "r",
+  care: "c",
+  household: "h",
+  vet: "v",
+  horizon: "z"
+});
+
+function searchParamsFrom(input) {
+  try {
+    if (input instanceof URLSearchParams) return input;
+    if (input instanceof URL) return input.searchParams;
+    const raw = String(input || "");
+    return raw.includes("?")
+      ? new URL(raw, "https://urdog.dev").searchParams
+      : new URLSearchParams(raw.replace(/^\?/, ""));
+  } catch {
+    return null;
+  }
+}
+
+export function encodePetAnswers(answers) {
+  const normalized = normalizePetAnswers(answers);
+  if (!normalized) return "";
+  const params = new URLSearchParams();
+  params.set(QUERY_KEYS.mode, normalized.mode);
+  if (normalized.lanes.length) params.set(QUERY_KEYS.lanes, normalized.lanes.join("."));
+  params.set(QUERY_KEYS.time, normalized.time);
+  params.set(QUERY_KEYS.space, normalized.space);
+  params.set(QUERY_KEYS.rhythm, normalized.rhythm);
+  params.set(QUERY_KEYS.care, normalized.care.join("."));
+  params.set(QUERY_KEYS.household, normalized.household);
+  params.set(QUERY_KEYS.vet, normalized.vet);
+  params.set(QUERY_KEYS.horizon, normalized.horizon);
+  return params.toString();
+}
+
+export function parsePetAnswers(input) {
+  const params = searchParamsFrom(input);
+  if (!params) return null;
+  return normalizePetAnswers({
+    mode: params.get(QUERY_KEYS.mode) || "",
+    lanes: (params.get(QUERY_KEYS.lanes) || "").split(".").filter(Boolean),
+    time: params.get(QUERY_KEYS.time) || "",
+    space: params.get(QUERY_KEYS.space) || "",
+    rhythm: params.get(QUERY_KEYS.rhythm) || "",
+    care: (params.get(QUERY_KEYS.care) || "").split(".").filter(Boolean),
+    household: params.get(QUERY_KEYS.household) || "",
+    vet: params.get(QUERY_KEYS.vet) || "",
+    horizon: params.get(QUERY_KEYS.horizon) || ""
+  });
+}
+
+export function sharePetText(report) {
+  if (!report) return "";
+  if (!report.leads.length) {
+    return "My urpet brief found no reviewed fit yet. The conflicts are plans to make first—not reasons to hide an animal’s needs.";
+  }
+  const names = report.leads.map(({ label }) => label).join(", ");
+  return `My urpet research leads: ${names}. Source-linked starting points with the hard tradeoffs first.`;
+}
+
 export const GUIDE_PROFILE_IDS = Object.freeze(PET_PROFILES.filter(({ id }) => id !== "dog-breed-module").map(({ id }) => id));
 
 const GUIDE_COMMON_QUESTIONS = Object.freeze([
