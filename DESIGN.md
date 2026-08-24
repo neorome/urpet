@@ -75,7 +75,7 @@ The active guide ledger stores the owner allowance, aggregate budget, profile ID
 ## Voice and visual system
 
 - Brand: lowercase `urpet`; public domain remains `urdog.dev`.
-- Cream, ink, tomato, acid, sky, and purple; thick outlines; tactile paper and desk motifs.
+- Cream paper, ink, and tomato used as punctuation; hairline rules; quiet paper surfaces. Display type is a self-hosted serif; UI type is a self-hosted grotesque.
 - One literal question per screen with visible progress and stable back/next controls.
 - Lane selection is a compact grouped list with no animal photos; appearance must not steer the answers.
 - Results are one ordered editorial list, not repeated cards. Exact licensed profile photos appear only beside matched leads, with visible creator and license links.

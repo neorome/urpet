@@ -1,4 +1,4 @@
-const VERSION = "urpet-shell-20260821a";
+const VERSION = "urpet-shell-20260824a";
 
 const SHELL = Object.freeze([
   "/",
@@ -7,6 +7,11 @@ const SHELL = Object.freeze([
   "/photo-credits/",
   "/404.html",
   "/styles.css",
+  "/fonts/instrument-serif.woff2",
+  "/fonts/instrument-serif-italic.woff2",
+  "/fonts/instrument-sans-400.woff2",
+  "/fonts/instrument-sans-500.woff2",
+  "/fonts/instrument-sans-600.woff2",
   "/site.webmanifest",
   "/favicon.svg",
   "/apple-touch-icon.png",

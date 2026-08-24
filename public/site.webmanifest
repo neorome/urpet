@@ -10,8 +10,8 @@
   "orientation": "any",
   "lang": "en",
   "dir": "ltr",
-  "background_color": "#FFF8E8",
-  "theme_color": "#FFF8E8",
+  "background_color": "#F4EFE4",
+  "theme_color": "#F4EFE4",
   "categories": ["lifestyle", "education"],
   "icons": [
     {
