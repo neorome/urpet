@@ -4,8 +4,8 @@ const DOGS = Object.freeze([
     name: "MISO",
     role: "senior sniff inspector",
     line: "small schedule. enormous nose.",
-    card: "#A9DDFF",
-    accent: "#DFFF35",
+    card: "#FFFDF8",
+    accent: "#D6452E",
     fur: "#E59B5A",
     patch: "#FFF8E8",
     ears: "flop",
@@ -17,8 +17,8 @@ const DOGS = Object.freeze([
     name: "SCOUT",
     role: "assistant trail captain",
     line: "prepared for a very small expedition.",
-    card: "#FFD56A",
-    accent: "#A9DDFF",
+    card: "#FFFDF8",
+    accent: "#C4A574",
     fur: "#D79343",
     patch: "#FFF8E8",
     ears: "mixed",
@@ -30,8 +30,8 @@ const DOGS = Object.freeze([
     name: "PICKLE",
     role: "licensed commotion manager",
     line: "no inside voice. excellent intentions.",
-    card: "#DFFF35",
-    accent: "#FF5A45",
+    card: "#FFFDF8",
+    accent: "#D6452E",
     fur: "#B87943",
     patch: "#FFF8E8",
     ears: "mixed",
@@ -43,8 +43,8 @@ const DOGS = Object.freeze([
     name: "CLEO",
     role: "quality control pup",
     line: "already checked the stop signs.",
-    card: "#A9DDFF",
-    accent: "#FF5A45",
+    card: "#FFFDF8",
+    accent: "#D6452E",
     fur: "#2F3035",
     patch: "#FFF8E8",
     ears: "point",
@@ -56,8 +56,8 @@ const DOGS = Object.freeze([
     name: "BINGO",
     role: "director of outside",
     line: "here for a good time immediately.",
-    card: "#FF5A45",
-    accent: "#DFFF35",
+    card: "#FFFDF8",
+    accent: "#C4A574",
     fur: "#FFF1D5",
     patch: "#A45D3C",
     ears: "mixed",
@@ -69,8 +69,8 @@ const DOGS = Object.freeze([
     name: "FIG",
     role: "low-key field researcher",
     line: "quietly judging the itinerary.",
-    card: "#DFFF35",
-    accent: "#C8B7FF",
+    card: "#FFFDF8",
+    accent: "#D6452E",
     fur: "#56433A",
     patch: "#D8BCA7",
     ears: "point",
@@ -136,7 +136,7 @@ function accessoryMarkup(type, accent) {
     case "ball":
       return `<g transform="translate(289 270)"><circle r="43" fill="${accent}" stroke="#171514" stroke-width="8"/><path d="M-37-18q39 11 61-24M-25 35Q-5 5 37 18" fill="none" stroke="#171514" stroke-width="6"/></g>`;
     case "camera":
-      return `<g transform="translate(254 246) rotate(-5)"><rect width="91" height="65" rx="12" fill="${accent}" stroke="#171514" stroke-width="7"/><path d="M17 0 29-17h31L71 0" fill="${accent}" stroke="#171514" stroke-width="7"/><circle cx="47" cy="32" r="19" fill="#A9DDFF" stroke="#171514" stroke-width="7"/><circle cx="77" cy="14" r="5" fill="#171514"/></g>`;
+      return `<g transform="translate(254 246) rotate(-5)"><rect width="91" height="65" rx="12" fill="${accent}" stroke="#171514" stroke-width="7"/><path d="M17 0 29-17h31L71 0" fill="${accent}" stroke="#171514" stroke-width="7"/><circle cx="47" cy="32" r="19" fill="#FFFDF8" stroke="#171514" stroke-width="7"/><circle cx="77" cy="14" r="5" fill="#171514"/></g>`;
     default:
       return "";
   }
