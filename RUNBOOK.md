@@ -121,6 +121,16 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Community guide at this release: `ready` (`{"guideEnabled":true,"state":"ready"}`); no BMC webhook or Cerebras purchase
 - Live proof: `/`, `/dogs/`, `/breeds/`, and `/photo-credits/` returned 200 with the `20260821a` assets; `/sw.js` returned 200 with `Service-Worker-Allowed: /` and `Cache-Control: no-cache`; `/site.webmanifest` and `/icons/icon-192.png` returned 200; `www` returned 308 to the apex; `/dogs` returned 308 to `/dogs/`; an unknown route returned 404 with `X-Robots-Tag: noindex`; sitemap still lists `/`, `/dogs/`, `/breeds/`, and `/photo-credits/`
 
+### Editorial paper UI — 2026-08-24 UTC
+
+- Git source: `6dfb621fc03afa8e73efa5a8c1d2028aeb5b2703` (`cursor/ui-redesign-2dda`)
+- Worker version: `452b7540-a983-4a7a-956e-cafe8e5815d4` at 100% traffic
+- Immediate predecessor: `0c0d8c89-7659-4bb6-916b-e9e1ea3bc8f2` (`6454cb6`)
+- Last commit-labelled rollback still: `ab4e67ff-040f-4b8d-8e16-087d028d07c1` (`59427c8`)
+- D1 migrations: `0001_community.sql`, `0002_guide_reservations.sql`, `0003_owner_only_guide_budget.sql`; no pending migrations
+- Community guide at this release: `ready` (`{"guideEnabled":true,"state":"ready"}`); no BMC webhook or Cerebras purchase
+- Live proof: `/`, `/dogs/`, `/breeds/`, and `/photo-credits/` returned 200 with the `20260824b` assets and Instrument fonts; `/sw.js` returned 200 with `Service-Worker-Allowed: /` and `Cache-Control: no-cache`; `www` returned 308 to the apex; `/dogs` returned 308 to `/dogs/`; an unknown route returned 404 with `X-Robots-Tag: noindex`; sitemap still lists `/`, `/dogs/`, `/breeds/`, and `/photo-credits/`
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
