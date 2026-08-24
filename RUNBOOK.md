@@ -131,6 +131,15 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Community guide at this release: `ready` (`{"guideEnabled":true,"state":"ready"}`); no BMC webhook or Cerebras purchase
 - Live proof: `/`, `/dogs/`, `/breeds/`, and `/photo-credits/` returned 200 with the `20260824b` assets and Instrument fonts; `/sw.js` returned 200 with `Service-Worker-Allowed: /` and `Cache-Control: no-cache`; `www` returned 308 to the apex; `/dogs` returned 308 to `/dogs/`; an unknown route returned 404 with `X-Robots-Tag: noindex`; sitemap still lists `/`, `/dogs/`, `/breeds/`, and `/photo-credits/`
 
+### Stale PWA stylesheet bust — 2026-08-24 UTC
+
+- Git source: `bc32c38` (`cursor/ui-redesign-2dda`)
+- Worker version: `86711c0d-e787-4853-a018-0bce1ee02fe6` at 100% traffic
+- Immediate predecessor: `452b7540-a983-4a7a-956e-cafe8e5815d4` (`6dfb621`)
+- D1 migrations: none pending
+- Community guide at this release: `ready`
+- Live proof: HTML now loads `/desk.css?v=20260824c`; that path returns the Instrument/cream stylesheet; `/sw.js` is `urpet-shell-20260824c` and network-first for CSS/JS so installed clients cannot keep painting the old poster CSS
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
