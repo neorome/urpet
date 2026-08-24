@@ -7,7 +7,7 @@
   "scripts": {
     "build:catalog": "node scripts/build-catalog.mjs",
     "build:credits": "node scripts/build-photo-credits.mjs",
-    "build:static": "npm run build:catalog && npm run build:credits",
+    "build:static": "cp public/styles.css public/desk.css && npm run build:catalog && npm run build:credits",
     "check:generated": "node scripts/build-catalog.mjs --check && node scripts/build-photo-credits.mjs --check",
     "check:migration-split": "node scripts/verify-migration-split.mjs",
     "check:guide-pricing": "node scripts/verify-cerebras-pricing.mjs",

@@ -1,4 +1,4 @@
-const VERSION = "urpet-shell-20260824b";
+const VERSION = "urpet-shell-20260824c";
 
 const SHELL = Object.freeze([
   "/",
@@ -6,7 +6,7 @@ const SHELL = Object.freeze([
   "/breeds/",
   "/photo-credits/",
   "/404.html",
-  "/styles.css",
+  "/desk.css",
   "/fonts/instrument-serif.woff2",
   "/fonts/instrument-serif-italic.woff2",
   "/fonts/instrument-sans-400.woff2",
@@ -50,9 +50,15 @@ function isHtmlRequest(request) {
 
 function cacheKey(request) {
   const url = new URL(request.url);
-  url.search = "";
+  if (!/\.(?:css|js)$/.test(url.pathname) || !url.searchParams.has("v")) {
+    url.search = "";
+  }
   url.hash = "";
   return url.toString();
+}
+
+function isFreshAsset(url) {
+  return /\.(?:css|js)$/.test(url.pathname);
 }
 
 async function put(cache, request, response) {
@@ -108,5 +114,9 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (!sameOrigin(url) || isApi(url)) return;
-  event.respondWith(isHtmlRequest(event.request) ? networkFirst(event.request) : cacheFirst(event.request));
+  event.respondWith(
+    isHtmlRequest(event.request) || isFreshAsset(url)
+      ? networkFirst(event.request)
+      : cacheFirst(event.request)
+  );
 });

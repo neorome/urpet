@@ -25,7 +25,18 @@ function ensureBanner(className, { live = "polite" } = {}) {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {});
+    navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" })
+      .then((registration) => registration.update())
+      .catch(() => {});
+  });
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (window.sessionStorage.getItem("urpet-sw-reload")) return;
+    try {
+      window.sessionStorage.setItem("urpet-sw-reload", "1");
+    } catch {
+      // Reload once even if session storage is blocked.
+    }
+    window.location.reload();
   });
 }
 

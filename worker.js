@@ -667,6 +667,13 @@ export default {
       return canonicalRedirect(url);
     }
 
+    if (url.pathname === "/desk.css") {
+      const rewritten = new URL(request.url);
+      rewritten.pathname = "/styles.css";
+      const response = await env.ASSETS.fetch(new Request(rewritten.toString(), request));
+      return withHeaders(response, "/desk.css");
+    }
+
     const response = await env.ASSETS.fetch(request);
     return withHeaders(response, url.pathname);
   },

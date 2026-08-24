@@ -15,6 +15,7 @@ const requiredAssets = [
   "photo-credits/index.html",
   "404.html",
   "styles.css",
+  "desk.css",
   "scripts/all-pets.js",
   "scripts/all-pets-engine.js",
   "scripts/pwa.js",
@@ -336,6 +337,7 @@ const budgets = {
   "breeds/index.html": 300_000,
   "photo-credits/index.html": 300_000,
   "styles.css": 120_000,
+  "desk.css": 120_000,
   "scripts/all-pets.js": 36_000,
   "scripts/all-pets-engine.js": 34_000,
   "scripts/pwa.js": 8_000,
@@ -357,6 +359,12 @@ for (const [file, maxBytes] of Object.entries(budgets)) {
   const { size } = await stat(resolve(publicDir, file));
   assert.ok(size <= maxBytes, `${file} exceeds its ${maxBytes.toLocaleString()} byte budget (${size.toLocaleString()} bytes)`);
 }
+
+assert.equal(
+  await readPublic("desk.css"),
+  await readPublic("styles.css"),
+  "desk.css must stay an exact copy of styles.css so stale service workers miss the old path"
+);
 
 console.log(
   `Static verification passed: urpet has ${PET_LANES.length} reviewed lanes, ${PET_PROFILES.length} profiles, ${BREEDS.length} dog breeds, ${photoManifest.approvedCount} credited photos, and a ${homeMeta.title.length}-character title.`

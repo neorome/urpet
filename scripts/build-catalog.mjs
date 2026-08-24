@@ -76,7 +76,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260824b">
+    <link rel="stylesheet" href="/desk.css?v=20260824c">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
     <meta property="og:url" content="https://urdog.dev/breeds/">
@@ -185,7 +185,7 @@ ${list}
     </footer>
     <script src="/scripts/catalog.js?v=20260811a" defer></script>
     <script type="module" src="/scripts/external-links.js?v=20260811a"></script>
-    <script type="module" src="/scripts/pwa.js?v=20260824b"></script>
+    <script type="module" src="/scripts/pwa.js?v=20260824c"></script>
   </body>
 </html>
 `;
