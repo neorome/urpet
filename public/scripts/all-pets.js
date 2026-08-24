@@ -5,13 +5,13 @@ import {
   parsePetAnswers,
   rankPetProfiles,
   sharePetText
-} from "./all-pets-engine.js?v=20260824a";
+} from "./all-pets-engine.js?v=20260824b";
 import {
   activePetStepIds,
   answersWithSafeSkippedDefaults
-} from "./all-pets-flow.js?v=20260824a";
+} from "./all-pets-flow.js?v=20260824b";
 import { PROFILE_PHOTOS } from "../data/profile-photos.js?v=20260813a";
-import { showInstallHint } from "./pwa.js?v=20260824a";
+import { showInstallHint } from "./pwa.js?v=20260824b";
 
 const STORAGE_KEY = "urpet-fit-briefs-v1";
 const MAX_SAVED = 8;

@@ -168,7 +168,7 @@ function renderDogSvg(dog, instance = "art") {
     <path d="M137 233q67 25 134 0" fill="none" stroke="#171514" stroke-width="9" stroke-linecap="round"/>
     <path d="M176 243q28 20 56 0v24q-28 24-56 0Z" fill="${dog.accent}" stroke="#171514" stroke-width="6"/>
     <circle cx="204" cy="270" r="15" fill="#FFF8E8" stroke="#171514" stroke-width="6"/>
-    <text x="204" y="276" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#171514">${escapeText(dog.name.slice(0, 1))}</text>
+    <text x="204" y="276" text-anchor="middle" font-family="Georgia, 'Iowan Old Style', serif" font-size="16" font-weight="400" fill="#171514">${escapeText(dog.name.slice(0, 1))}</text>
     ${accessoryMarkup(dog.accessory, dog.accent)}
   </svg>`;
 }

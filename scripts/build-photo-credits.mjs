@@ -51,7 +51,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/styles.css?v=20260824a">
+    <link rel="stylesheet" href="/styles.css?v=20260824b">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
     <meta property="og:url" content="https://urdog.dev/photo-credits/">
@@ -95,7 +95,7 @@ ${credits}
       <p>Photo rights belong to their respective creators under the licenses linked above.</p>
     </footer>
     <script type="module" src="/scripts/external-links.js?v=20260811a"></script>
-    <script type="module" src="/scripts/pwa.js?v=20260824a"></script>
+    <script type="module" src="/scripts/pwa.js?v=20260824b"></script>
   </body>
 </html>
 `;
