@@ -16,6 +16,7 @@ const requiredAssets = [
   "404.html",
   "styles.css",
   "desk.css",
+  "paper.css",
   "scripts/all-pets.js",
   "scripts/all-pets-engine.js",
   "scripts/pwa.js",
@@ -189,6 +190,12 @@ assert.match(allPetsApp, /prefers-reduced-motion/);
 assert.match(pwaApp, /serviceWorker\.register\("\/sw\.js"/);
 assert.match(pwaApp, /beforeinstallprompt/);
 assert.match(await readPublic("sw.js"), /pathname\.startsWith\("\/api\/"\)/);
+assert.match(await readPublic("sw.js"), /urpet-shell-20260824d/);
+assert.match(await readPublic("sw.js"), /client\.navigate/);
+assert.match(await readPublic("sw.js"), /networkOnlyHtml/);
+assert.match(home, /paper\.css\?v=20260824d/);
+assert.doesNotMatch(home, /brand__tag/);
+assert.match(pwaApp, /urpet-reload/);
 assert.match(worker, /Service-Worker-Allowed/);
 assert.match(allPetsApp, /PROFILE_PHOTOS/);
 assert.match(allPetsApp, /loading="lazy" decoding="async"/);
@@ -256,7 +263,7 @@ for (const location of [
   assert.match(sitemap, new RegExp(`<loc>${location.replaceAll(".", "\\.").replaceAll("/", "\\/")}<\\/loc>`));
 }
 assert.equal((sitemap.match(/<url>/g) || []).length, 4);
-assert.equal(manifest.start_url, "/");
+assert.equal(manifest.start_url, "/?desk=20260824d");
 assert.equal(manifest.scope, "/");
 assert.equal(manifest.display, "standalone");
 assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));
@@ -338,6 +345,7 @@ const budgets = {
   "photo-credits/index.html": 300_000,
   "styles.css": 120_000,
   "desk.css": 120_000,
+  "paper.css": 120_000,
   "scripts/all-pets.js": 36_000,
   "scripts/all-pets-engine.js": 34_000,
   "scripts/pwa.js": 8_000,
@@ -364,6 +372,11 @@ assert.equal(
   await readPublic("desk.css"),
   await readPublic("styles.css"),
   "desk.css must stay an exact copy of styles.css so stale service workers miss the old path"
+);
+assert.equal(
+  await readPublic("paper.css"),
+  await readPublic("styles.css"),
+  "paper.css must stay an exact copy of styles.css so poster-era service workers miss the old path"
 );
 
 console.log(

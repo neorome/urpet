@@ -58,7 +58,7 @@ test("apex assets receive security and fresh-HTML cache headers", async () => {
   const response = await worker.fetch(new Request("https://urdog.dev/"), environment(asset));
 
   assert.equal(response.status, 200);
-  assert.equal(response.headers.get("cache-control"), "public, max-age=0, must-revalidate");
+  assert.equal(response.headers.get("cache-control"), "no-store");
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
     assert.equal(response.headers.get(name), value);
   }
@@ -105,26 +105,28 @@ test("the service worker is allowed for the whole origin and is not cached as a 
   assert.match(response.headers.get("content-type"), /javascript/);
 });
 
-test("desk.css is a cache-busting alias for the paper stylesheet", async () => {
-  let requested = "";
-  const env = {
-    ASSETS: {
-      async fetch(request) {
-        requested = new URL(request.url).pathname;
-        return new Response("body{color:#1c1814}", {
-          headers: { "content-type": "text/css" }
-        });
+test("paper.css and desk.css are cache-busting aliases for the paper stylesheet", async () => {
+  for (const pathname of ["/paper.css", "/desk.css"]) {
+    let requested = "";
+    const env = {
+      ASSETS: {
+        async fetch(request) {
+          requested = new URL(request.url).pathname;
+          return new Response("body{color:#1c1814}", {
+            headers: { "content-type": "text/css" }
+          });
+        }
       }
-    }
-  };
-  const response = await worker.fetch(
-    new Request("https://urdog.dev/desk.css?v=20260824c"),
-    env
-  );
+    };
+    const response = await worker.fetch(
+      new Request(`https://urdog.dev${pathname}?v=20260824d`),
+      env
+    );
 
-  assert.equal(requested, "/styles.css");
-  assert.equal(response.status, 200);
-  assert.equal(response.headers.get("cache-control"), "public, max-age=0, must-revalidate");
+    assert.equal(requested, "/styles.css");
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("cache-control"), "public, max-age=0, must-revalidate");
+  }
 });
 
 test("local breed photos revalidate because release filenames are stable", async () => {

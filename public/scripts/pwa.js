@@ -22,12 +22,32 @@ function ensureBanner(className, { live = "polite" } = {}) {
   return banner;
 }
 
+const SHELL_VERSION = "urpet-shell-20260824d";
+
+function dropPosterCaches() {
+  if (!("caches" in window)) return Promise.resolve();
+  return caches.keys().then((keys) => Promise.all(
+    keys.filter((key) => key.startsWith("urpet-shell-") && key !== SHELL_VERSION).map((key) => caches.delete(key))
+  ));
+}
+
+function requestWorkerUpdate() {
+  return navigator.serviceWorker.getRegistration("/").then((registration) => registration?.update());
+}
+
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
   window.addEventListener("load", () => {
+    dropPosterCaches().catch(() => {});
     navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" })
       .then((registration) => registration.update())
       .catch(() => {});
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") requestWorkerUpdate()?.catch(() => {});
+  });
+  navigator.serviceWorker.addEventListener("message", (event) => {
+    if (event.data?.type === "urpet-reload") window.location.reload();
   });
   navigator.serviceWorker.addEventListener("controllerchange", () => {
     if (window.sessionStorage.getItem("urpet-sw-reload")) return;

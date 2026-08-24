@@ -102,7 +102,7 @@ function withHeaders(response, pathname) {
     headers.set("Service-Worker-Allowed", "/");
     headers.set("Cache-Control", "no-cache");
   } else if (contentType.includes("text/html")) {
-    headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+    headers.set("Cache-Control", "no-store");
   } else if (/\.(?:css|js|json|svg|png|webp|webmanifest)$/.test(pathname)) {
     headers.set("Cache-Control", "public, max-age=0, must-revalidate");
   } else if (pathname.endsWith("/robots.txt") || pathname.endsWith("/sitemap.xml")) {
@@ -667,11 +667,11 @@ export default {
       return canonicalRedirect(url);
     }
 
-    if (url.pathname === "/desk.css") {
+    if (url.pathname === "/desk.css" || url.pathname === "/paper.css") {
       const rewritten = new URL(request.url);
       rewritten.pathname = "/styles.css";
       const response = await env.ASSETS.fetch(new Request(rewritten.toString(), request));
-      return withHeaders(response, "/desk.css");
+      return withHeaders(response, url.pathname);
     }
 
     const response = await env.ASSETS.fetch(request);

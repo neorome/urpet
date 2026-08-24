@@ -1,11 +1,7 @@
-const VERSION = "urpet-shell-20260824c";
+const VERSION = "urpet-shell-20260824d";
 
 const SHELL = Object.freeze([
-  "/",
-  "/dogs/",
-  "/breeds/",
-  "/photo-credits/",
-  "/404.html",
+  "/paper.css",
   "/desk.css",
   "/fonts/instrument-serif.woff2",
   "/fonts/instrument-serif-italic.woff2",
@@ -67,17 +63,26 @@ async function put(cache, request, response) {
   return response;
 }
 
+async function fromNetwork(request) {
+  return fetch(request, { cache: "reload" });
+}
+
+async function networkOnlyHtml(request) {
+  try {
+    return await fromNetwork(request);
+  } catch {
+    const cache = await caches.open(VERSION);
+    return (await cache.match("/404.html")) || Response.error();
+  }
+}
+
 async function networkFirst(request) {
   const cache = await caches.open(VERSION);
   try {
-    const response = await fetch(request);
-    return await put(cache, request, response);
+    return await put(cache, request, await fromNetwork(request));
   } catch {
     const cached = await cache.match(cacheKey(request));
     if (cached) return cached;
-    if (isHtmlRequest(request)) {
-      return (await cache.match("/")) || (await cache.match("/404.html")) || Response.error();
-    }
     return Response.error();
   }
 }
@@ -87,11 +92,22 @@ async function cacheFirst(request) {
   const cached = await cache.match(cacheKey(request));
   if (cached) return cached;
   try {
-    const response = await fetch(request);
-    return await put(cache, request, response);
+    return await put(cache, request, await fromNetwork(request));
   } catch {
     return Response.error();
   }
+}
+
+async function claimOpenClients() {
+  const keys = await caches.keys();
+  await Promise.all(keys.filter((key) => key !== VERSION).map((key) => caches.delete(key)));
+  await self.clients.claim();
+  const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  await Promise.all(windows.map((client) => (
+    typeof client.navigate === "function"
+      ? client.navigate(client.url)
+      : client.postMessage({ type: "urpet-reload" })
+  )));
 }
 
 self.addEventListener("install", (event) => {
@@ -103,11 +119,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== VERSION).map((key) => caches.delete(key))))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil(claimOpenClients());
 });
 
 self.addEventListener("fetch", (event) => {
@@ -115,8 +127,10 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (!sameOrigin(url) || isApi(url)) return;
   event.respondWith(
-    isHtmlRequest(event.request) || isFreshAsset(url)
-      ? networkFirst(event.request)
-      : cacheFirst(event.request)
+    isHtmlRequest(event.request)
+      ? networkOnlyHtml(event.request)
+      : isFreshAsset(url)
+        ? networkFirst(event.request)
+        : cacheFirst(event.request)
   );
 });

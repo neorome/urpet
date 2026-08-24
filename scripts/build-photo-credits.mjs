@@ -51,7 +51,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/desk.css?v=20260824c">
+    <link rel="stylesheet" href="/paper.css?v=20260824d">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
     <meta property="og:url" content="https://urdog.dev/photo-credits/">
@@ -62,7 +62,6 @@ function renderPage() {
     <a class="skip-link" href="#credits">skip to photo credits</a>
     <header class="site-header" aria-label="Primary">
       <a class="brand" href="/" aria-label="urpet home">
-        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
         <span class="brand__words">urpet</span>
       </a>
       <a class="header-link" href="/breeds/">browse all 205 breeds <span aria-hidden="true">→</span></a>
@@ -84,7 +83,6 @@ ${credits}
     </main>
     <footer class="site-footer">
       <a class="brand brand--footer" href="/" aria-label="urpet home">
-        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
         <span class="brand__words">urpet</span>
       </a>
       <p>credit the human. meet the dog.</p>
@@ -95,7 +93,7 @@ ${credits}
       <p>Photo rights belong to their respective creators under the licenses linked above.</p>
     </footer>
     <script type="module" src="/scripts/external-links.js?v=20260811a"></script>
-    <script type="module" src="/scripts/pwa.js?v=20260824c"></script>
+    <script type="module" src="/scripts/pwa.js?v=20260824d"></script>
   </body>
 </html>
 `;

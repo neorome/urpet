@@ -76,7 +76,7 @@ function renderPage() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/desk.css?v=20260824c">
+    <link rel="stylesheet" href="/paper.css?v=20260824d">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
     <meta property="og:url" content="https://urdog.dev/breeds/">
@@ -106,7 +106,6 @@ function renderPage() {
     <a class="skip-link" href="#catalog">skip to all breeds</a>
     <header class="site-header" aria-label="Primary">
       <a class="brand" href="/" aria-label="urpet home">
-        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
         <span class="brand__words">urpet</span>
       </a>
       <a class="header-link" href="/dogs/">build my dog fit brief <span aria-hidden="true">→</span></a>
@@ -173,7 +172,6 @@ ${list}
 
     <footer class="site-footer">
       <a class="brand brand--footer" href="/" aria-label="urpet home">
-        <span class="brand__tag" aria-hidden="true"><span>u</span></span>
         <span class="brand__words">urpet</span>
       </a>
       <p>research first. meet the dog. keep the promise.</p>
@@ -185,7 +183,7 @@ ${list}
     </footer>
     <script src="/scripts/catalog.js?v=20260811a" defer></script>
     <script type="module" src="/scripts/external-links.js?v=20260811a"></script>
-    <script type="module" src="/scripts/pwa.js?v=20260824c"></script>
+    <script type="module" src="/scripts/pwa.js?v=20260824d"></script>
   </body>
 </html>
 `;
