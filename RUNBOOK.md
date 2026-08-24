@@ -140,6 +140,15 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Community guide at this release: `ready`
 - Live proof: HTML now loads `/desk.css?v=20260824c`; that path returns the Instrument/cream stylesheet; `/sw.js` is `urpet-shell-20260824c` and network-first for CSS/JS so installed clients cannot keep painting the old poster CSS
 
+### Stale homepage navigate — 2026-08-24 UTC
+
+- Git source: `ed2f97e` (`cursor/ui-redesign-2dda`)
+- Worker version: `cb6b78b4-2f82-4824-8047-bf3bf3f75749` at 100% traffic
+- Immediate predecessor: `86711c0d-e787-4853-a018-0bce1ee02fe6` (`ae14dd3`)
+- D1 migrations: none pending
+- Community guide at this release: `ready`
+- Live proof: HTML is `Cache-Control: no-store` and loads `/paper.css?v=20260824d`; that path returns the Instrument/cream stylesheet; `/sw.js` is `urpet-shell-20260824d`, does not precache HTML, and navigates open clients on activate; `www` 308 to apex; guide `ready`
+
 ## Production smoke
 
 Use a cache-busting value from the exact deployed commit or Worker version:
