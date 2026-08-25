@@ -140,6 +140,16 @@ Record the deployed Worker version, exact Git commit, previous known-good Worker
 - Community guide at this release: `ready`
 - Live proof: HTML now loads `/desk.css?v=20260824c`; that path returns the Instrument/cream stylesheet; `/sw.js` is `urpet-shell-20260824c` and network-first for CSS/JS so installed clients cannot keep painting the old poster CSS
 
+### Quiz-first phone desk — 2026-08-25 UTC
+
+- Git source: `c67a452` (`cursor/ui-redesign-2dda`)
+- Worker version: `c5e19b53-c749-48a4-8a89-61267910b63a` at 100% traffic
+- Immediate predecessor: `4793c686-49df-4d3b-aa87-b431b8d3b9ba` (`b810d09`)
+- D1 migrations: none pending
+- Community guide at this release: `ready`
+- Live proof: homepage HTML is `no-store` and loads `/paper.css?v=20260825b`; `/sw.js` is `urpet-shell-20260825b`; `start_url` is `/?desk=20260825b`; `/dogs/` and `/breeds/` return 200; guide `ready`
+- Note: phones are quiz-first. Below 390px the header keeps the saved count badge and hides the word. Installed PWAs still need one close/reopen so `20260825b` can claim and navigate. Lime/tape after that is the old service worker still controlling the tab.
+
 ### Stale homepage navigate — 2026-08-24 UTC
 
 - Git source: `ed2f97e` (`cursor/ui-redesign-2dda`)
