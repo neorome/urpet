@@ -1376,6 +1376,20 @@
   .all-pets-hero__copy h1 {
     font-size: clamp(1.7rem, 8.2vw, 2.1rem);
   }
+
+  .saved-trigger {
+    gap: 0;
+    padding: 6px;
+    font-size: 0;
+  }
+
+  .saved-trigger span {
+    font-size: 0.8rem;
+  }
+
+  .header-link {
+    padding: 8px;
+  }
 }
 
 *,
