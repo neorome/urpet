@@ -3,7 +3,7 @@
   "short_name": "urpet",
   "description": "Source-linked research leads across ten reviewed pet lanes, with hard tradeoffs shown first.",
   "id": "/",
-  "start_url": "/?desk=20260824d",
+  "start_url": "/?desk=20260825a",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui", "browser"],

@@ -1,4 +1,4 @@
-const VERSION = "urpet-shell-20260824d";
+const VERSION = "urpet-shell-20260825a";
 
 const SHELL = Object.freeze([
   "/paper.css",

@@ -178,7 +178,7 @@ assert.match(home, /supports urpet’s research, hosting, and upkeep generally/)
 assert.match(home, /does not buy AI credits, unlock extra use, or guarantee a feature/);
 assert.doesNotMatch(home, /75%|25%|earmark/i);
 assert.match(home, /mailto:team@neorome\.dev\?subject=urpet%20pet%20suggestion/);
-assert.match(home, /href="\/dogs\/">dog matcher<\/a>/);
+assert.match(home, /href="\/dogs\/" aria-label="dog matcher">dogs<\/a>/);
 assert.match(home, /href="https:\/\/buymeacoffee\.com\/baneydonovan"/);
 assert.ok(home.indexOf("buymeacoffee.com/baneydonovan") > home.indexOf('id="pet-result"'), "support must follow the complete result");
 assert.match(allPetsApp, /fetch\("\/api\/community\/status"/);
@@ -190,10 +190,10 @@ assert.match(allPetsApp, /prefers-reduced-motion/);
 assert.match(pwaApp, /serviceWorker\.register\("\/sw\.js"/);
 assert.match(pwaApp, /beforeinstallprompt/);
 assert.match(await readPublic("sw.js"), /pathname\.startsWith\("\/api\/"\)/);
-assert.match(await readPublic("sw.js"), /urpet-shell-20260824d/);
+assert.match(await readPublic("sw.js"), /urpet-shell-20260825a/);
 assert.match(await readPublic("sw.js"), /client\.navigate/);
 assert.match(await readPublic("sw.js"), /networkOnlyHtml/);
-assert.match(home, /paper\.css\?v=20260824d/);
+assert.match(home, /paper\.css\?v=20260825a/);
 assert.doesNotMatch(home, /brand__tag/);
 assert.match(pwaApp, /urpet-reload/);
 assert.match(worker, /Service-Worker-Allowed/);
@@ -263,7 +263,7 @@ for (const location of [
   assert.match(sitemap, new RegExp(`<loc>${location.replaceAll(".", "\\.").replaceAll("/", "\\/")}<\\/loc>`));
 }
 assert.equal((sitemap.match(/<url>/g) || []).length, 4);
-assert.equal(manifest.start_url, "/?desk=20260824d");
+assert.equal(manifest.start_url, "/?desk=20260825a");
 assert.equal(manifest.scope, "/");
 assert.equal(manifest.display, "standalone");
 assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));

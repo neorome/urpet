@@ -119,7 +119,7 @@ test("paper.css and desk.css are cache-busting aliases for the paper stylesheet"
       }
     };
     const response = await worker.fetch(
-      new Request(`https://urdog.dev${pathname}?v=20260824d`),
+      new Request(`https://urdog.dev${pathname}?v=20260825a`),
       env
     );
 
