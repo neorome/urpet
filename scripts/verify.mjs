@@ -190,10 +190,14 @@ assert.match(allPetsApp, /prefers-reduced-motion/);
 assert.match(pwaApp, /serviceWorker\.register\("\/sw\.js"/);
 assert.match(pwaApp, /beforeinstallprompt/);
 assert.match(await readPublic("sw.js"), /pathname\.startsWith\("\/api\/"\)/);
-assert.match(await readPublic("sw.js"), /urpet-shell-20260825a/);
+assert.match(await readPublic("sw.js"), /urpet-shell-20260825b/);
 assert.match(await readPublic("sw.js"), /client\.navigate/);
 assert.match(await readPublic("sw.js"), /networkOnlyHtml/);
-assert.match(home, /paper\.css\?v=20260825a/);
+assert.match(home, /paper\.css\?v=20260825b/);
+assert.match(home, /saved-trigger__word/);
+assert.match(dogs, /saved-trigger__word/);
+assert.match(css, /#main:has\(> \.matcher\)/);
+assert.match(css, /\.saved-trigger__word \{\s*display: none;/);
 assert.doesNotMatch(home, /brand__tag/);
 assert.match(pwaApp, /urpet-reload/);
 assert.match(worker, /Service-Worker-Allowed/);
@@ -263,7 +267,7 @@ for (const location of [
   assert.match(sitemap, new RegExp(`<loc>${location.replaceAll(".", "\\.").replaceAll("/", "\\/")}<\\/loc>`));
 }
 assert.equal((sitemap.match(/<url>/g) || []).length, 4);
-assert.equal(manifest.start_url, "/?desk=20260825a");
+assert.equal(manifest.start_url, "/?desk=20260825b");
 assert.equal(manifest.scope, "/");
 assert.equal(manifest.display, "standalone");
 assert.ok(manifest.icons.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));

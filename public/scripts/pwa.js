@@ -22,7 +22,7 @@ function ensureBanner(className, { live = "polite" } = {}) {
   return banner;
 }
 
-const SHELL_VERSION = "urpet-shell-20260825a";
+const SHELL_VERSION = "urpet-shell-20260825b";
 
 function dropPosterCaches() {
   if (!("caches" in window)) return Promise.resolve();
