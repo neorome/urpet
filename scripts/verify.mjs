@@ -197,7 +197,7 @@ assert.match(home, /paper\.css\?v=20260825b/);
 assert.match(home, /saved-trigger__word/);
 assert.match(dogs, /saved-trigger__word/);
 assert.match(css, /#main:has\(> \.matcher\)/);
-assert.match(css, /\.saved-trigger__word \{\s*display: none;/);
+assert.match(css, /\.saved-trigger \.saved-trigger__word \{\s*display: none;/);
 assert.doesNotMatch(home, /brand__tag/);
 assert.match(pwaApp, /urpet-reload/);
 assert.match(worker, /Service-Worker-Allowed/);

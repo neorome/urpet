@@ -1396,7 +1396,7 @@
     padding: 6px;
   }
 
-  .saved-trigger__word {
+  .saved-trigger .saved-trigger__word {
     display: none;
   }
 
@@ -1611,7 +1611,7 @@ summary:focus-visible,
   font-size: inherit;
 }
 
-.saved-trigger span {
+.saved-trigger > span:not(.saved-trigger__word) {
   display: grid;
   min-width: 24px;
   height: 24px;
@@ -4720,7 +4720,7 @@ details p {
 }
 
 @media (max-width: 390px) {
-  .saved-trigger__word {
+  .saved-trigger .saved-trigger__word {
     display: none;
   }
 }
