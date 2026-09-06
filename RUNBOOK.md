@@ -221,3 +221,7 @@ covered 1280px desktop, 768px tablet, 390px and 320px phones; no horizontal over
 at 320px or 768px. Completed the five-question cat path, required-answer error,
 save-on-device and change-answers actions. No paid guide request was made.
 Previous production Worker: `c5e19b53-c749-48a4-8a89-61267910b63a`.
+
+Deployed source: `1a5fa67ed693de71a83a04556fd656fcd7854e8b` (pushed to main).
+Worker version: `4081537d-f547-4a2c-be6e-6aa511bafa07`.
+Live HTML and service-worker release identifiers verified after deployment.
