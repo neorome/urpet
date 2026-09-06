@@ -19,14 +19,14 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/paper.css?v=20260825b">
+    <link rel="stylesheet" href="/paper.css?v=20260906a">
     <link rel="modulepreload" href="/scripts/all-pets-engine.js?v=20260825b">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="urpet">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://urdog.dev/">
-    <meta property="og:title" content="urpet — start with the ordinary week">
+    <meta property="og:title" content="urpet — a little research. a better fit.">
     <meta property="og:description" content="Turn your time, home, care support, and household into specific pet research leads—or a plan to make first.">
     <meta property="og:image" content="https://urdog.dev/social-card.png">
     <meta property="og:image:width" content="1200">
@@ -35,7 +35,7 @@
     <meta property="og:image:type" content="image/png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="urpet — start with the ordinary week">
+    <meta name="twitter:title" content="urpet — a little research. a better fit.">
     <meta name="twitter:description" content="Specific pet research leads with the tradeoffs first.">
     <meta name="twitter:image" content="https://urdog.dev/social-card.png">
     <meta name="twitter:image:alt" content="urpet pet matcher at the match desk">
@@ -90,14 +90,11 @@
     <main id="main">
       <section class="all-pets-hero" aria-labelledby="all-pets-title">
         <div class="all-pets-hero__copy">
-          <p class="eyebrow"><span aria-hidden="true">✦</span> start with the ordinary week</p>
-          <h1 id="all-pets-title">find a pet for the life you can <em>actually keep.</em></h1>
-          <p class="all-pets-hero__lede">We’ll turn your time, home, care support, and household into a small set of research leads—or tell you what needs a plan first.</p>
-          <ul class="trust-list" aria-label="How this works">
-            <li><strong>10 honest lanes</strong><span>Dogs through snakes, with species-specific profiles.</span></li>
-            <li><strong>Tradeoffs first</strong><span>A hard welfare conflict never becomes a recommendation.</span></li>
-            <li><strong>No account</strong><span>The deterministic matcher runs in this browser.</span></li>
-          </ul>
+          <p class="eyebrow"><span aria-hidden="true">✦</span> a little research. a better fit.</p>
+          <h1 id="all-pets-title">find a pet that fits <em>your life.</em></h1>
+          <p class="all-pets-hero__lede">Answer a few questions about your home and routine. See which pets could fit, what they need, and what to consider next.</p>
+          <p class="matcher-promise">Free to use · No account needed</p>
+          <a class="intro-dog-link" href="/dogs/">Only looking for a dog? Find your breed →</a>
         </div>
 
         <div class="pet-matcher-shell" id="pet-matcher">
@@ -111,10 +108,10 @@
           <form id="pet-conversation" novalidate>
             <fieldset class="pet-step" data-step="search">
               <legend>what pets are you considering?</legend>
-              <p class="question-note">Choose one. You can revise it later. If you are only curious, start with “show me anything reviewed.”</p>
+              <p class="question-note">Choose a starting point. You can change your answers.</p>
               <div class="pet-choice-grid">
                 <input class="choice-input" type="radio" name="mode" id="mode-open" value="open">
-                <label class="choice" for="mode-open"><span aria-hidden="true">01</span><strong>Show me anything reviewed</strong><small>let my ordinary week lead</small></label>
+                <label class="choice" for="mode-open"><span aria-hidden="true">01</span><strong>I’m open to ideas</strong><small>explore all 10 pet types</small></label>
 
                 <input class="choice-input" type="radio" name="mode" id="mode-kind" value="kind">
                 <label class="choice" for="mode-kind"><span aria-hidden="true">02</span><strong>One pet type</strong><small>choose one</small></label>
@@ -295,15 +292,7 @@
           <a class="button button--primary result-primary-action" id="review-top-lead" href="#pet-leads">review the top lead <span aria-hidden="true">→</span></a>
         </div>
 
-        <section class="next-steps" id="next-steps" aria-labelledby="next-steps-title">
-          <p class="section-kicker">what to do next</p>
-          <h3 id="next-steps-title">take this brief into a real conversation.</h3>
-          <ol>
-            <li>Read the check-first note before the benefits.</li>
-            <li>Open the welfare source linked to the lead.</li>
-            <li>Copy the provider questions, then verify the individual animal, cost, housing rules, and backup care.</li>
-          </ol>
-        </section>
+
 
         <div class="reptile-gate" id="reptile-gate" hidden>
           <p class="section-kicker">household health gate</p>
@@ -313,6 +302,16 @@
         </div>
 
         <div class="pet-leads" id="pet-leads"></div>
+
+        <section class="next-steps" id="next-steps" aria-labelledby="next-steps-title">
+          <p class="section-kicker">what to do next</p>
+          <h3 id="next-steps-title">take this brief into a real conversation.</h3>
+          <ol>
+            <li>Read the check-first note before the benefits.</li>
+            <li>Open the welfare source linked to the lead.</li>
+            <li>Copy the provider questions, then verify the individual animal, cost, housing rules, and backup care.</li>
+          </ol>
+        </section>
 
         <section class="prepare-first" id="prepare-first" aria-labelledby="prepare-first-title" hidden>
           <details class="prepare-first__details">
@@ -363,9 +362,11 @@
       <section class="coverage" aria-labelledby="coverage-title">
         <div>
           <p class="section-kicker">reviewed coverage</p>
-          <h2 id="coverage-title">ten lanes. specific profiles.</h2>
-          <p><strong>urpet</strong> starts with ten reviewed lanes and grows only after a species-level welfare review.</p>
+          <h2 id="coverage-title">which pets are included?</h2>
+          <p>Ten pet types, with specific care profiles for each.</p>
         </div>
+        <details class="coverage-details">
+          <summary>See the reviewed pet profiles</summary>
         <ul class="coverage-grid">
           <li><strong>Dogs</strong><span>205 breed profiles</span></li>
           <li><strong>Cats</strong><span>adult domestic cat</span></li>
@@ -378,13 +379,14 @@
           <li><strong>Geckos</strong><span>leopard gecko</span></li>
           <li><strong>Snakes</strong><span>corn snake</span></li>
         </ul>
+        </details>
         <p class="coverage-suggestion">Want another pet reviewed? Email <a href="mailto:team@neorome.dev?subject=urpet%20pet%20suggestion">team@neorome.dev</a>. Suggestions enter a research queue; they do not become instant recommendations.</p>
       </section>
 
       <section class="sources all-pets-sources" aria-labelledby="method-title">
         <div>
-          <p class="section-kicker">method before magic</p>
-          <h2 id="method-title">requirements in. tradeoffs out.</h2>
+          <p class="section-kicker">how it works</p>
+          <h2 id="method-title">care needs come first.</h2>
         </div>
         <div class="sources__copy">
           <p>The first release uses reviewed RSPCA welfare guidance and a CDC reptile-health gate. It screens what you say you can provide against specific profiles. It does not diagnose health, replace an experienced veterinarian, or promise that an individual animal will behave like a category.</p>

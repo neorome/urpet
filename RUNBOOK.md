@@ -208,3 +208,16 @@ npx wrangler rollback <known-good-version-id>
 After rollback, rerun public smokes. A Worker rollback does not reverse D1 migrations, support events, or funding receipts. The initial schema is additive; if a future migration changes behavior, its release packet must name a forward-safe recovery plan before deployment.
 
 For a ledger discrepancy, immediately remove or disable the optional guide configuration, leave the deterministic site running, inspect support events, receipts, reservations, spending, and provider usage, then reconcile from authoritative evidence. Never delete payment or receipt history to make totals match.
+
+## Homepage simplification — 2026-09-06 UTC
+
+Built on the deployed phone-desk branch (`0fde65a`) to retain saved briefs,
+sharing and offline support. Shortened the introduction, made answers full-width
+rows, collapsed coverage into an optional disclosure, and placed actual matches
+before the next-step instructions. Updated the offline shell version.
+
+Verification: all 66 tests and the full `npm run check` gate passed. Browser checks
+covered 1280px desktop, 768px tablet, 390px and 320px phones; no horizontal overflow
+at 320px or 768px. Completed the five-question cat path, required-answer error,
+save-on-device and change-answers actions. No paid guide request was made.
+Previous production Worker: `c5e19b53-c749-48a4-8a89-61267910b63a`.
