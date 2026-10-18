@@ -10,6 +10,10 @@ Source-linked pet research matcher for people choosing a pet (ten lanes, plus th
 - Deploy: `npm run deploy` (`wrangler deploy`) -> https://urdog.dev; read it back with the `RUNBOOK.md` production smoke (`curl` with `?release=<version>`). Roll back with `npx wrangler rollback <version-id>`.
 - D1 migrations: `npx wrangler d1 migrations apply COMMUNITY_DB --remote`, once per reviewed migration.
 
+## Brand
+
+- urpet is a neorome project but does not use the Rome design system (https://claude.ai/artifact/SrtZHkkV636zRJjLQCH5aP). It has its own palette and type: CSS custom properties in the `:root` block of `public/styles.css` (cream, paper, ink, tomato; Instrument Serif and Instrument Sans from `public/fonts/`). `build:static` copies that file to `public/desk.css` and `public/paper.css`, so edit `public/styles.css` only. Moving to Rome tokens needs Donovan's decision.
+
 ## Layout
 
 - `worker.js`: Worker entry (assets, community guide API, cron settlement).
